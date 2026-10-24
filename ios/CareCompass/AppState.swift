@@ -51,6 +51,8 @@ struct SOSContext: Identifiable, Sendable {
 
 @MainActor @Observable
 final class AppState {
+    static let shared = AppState()  // one instance, also reached by the emergency App Intent
+
     var mode: MatchMode = MatchMode(rawValue: UserDefaults.standard.string(forKey: "mode") ?? "") ?? .dataset {
         didSet { UserDefaults.standard.set(mode.rawValue, forKey: "mode") }
     }
