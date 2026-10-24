@@ -8,12 +8,13 @@
 //     explanation                         plain-language text in the user's language (explain.py)
 //     matched_caregivers[].name, role, distance_km, languages[], rating, next_slot (ISO 8601)
 //
-//   POST {API}/stt     multipart field "audio" (webm/ogg from MediaRecorder)  -> { transcript }
-//   POST {API}/tts     JSON { text, language: "en"|"hi"|"hinglish" }        -> audio bytes
+//   POST {API}/stt     raw audio body, Content-Type from MediaRecorder (audio/webm)  -> { transcript }   Sarvam Saaras
+//   POST {API}/tts     JSON { text, language: "en"|"hi"|"hinglish" }                -> audio/wav          Sarvam Bulbul
 //
 // The backend must allow CORS from the page's origin, or serve this folder itself.
 // No server / 404 / 501 on /triage -> mock.js takes over so the demo keeps working.
-// stt/tts are optional: without them the browser's Web Speech API is used.
+// stt/tts are used whenever the backend has them (even while /triage is mocked);
+// otherwise, or if a call fails, the browser's Web Speech API is the fallback.
 
 import { mockTriage } from './mock.js';
 
@@ -55,23 +56,24 @@ export async function triage(req) {
   return mockTriage(req);
 }
 
-// ponytail: an endpoint that fails once is skipped for the rest of the session.
+// An endpoint the backend doesn't have is skipped for the rest of the session;
+// a failed call (e.g. Sarvam 502) only falls back for that one call.
 const missing = new Set();
 async function optional(path, init) {
-  if (mock || missing.has(path)) return null;
+  if (missing.has(path)) return null;
   try {
     const r = await fetch(`${API_BASE}${path}`, { ...init, signal: AbortSignal.timeout(15000) });
     if (r.ok) return r;
-  } catch { /* fall through */ }
-  missing.add(path);
+    if ([404, 405, 501].includes(r.status)) missing.add(path);
+  } catch (e) {
+    if (e.name === 'TypeError') missing.add(path); // no server
+  }
   return null;
 }
 
 export async function stt(blob) {
   if (!blob?.size) return null;
-  const fd = new FormData();
-  fd.append('audio', blob, 'speech.webm');
-  const r = await optional('/stt', { method: 'POST', body: fd });
+  const r = await optional('/stt', { method: 'POST', headers: { 'Content-Type': blob.type || 'audio/webm' }, body: blob });
   return r ? ((await r.json()).transcript || '').trim() || null : null;
 }
 

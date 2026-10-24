@@ -7,7 +7,8 @@ Plain HTML/CSS/ES modules, no build step.
 ## Run
 
 ```powershell
-python -m http.server 5173 -d frontend
+uvicorn app.main:app --port 8000          # API: Sarvam speech (/stt, /tts); needs SARVAM_API_KEY in .env
+python -m http.server 5173 -d frontend    # UI, in a second terminal
 ```
 
 Open http://localhost:5173. The UI calls the API at `http://localhost:8000` by default.

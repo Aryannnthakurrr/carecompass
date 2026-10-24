@@ -9,6 +9,12 @@
         "import functools, http.server as hs\nclass H(hs.SimpleHTTPRequestHandler):\n    def end_headers(self):\n        self.send_header('Cache-Control', 'no-store')\n        super().end_headers()\nhs.ThreadingHTTPServer(('', 5173), functools.partial(H, directory='frontend')).serve_forever()"
       ],
       "port": 5173
+    },
+    {
+      "name": "api",
+      "runtimeExecutable": ".venv/bin/uvicorn",
+      "runtimeArgs": ["app.main:app", "--port", "8000"],
+      "port": 8000
     }
   ]
 }
