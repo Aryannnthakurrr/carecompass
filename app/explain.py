@@ -1,6 +1,23 @@
 """Conversation voice (Qwen): the classifier's missing_info -> one follow-up question, and the decision -> a plain
 explanation, both in the user's language. Templates take over if every model call fails."""
+import re
+
 from app import llm
+
+# The brief forbids naming a disease or a medicine. Prompts ask for that; this makes sure, on every line the user sees.
+DISEASE = re.compile(r"\b(dengue|malaria|typhoid|covid|corona|influenza|flu|pneumonia|tuberculosis|tb|diabetes|diabetic|arthritis|"
+                     r"migraine|infections?|viral|bacterial|ulcers?|cancer|asthma|uti|chikungunya|jaundice|hepatitis|"
+                     r"hypertension|appendicitis|gastritis|sinusitis|bronchitis|anemia|anaemia|allerg(y|ic))\b", re.I)
+MEDICINE = re.compile(r"\b(paracetamol|crocin|dolo|calpol|ibuprofen|combiflam|aspirin|antibiotics?|antivirals?|amoxicillin|"
+                      r"azithromycin|cetirizine|antacids?|tablets?|capsules?|\d+\s?mg|syrups?)\b", re.I)
+
+
+def scrub(text: str | None, fallback: str | None = None) -> str | None:
+    """Drop every sentence that names a disease or medicine; nothing left -> fallback."""
+    if not text:
+        return text
+    keep = [x for x in re.split(r"(?<=[.!?।])\s+", text) if not (DISEASE.search(x) or MEDICINE.search(x))]
+    return " ".join(keep) or fallback
 
 REPLY_LANG = {"en": "English", "hi": "Hindi in Devanagari script", "hinglish": "Hinglish: romanised Hindi in Latin script"}
 

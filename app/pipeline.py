@@ -19,6 +19,11 @@ SMART_URGENCY = {"emergency": "emergency", "urgent": "same_day", "soon": "schedu
 # The extra turns cover off-topic messages ("2+2") that used up the follow-up budget before the real complaint arrived.
 AGE_KNOWN = re.compile(r"\d|infant|baby|newborn|child|kid|toddler|teen|adult|elderly|old", re.I)
 AGE_EXTRA_TURNS = 2
+AGE_ASKED = re.compile(r"\bage\b|how old|umar|उम्र|kitne saal|कितने साल", re.I)
+MAX_AGE_ASKS = 2  # a user who won't say still gets care
+# "just give me a doctor": no more questions, decide with what we have
+IMPATIENT = re.compile(r"just (give|show|book|find|tell)|give me (a |the )?doctor|no more questions|stop asking|enough questions|"
+                       r"\bbas\b.{0,25}(doctor|batao|bata do)|seedha (doctor|batao)|doctor (do|dikhao|bhejo|bata)", re.I)
 SMART_CARE_LABEL = {"hospital_visit": "a hospital visit", "clinic_visit": "a doctor's visit", "specialist_visit": "a specialist visit",
                     "diagnostic_test": "a test or scan", "lab_test_home": "a home sample collection", "home_nursing": "nursing at home",
                     "paramedic_home_visit": "a home check-up", "teleconsultation": "a video consultation"}
@@ -35,15 +40,37 @@ def _emergency(flags: list[str], extra: list[str], lang: str, mode: str, why: st
     )
 
 
-def _age_needed(facts, asked: int) -> bool:
+def _age_asks(history) -> int:
+    return sum(t.role == "assistant" and bool(AGE_ASKED.search(t.content)) for t in history)
+
+
+def _still_missing(missing: list[str], history) -> list[str]:
+    """The classifier's questions minus the age once it has been asked enough (it doesn't count what it asked)."""
+    return [m for m in missing if _age_asks(history) < MAX_AGE_ASKS or not AGE_ASKED.search(m)]
+
+
+def _age_needed(facts, asked: int, history) -> bool:
+    age_asks = _age_asks(history)
     return (any("fever" in s.lower() for s in facts.symptoms_present) and not facts.special_population
-            and not AGE_KNOWN.search(facts.patient or "") and asked < MAX_FOLLOW_UPS + AGE_EXTRA_TURNS)
+            and not AGE_KNOWN.search(facts.patient or "") and asked < MAX_FOLLOW_UPS + AGE_EXTRA_TURNS and age_asks < MAX_AGE_ASKS)
 
 
 def run(req: TriageRequest) -> TriageResponse:
+    r = _run(req)
+    plain = "Routed from the symptoms you described."
+    return r.model_copy(update={
+        "reasoning": explain.scrub(r.reasoning, plain), "explanation": explain.scrub(r.explanation, r.explanation and plain),
+        "match_summary": explain.scrub(r.match_summary), "follow_up_question": explain.scrub(r.follow_up_question, r.follow_up_question
+                                                                                       and explain.FALLBACK_ASK[r.language or "en"]),
+    })
+
+
+def _run(req: TriageRequest) -> TriageResponse:
     t0 = time.perf_counter()
     user_turns = [t.content for t in req.conversation_history if t.role == "user"] + [req.user_input]
     asked = sum(t.role == "assistant" for t in req.conversation_history)
+    if IMPATIENT.search(req.user_input):
+        asked = MAX_FOLLOW_UPS + AGE_EXTRA_TURNS
     lang = req.language if req.language != "auto" else intake.guess_language(req.user_input)
 
     # 1. rules on the raw words: no model in the path of an emergency
@@ -67,6 +94,12 @@ def run(req: TriageRequest) -> TriageResponse:
     if flags or extra:
         return _emergency(flags, extra, lang, req.mode)
 
+    # nothing medical said yet ("2+2", "abrakadabra", "hmm"): no model judges an empty case (one called an emergency on it)
+    if not (facts.symptoms_present or facts.services_requested or facts.vitals_reported or facts.existing_conditions
+            or facts.setting_requested not in (None, "unspecified")):
+        return TriageResponse(follow_up_question=explain.FALLBACK_ASK[lang], language=lang, mode=req.mode,
+                              reasoning="No health concern described yet; asking what it is.")
+
     if req.mode == "smart":
         return _run_smart(req, facts, user_turns, asked, lang, t0)
     return _run_dataset(req, facts, user_turns, asked, lang, t0)
@@ -80,11 +113,11 @@ def _run_dataset(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
     elif decision.care_type == "emergency_112":
         mapped, more = redflags.detect(*decision.red_flags, *facts.symptoms_present)
         return _emergency(mapped, more, lang, "dataset", why=decision.reasoning)
-    elif _age_needed(facts, asked):  # asked alone: a one-part question gets answered in full
+    elif _age_needed(facts, asked, req.conversation_history):  # asked alone: a one-part question gets answered in full
         return TriageResponse(follow_up_question=explain.follow_up(["patient's age"], req.user_input, lang), language=lang,
                               reasoning="Fever: how serious it is depends on the patient's age.")
-    elif decision.status == "need_more_info" and asked < MAX_FOLLOW_UPS:
-        q = explain.follow_up(decision.missing_info or ["main concern"], req.user_input, lang)
+    elif decision.status == "need_more_info" and asked < MAX_FOLLOW_UPS and _still_missing(decision.missing_info or ["main concern"], req.conversation_history):
+        q = explain.follow_up(_still_missing(decision.missing_info or ["main concern"], req.conversation_history), req.user_input, lang)
         return TriageResponse(follow_up_question=q, language=lang, reasoning=decision.reasoning)
     else:
         care, reasoning = decision.care_type, decision.reasoning
@@ -105,18 +138,19 @@ def _run_smart(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
     # patterns are the fast, explainable path; the structurer's reading catches phrasings the patterns don't know.
     # "online" stays pattern-only: the structurer has read "dikhana hai" (see a doctor) as a video request before.
     hints.preferences = list(dict.fromkeys(hints.preferences + [p for p in facts.preferences if p != "online"]))
-    decision, votes = smart.classify(facts, hints)
+    decision, votes = smart.classify(facts, hints, [t.content for t in req.conversation_history if t.role == "assistant"])
     log.info("smart votes medgemma=%s qwen=%s hints=%s", votes["medgemma"] and votes["medgemma"].care_type,
              votes["qwen"] and votes["qwen"].care_type, hints.as_dict())
     decision = decision or smart.fallback(hints)
     if decision.care_type == "emergency_112":
         mapped, more = redflags.detect(*decision.red_flags, *facts.symptoms_present)
         return _emergency(mapped, more, lang, "smart", why=decision.reasoning)
-    if _age_needed(facts, asked):
+    if _age_needed(facts, asked, req.conversation_history):
         decision = decision.model_copy(update={"status": "need_more_info", "missing_info": ["patient's age"],
                                                "reasoning": "Fever: how serious it is depends on the patient's age."})
-    if decision.status == "need_more_info" and (asked < MAX_FOLLOW_UPS or _age_needed(facts, asked)):
-        q = explain.follow_up(decision.missing_info or ["main concern"], req.user_input, lang)
+    missing = _still_missing(decision.missing_info or ["main concern"], req.conversation_history)
+    if decision.status == "need_more_info" and missing and (asked < MAX_FOLLOW_UPS or _age_needed(facts, asked, req.conversation_history)):
+        q = explain.follow_up(missing, req.user_input, lang)
         return TriageResponse(follow_up_question=q, language=lang, mode="smart", reasoning=decision.reasoning,
                               seriousness=decision.seriousness)
 
