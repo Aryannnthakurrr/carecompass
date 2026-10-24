@@ -26,3 +26,8 @@ eval/results/audio/
 
 # Local app database (users, sessions, chats, bookings)
 data/*.db
+
+# iOS build output
+ios/build/
+ios/*.xcodeproj/xcuserdata/
+ios/*.xcodeproj/project.xcworkspace/xcuserdata/
