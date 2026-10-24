@@ -45,8 +45,8 @@ never generated text. Every line shown to the user is checked for disease and me
 MedGemma makes the decision that matters most: **how dangerous is this, right now?** Asked as a focused clinical question on
 a clinical note, with retrieved similar cases, it lifts emergency recall on held-out cases from 66/77 (rules + Qwen) to
 **74/77**, with false alarms on 2/56 non-emergencies, and its "yes" is confirmed with the family before escalating. It runs
-locally, so the clinical judgement on patient facts stays on our hardware. A recall-first LoRA fine-tune (Unsloth QLoRA on
-Kaggle) is in `training/`.
+locally, so the clinical judgement on patient facts stays on our hardware. Because we own the weights, a recall-first LoRA
+fine-tune on our labelled cases is the planned next step (dataset and notebook are prepared in `training/`).
 
 ## Models and APIs
 
@@ -149,7 +149,7 @@ app/        FastAPI server: pipeline.py (layers), intake.py (analyst), redflags.
             explain.py (replies, scrub), emergency_text.py (pre-written cards)
 ios/        native iPhone client (SwiftUI)
 frontend/   browser demo
-training/   labelled dataset, recall-first review, MedGemma QLoRA notebook (Kaggle), runbook
+training/   labelled dataset, recall-first review, MedGemma LoRA notebook (planned), runbook
 eval/       evaluation scripts and results
 data/       provider directory builder
 ```

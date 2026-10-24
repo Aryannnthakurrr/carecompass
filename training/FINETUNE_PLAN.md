@@ -54,7 +54,7 @@ the deleted v2 run was trained against. Label sources: 1,393 unanimous, 166 adju
 |---|---|---|
 | v1 | Panel labels | No GPU (account not phone-verified) |
 | v2 | Panel labels | Stopped and deleted: labels too lenient on gray zones |
-| v3 | Recall-first labels | Training (`carecompass-medgemma-v3`) |
+| v3 | Recall-first labels | Prepared, not run yet (`carecompass-medgemma-v3`) |
 
 ## Ship gates (on `test.jsonl`)
 
