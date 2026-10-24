@@ -23,7 +23,7 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 
 | Stage | Model | Where it runs | Why |
 |---|---|---|---|
-| Speech → text | Sarvam **Saaras v4**: `transcribe` (original words) + `translate` (English) | Sarvam API | ~0.5 s each; voice needs no LLM for translation. Sarvam text translation (Mayura) rejected: mistranslated typed "seene mein dard" |
+| Speech → text | Sarvam **Saaras v4** `transcribe` only (original words) | Sarvam API | ~0.4 s, Rs0.49/min. `translate` dropped: Qwen reads Devanagari/Hinglish directly. Sarvam text translation (Mayura) rejected: mistranslated typed "seene mein dard" |
 | Structurer + conversation voice (facts JSON, follow-up phrasing, explanation) | **Qwen 3.8 27B** (open weights; fallback Gemini 3.5 Flash-Lite) | Cerebras API | `eval/bench_v2.py`: all facts 30/30, 11/11 red flags, 0 denial leaks, 0.45 s; follow-ups right script 17/17 at 0.38 s with explicit target language |
 | Triage classifier (facts only → status/care/urgency/missing_info) | Red-flag rules → **MedGemma 4B** (local, LoRA to come) **+ Qwen 3.8 27B second opinion, more urgent wins** | Ollama + Cerebras | Pair: 11/11 emergencies, 0 under-triaged, 0 false emergencies, macro-F1 0.93/0.88. MedGemma on raw text was 5/11 — it must never see raw language |
 | Caregiver matching | Weighted scoring in Python | Local CPU | Deterministic, explainable |
@@ -116,3 +116,7 @@ Response:
 ## Open items
 - Dataset, caregiver profiles, care taxonomy and final schema not released yet. Build against indicative schema; labels in `config.yaml`.
 - Verified 2026-10-24: sarvamai 0.1.37 (STT `saaras:v3|v4`, TTS `bulbul:v2|v3|v4-flash`), Gemini API Gemma ids `gemma-4-31b-it`, `gemma-4-26b-a4b-it`. **VERIFY**: Gemma free-tier rate limits; whether Gemma accepts JSON mode (smoke test falls back).
+
+## Cost (per 3-turn conversation, Oct 2026 prices)
+
+Voice ~Rs1.72 (Qwen Rs0.57, MedGemma local Rs0, Saaras transcribe Rs0.25, Bulbul Rs0.90); text-only ~Rs0.57. Details in the rationale doc.

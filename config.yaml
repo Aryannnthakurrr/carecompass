@@ -5,7 +5,7 @@ models:
     provider: sarvam
     model: saaras:v4             # Saarika is retired; Saaras v4 is Sarvam's current STT
     mode: transcribe             # original words -> red-flag rules + screen
-    english_mode: translate      # speech -> English for the classifier (no LLM needed; eval/results/voice.json)
+    english_mode: null           # translate not needed: Qwen reads Devanagari/Hinglish directly (saves Rs0.25/conv, ~0.5 s/turn)
     language_code: unknown       # auto-detect
   tts:
     provider: sarvam
