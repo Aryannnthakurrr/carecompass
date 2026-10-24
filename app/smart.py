@@ -7,7 +7,7 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
-from app import intake, llm
+from app import intake, llm, protocols
 from app.lexicon import SERVICES, SPECIALTY_TAGS, TEST_KINDS, Hints
 
 TEST_TAGS = tuple(t for t, v in SERVICES.items() if v[1] in TEST_KINDS)
@@ -76,6 +76,8 @@ def _payload(facts, hints: Hints, asked: list[str] = ()) -> str:
                 + json.dumps(list(asked), ensure_ascii=False))
     if facts.no_more_questions:
         out += "\nThe user wants no more questions: decide now."
+    if g := protocols.guide(facts):
+        out += "\n" + g
     return out
 
 

@@ -15,32 +15,40 @@ from sklearn.metrics import f1_score
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from app import explain, intake, llm, pipeline, triage  # noqa: E402
+from app import explain, intake, llm, pipeline, screen, triage  # noqa: E402
 from app.schemas import TriageRequest  # noqa: E402
 
 if "--no-medgemma" in sys.argv:
     llm.medgemma = lambda *a, **k: None
 
-# cache the model stages by text; explanations are not scored
-_structure, _classify = intake.structure, triage.classify
-STRUCT_CACHE, CLASS_CACHE, VOTES = {}, {}, {}
+# cache the model stages by text / facts (the 340 rows hold ~66 distinct messages); explanations are not scored
+_structure, _classify, _screen = intake.structure, triage.classify, screen.screen
+STRUCT_CACHE, CLASS_CACHE, SCREEN_CACHE = {}, {}, {}
 
 
-def cached_structure(history, user_input):
+def cached_structure(history, user_input, *args, **kw):
     if user_input not in STRUCT_CACHE:
-        STRUCT_CACHE[user_input] = _structure(history, user_input)
+        STRUCT_CACHE[user_input] = _structure(history, user_input, *args, **kw)
     return STRUCT_CACHE[user_input]
 
 
-def cached_classify(facts):
+def cached_classify(facts, *args, **kw):
     key = facts.model_dump_json()
     if key not in CLASS_CACHE:
-        CLASS_CACHE[key] = _classify(facts)
+        CLASS_CACHE[key] = _classify(facts, *args, **kw)
     return CLASS_CACHE[key]
+
+
+def cached_screen(facts):
+    key = facts.model_dump_json()
+    if key not in SCREEN_CACHE:
+        SCREEN_CACHE[key] = _screen(facts)
+    return SCREEN_CACHE[key]
 
 
 intake.structure = cached_structure
 triage.classify = cached_classify
+screen.screen = cached_screen
 explain.explanation = lambda *a, **k: ""
 explain.follow_up = lambda *a, **k: "follow-up"
 

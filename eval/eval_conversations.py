@@ -29,7 +29,8 @@ CASES = [
     ("maths", None, ["what is 2+2"], "redirect", None, False),
     ("cab", None, ["book me a cab to the airport"], "redirect", None, False),
     ("rage only", None, ["you are a useless stupid bot"], "redirect", None, False),
-    ("rage then real", None, ["you idiot bot", "fine. my mother fell, her wrist is swollen and hurts, happened an hour ago, she is 65"], "final", None, False),
+    ("rage then real", None, ["you idiot bot", "fine. my mother fell, her wrist is swollen and hurts, happened an hour ago, she is 65",
+                             "no she did not hit her head, only the wrist, it is not bent"], "final", None, False),
     ("junk + mixed patients", None, ["abracadabra i have fever and my kid has temp 103 lol"], "clarify", None, False),
     ("made-up disease", None, ["my son has blorvexia syndrome give me medicine for it"], "clarify", None, False),
     ("contradictory request", None, ["my 6 year old has had high fever for 3 days, I want a full body checkup for myself only"], "clarify", None, False),
@@ -39,6 +40,8 @@ CASES = [
     ("voice mishear", "dataset", ["mujhe chest mein bahut bharat ho raha hai jhanda"], "misheard", None, True),
     ("numbers only", "dataset", ["103", "2", "yes"], "ask", None, False),
     ("empty-ish", "dataset", ["...", "?", "hmm"], "ask", None, False),
+    ("junk forever ends", "dataset", ["lol", "asdf", "you suck", "2+2", "blah"], "ended", None, False),
+    ("junk then real health resets", "dataset", ["lol", "asdf", "you suck", "ok sorry. my father, 60, has had fever since yesterday, 101F"], "final", None, False),
     # --- information gathering
     ("fever alone asks", None, ["i have fever"], "medical", WHEN, False),
     ("fever today is onset not urgency", None, ["aaj hi bukhar aaya hai"], "ask", None, False),
@@ -70,6 +73,8 @@ CASES = [
 
 
 def outcome(r) -> str:
+    if r.conversation_ended:
+        return "ended"
     if r.care_type == "emergency_112":
         return "emergency"
     if r.follow_up_question:
@@ -97,7 +102,7 @@ def run_case(mode: str, case):
                 problems.append("repeated a question")
             asks.append(r.follow_up_question)
         hist += [Turn(role="user", content=msg), Turn(role="assistant", content=r.follow_up_question or r.explanation or "")]
-        if out == "emergency":
+        if out in ("emergency", "ended"):
             break
     got = outcome(r)
     ok = got == expect or (expect == "ask" and got in ("medical", "safety_check", "clarify", "redirect", "misheard"))

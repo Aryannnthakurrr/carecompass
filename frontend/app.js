@@ -309,6 +309,17 @@ function handle(res) {
     return showEmergency(res);
   }
 
+  if (res.conversation_ended) { // repeated non-health messages: the server closed the conversation politely
+    state.outcome = res;
+    addBot(h('div', { class: 'bubble' }, res.explanation));
+    saveChat();
+    if (voice.open) {
+      closeVoice();
+      speak(res.explanation, state.lang, api.tts);
+    }
+    return;
+  }
+
   if (res.follow_up_question) {
     const q = res.follow_up_question;
     state.history.push({ role: 'assistant', content: q });

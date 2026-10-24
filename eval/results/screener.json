@@ -1,0 +1,1078 @@
+{
+ "summary": {
+  "emergencies_caught": "65/77",
+  "false_alarms": "2/56",
+  "invalid": 15
+ },
+ "rows": [
+  {
+   "id": "00571d0319-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "heavy bleeding with breathing difficulty and tremors in hands and feet in a woman"
+   ],
+   "note": "Patient: wife. Presenting with: heavy bleeding; tremors in hands and feet; pale face; difficulty breathing; shouting. Onset: sudden. Severity as described: severe. Asking for: oxygen; emergency medical assistance. Setting requested: home visit."
+  },
+  {
+   "id": "24a3656dc9-4",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: son, 12 years (child). Presenting with: breathlessness after playing; breathlessness after climbing stairs; increased fatigue. Onset: gradual. Duration: 2 months. Asking for: pediatrician consultation. Setting requested: home visit."
+  },
+  {
+   "id": "a7d393ef68-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "sudden convulsions and unconsciousness in a father"
+   ],
+   "note": "Patient: father. Presenting with: sudden facial twitching; full body convulsions; eyes rolling up; unconsciousness; rapid breathing. Onset: sudden. Duration: ongoing. Severity as described: severe. Asking for: medical advice on immediate management; guidance on whether to call hospital or doctor."
+  },
+  {
+   "id": "org-fbb7078de2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "severe chest pain and difficulty breathing"
+   ],
+   "note": "Patient: father. Presenting with: severe chest pain; difficulty breathing. Severity as described: severe."
+  },
+  {
+   "id": "e0545a01fc-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "sudden loss of consciousness in a child"
+   ],
+   "note": "Patient: younger sister. Presenting with: sudden loss of consciousness; unresponsive; eyes not opening; inability to move. Onset: sudden. Duration: current. Severity as described: severe. Asking for: urgent medical assistance. Setting requested: home visit."
+  },
+  {
+   "id": "fb27c40b97-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "vomiting, dizziness, near syncope, oliguria, faintness, drowsiness in a child"
+   ],
+   "note": "Patient: not stated. Presenting with: vomiting; dizziness; near syncope; oliguria for 8 hours; faintness; drowsiness. Onset: sudden. Duration: vomiting yesterday, oliguria 8 hours. Severity as described: severe."
+  },
+  {
+   "id": "2c10447c08-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "severe dehydration in a 4-year-old"
+   ],
+   "note": "Patient: boy, 4 years (child). Presenting with: vomiting; lethargy; inability to drink; no urination since morning; excessive drowsiness; hypotonia; dry lips; signs of severe dehydration. Onset: gradual. Duration: 6 hours. Severity as described: severe. Asking for: emergency medical assistance; ambulance dispatch. Setting requested: home visit."
+  },
+  {
+   "id": "e0545a01fc-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "unresponsive; slow breathing; suspected unconsciousness; pale face in a husband"
+   ],
+   "note": "Patient: husband. Presenting with: fell on pillow; unresponsive; pale face; slow breathing; suspected unconsciousness. Onset: sudden. Duration: immediate. Severity as described: severe. Asking for: emergency help. Setting requested: home visit."
+  },
+  {
+   "id": "234ccf6bcd-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "severe breathlessness and gasping for air in an elderly patient"
+   ],
+   "note": "Patient: mother, 82 years (elderly). Presenting with: gasping for air; severe breathlessness. Severity as described: severe. Denies: unconsciousness; bleeding; seizures."
+  },
+  {
+   "id": "00571d0319-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "seizure with loss of consciousness, head bleeding, breathing stopped, blue skin"
+   ],
+   "note": "Patient: daughter. Presenting with: sudden seizure; bleeding from head; loss of consciousness; body tremors; breathing stopped; blue skin. Onset: sudden. Duration: now. Severity as described: severe. Asking for: ambulance; doctor. Setting requested: home visit."
+  },
+  {
+   "id": "f66d4e123c-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "slurred speech and difficulty understanding speech in an elderly patient"
+   ],
+   "note": "Patient: father (elderly). Presenting with: slurred speech; difficulty understanding speech. Onset: sudden. Duration: 10 minutes."
+  },
+  {
+   "id": "ebe258f7db-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "fainting in an elderly patient with high blood pressure"
+   ],
+   "note": "Patient: grandmother (elderly). Presenting with: low health; poor responsiveness; eyes closing upon standing or sitting up; fainting; falling down. Background: high blood pressure; on medication. Asking for: health check. Setting requested: home visit."
+  },
+  {
+   "id": "234ccf6bcd-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "severe breathlessness in a 45-year-old"
+   ],
+   "note": "Patient: 45 years. Presenting with: difficulty breathing; chest tightness; severe breathlessness. Severity as described: severe. Denies: chest pain; loss of consciousness; vomiting."
+  },
+  {
+   "id": "d58e886e1d-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "heavy bleeding with dizziness, pale face, shortness of breath, and weakness in a pregnant woman"
+   ],
+   "note": "Patient: wife. Presenting with: heavy menstrual bleeding; changing toilet paper every 10 minutes; dizziness; pale face; shortness of breath; weakness. Asking for: doctor visit. Setting requested: home visit."
+  },
+  {
+   "id": "a7d393ef68-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "sudden jerking of hands and feet; face turning blue; tears in eyes; inability to scream; lying down unresponsive"
+   ],
+   "note": "Patient: daughter, school age (child). Presenting with: sudden jerking of hands and feet; face turning blue; tears in eyes; inability to scream; lying down unresponsive. Onset: sudden. Duration: just now. Severity as described: severe. Asking for: immediate medical help. Setting requested: home visit."
+  },
+  {
+   "id": "aba8ff12e3-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [],
+   "note": "Patient: father (elderly). Presenting with: tight breathing. Asking for: nebulization at home. Setting requested: home visit."
+  },
+  {
+   "id": "05e4e2ac86-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "lower abdominal cramping, weakness, confusion, and bladder issues in an 81-year-old with diabetes"
+   ],
+   "note": "Patient: grandfather, 81 years (elderly). Presenting with: lower abdominal cramping; weakness; confusion with bladder issues. Background: diabetes. Asking for: medication delivery; consultation on symptoms. Setting requested: video consult."
+  },
+  {
+   "id": "14d9b0c911-1",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: mother. Presenting with: breathlessness on climbing stairs; progressive worsening over 2 months. Onset: gradual. Duration: 2 months. Asking for: BP check; lung check. Setting requested: home visit."
+  },
+  {
+   "id": "ebe258f7db-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "sudden dizziness, vertigo, weakness, and inability to stand in an elderly patient with hypertension"
+   ],
+   "note": "Patient: mother (elderly). Presenting with: dizziness; vertigo; weakness; inability to stand. Onset: sudden. Duration: since this morning. Background: hypertension; on BP medication since childhood."
+  },
+  {
+   "id": "fb27c40b97-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "unconsciousness and anuria in an elderly patient"
+   ],
+   "note": "Patient: husband, 65 years (elderly). Presenting with: severe diarrhea; unconsciousness; weakness; anuria for 12 hours. Duration: 3 days. Severity as described: severe."
+  },
+  {
+   "id": "22b088c75c-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "unconsciousness in an elderly patient"
+   ],
+   "note": "Patient: grandmother, 80+ years (elderly). Presenting with: weakness; unconsciousness. Duration: today. Background: bedridden. Asking for: IV injection. Setting requested: home visit."
+  },
+  {
+   "id": "4671485f12-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "high fever with weakness and not eating in a 2-year-old"
+   ],
+   "note": "Patient: daughter, 2 years (child). Presenting with: high fever; not eating since last night; weakness. Duration: since last night. Reported readings: temperature 103F. Asking for: home nurse or doctor. Setting requested: home visit."
+  },
+  {
+   "id": "a7d393ef68-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "fall from second floor with convulsions, loss of consciousness, and cyanosis"
+   ],
+   "note": "Patient: wife. Presenting with: fall from second floor; convulsions; breathing stopped; loss of consciousness; face turning blue. Onset: sudden. Severity as described: severe. Asking for: immediate medical guidance."
+  },
+  {
+   "id": "14d9b0c911-4",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: uncle, 78 years (elderly). Presenting with: shortness of breath on exertion; breathlessness while walking; breathlessness while climbing stairs. Onset: gradual. Duration: 4-5 months. Asking for: checkup. Setting requested: home visit."
+  },
+  {
+   "id": "f66d4e123c-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "numbness and weakness in the left hand"
+   ],
+   "note": "Patient: brother. Presenting with: numbness in left hand; weakness in left hand."
+  },
+  {
+   "id": "f66d4e123c-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "left facial drooping; left leg weakness; slurred speech"
+   ],
+   "note": "Patient: husband. Presenting with: difficulty walking; left leg weakness; facial drooping."
+  },
+  {
+   "id": "95ebd184a8-2",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [
+    "unsteady gait in a 4-year-old"
+   ],
+   "note": "Patient: son, 4 years (child). Presenting with: single episode of vomiting; unsteady gait. Duration: yesterday evening. Denies: fever. Asking for: physical examination. Setting requested: home visit."
+  },
+  {
+   "id": "f66d4e123c-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "inability to close one eye; drooping corner of mouth; difficulty swallowing water"
+   ],
+   "note": "Patient: mother (elderly). Presenting with: inability to close one eye; drooping corner of mouth; difficulty swallowing water."
+  },
+  {
+   "id": "6c8f42fb15-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "refusal to drink water and dehydration in a 4-year-old"
+   ],
+   "note": "Patient: son, 4 years (child). Presenting with: refusal to drink water; dehydration; high fever; gastrointestinal issues. Asking for: IV drip administration; hydration therapy. Setting requested: home visit."
+  },
+  {
+   "id": "ea334c744e-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "difficulty getting up and weakness in hand in a recently discharged patient"
+   ],
+   "note": "Patient: patient, recently discharged. Presenting with: difficulty getting up; weakness in hand. Background: recent hospital discharge. Asking for: home checkup. Setting requested: home visit."
+  },
+  {
+   "id": "7a6b11ea6f-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "lethargy, weakness, refusal to eat and drink in a 7-year-old for 2 days"
+   ],
+   "note": "Patient: daughter, 7 years (child). Presenting with: lethargy; weakness; refusal to eat; refusal to drink; no fluid intake for 2 days. Onset: gradual. Duration: 2 days. Severity as described: severe. Asking for: medical assessment; advice on management. Setting requested: home visit."
+  },
+  {
+   "id": "5bcb9b69be-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "continuous vomiting and dehydration in a pregnant woman"
+   ],
+   "note": "Patient: female, 28 years. Presenting with: continuous vomiting; dehydration; inability to eat. Duration: 3 days. Asking for: paramedic visit; condition check; medication. Setting requested: home visit."
+  },
+  {
+   "id": "00571d0319-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "fall with head bleeding and confusion in an elderly patient"
+   ],
+   "note": "Patient: father (elderly). Presenting with: fall; head bleeding; eyes closed; confusion; muscle tension in hands and legs; breathing difficulty. Onset: sudden. Severity as described: severe. Setting requested: home visit."
+  },
+  {
+   "id": "e0545a01fc-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "unresponsive and dizziness in an elderly person"
+   ],
+   "note": "Patient: grandfather (elderly). Presenting with: fell from sofa; unresponsive; dizziness. Onset: sudden. Severity as described: severe. Asking for: ambulance; doctor. Setting requested: home visit."
+  },
+  {
+   "id": "24a3656dc9-3",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: wife, 39 years. Presenting with: exertional dyspnea; difficulty climbing stairs. Onset: gradual. Duration: 3 months. Asking for: consultation to understand cause."
+  },
+  {
+   "id": "14d9b0c911-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "shortness of breath on exertion in an elderly patient"
+   ],
+   "note": "Patient: father, 68 years (elderly). Presenting with: shortness of breath on exertion; shortness of breath climbing stairs. Onset: gradual. Duration: past few months. Asking for: doctor consultation. Setting requested: home visit."
+  },
+  {
+   "id": "59c3cf5588-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "acting strange in an elderly patient"
+   ],
+   "note": "Patient: mother, 68 years (elderly). Presenting with: vomiting once; acting strange. Duration: this morning. Denies: fever. Asking for: thorough health check; BP measurement. Setting requested: home visit."
+  },
+  {
+   "id": "d58e886e1d-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "heavy bleeding with loss of consciousness in a 10-year-old"
+   ],
+   "note": "Patient: daughter, 10 years (child). Presenting with: heavy bleeding from wound; spurting blood; sweating on face; loss of consciousness. Onset: sudden. Duration: ongoing. Severity as described: severe. Asking for: emergency medical help."
+  },
+  {
+   "id": "e0545a01fc-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "unresponsive and unable to get up in a mother"
+   ],
+   "note": "Patient: mother. Presenting with: fell on ground; unable to get up; eyes closed; unresponsive. Onset: sudden. Duration: since fall. Severity as described: severe. Asking for: doctor visit. Setting requested: home visit."
+  },
+  {
+   "id": "7a6b11ea6f-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "eyes closed for 2 days; unable to get up; dizziness upon attempting to stand; loss of appetite; inability to retain water; no response to regular medication"
+   ],
+   "note": "Patient: grandfather, 85 years (elderly). Presenting with: eyes closed for 2 days; unwilling to get up; dizziness upon attempting to stand; loss of appetite; inability to retain water; no response to regular medication. Onset: gradual. Duration: 2 days. Asking for: BP and sugar check; paramedic or doctor visit. Setting requested: home visit."
+  },
+  {
+   "id": "24a3656dc9-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "breathlessness on exertion in an 82-year-old"
+   ],
+   "note": "Patient: father, 68 years (elderly). Presenting with: heavy breathing on exertion; dyspnea on climbing stairs. Onset: gradual. Duration: 4 months. Asking for: vitals check. Setting requested: home visit."
+  },
+  {
+   "id": "d58e886e1d-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "abdominal bleeding with near loss of consciousness and rapid pulse in an elderly patient with recent surgery"
+   ],
+   "note": "Patient: mother (elderly). Presenting with: abdominal bleeding; soaked pants; near loss of consciousness; rapid pulse. Onset: sudden. Duration: 4 hours. Severity as described: severe. Background: recent surgery. Reported readings: rapid pulse."
+  },
+  {
+   "id": "24a3656dc9-0",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: 45 years old. Presenting with: shortness of breath on exertion; increasing fatigue. Onset: gradual. Duration: 2 months. Asking for: checkup."
+  },
+  {
+   "id": "71f8229b39-1",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: father (elderly). Presenting with: breathlessness. Asking for: subcutaneous fluid administration. Setting requested: home visit."
+  },
+  {
+   "id": "a7d393ef68-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "sudden convulsions and unconsciousness in a father"
+   ],
+   "note": "Patient: father. Presenting with: sudden facial twitching; full body convulsions; eyes rolling up; unconsciousness; rapid breathing. Onset: sudden. Duration: ongoing. Severity as described: severe. Asking for: medical advice on immediate action; guidance on whether to call hospital or doctor."
+  },
+  {
+   "id": "f66d4e123c-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "facial drooping and slurred speech in an elderly patient"
+   ],
+   "note": "Patient: father (elderly). Presenting with: facial drooping on one side; slurred speech."
+  },
+  {
+   "id": "2c10447c08-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "unresponsive and no urine output in an 85-year-old"
+   ],
+   "note": "Patient: mother, 85 years (elderly). Presenting with: unresponsive; difficulty waking; no urine output since yesterday morning; weakness; minimal reaction to stimulation. Onset: sudden. Duration: 3 hours. Severity as described: severe. Asking for: immediate medical assistance; ambulance. Setting requested: home visit."
+  },
+  {
+   "id": "d58e886e1d-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "severe arterial bleeding in a child"
+   ],
+   "note": "Patient: son. Presenting with: bleeding from hand; arterial bleeding; pale complexion; dizziness. Onset: sudden. Severity as described: severe. Asking for: stop bleeding."
+  },
+  {
+   "id": "4671485f12-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "fever in a 2-year-old"
+   ],
+   "note": "Patient: baby, 2 years (infant). Presenting with: fever 103F; excessive crying. Onset: sudden. Duration: since morning. Severity as described: severe. Reported readings: temperature 103F. Asking for: doctor consultation."
+  },
+  {
+   "id": "ea334c744e-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "fever and difficulty breathing in a recent hospital discharge"
+   ],
+   "note": "Patient: father. Presenting with: fever; difficulty breathing. Background: recent hospital discharge. Asking for: paramedic visit. Setting requested: home visit."
+  },
+  {
+   "id": "24a3656dc9-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [],
+   "note": "Patient: grandmother, 82 years (elderly). Presenting with: shortness of breath on exertion; fatigue; reduced mobility. Onset: gradual. Duration: few months. Asking for: medical assessment. Setting requested: home visit."
+  },
+  {
+   "id": "14d9b0c911-2",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [
+    "difficulty breathing and exhaustion after climbing stairs in a 45-year-old"
+   ],
+   "note": "Patient: sister-in-law, 45 years. Presenting with: difficulty breathing; exhaustion after climbing stairs. Onset: gradual. Duration: 6 months. Asking for: home health check. Setting requested: home visit."
+  },
+  {
+   "id": "6c8f42fb15-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "refusal of food and water, inability to get out of bed, weakness in an 82-year-old"
+   ],
+   "note": "Patient: grandfather, 82 years (elderly). Presenting with: refusal of food and water; inability to get out of bed; weakness. Asking for: IV saline; nutrition drip. Setting requested: home visit."
+  },
+  {
+   "id": "9349da52c1-3",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: husband. Presenting with: mild chest tightness. Duration: 1 day. Severity as described: mild. Asking for: lipid profile; complete blood count. Setting requested: lab test."
+  },
+  {
+   "id": "5bcb9b69be-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "blue face in a 2-year-old"
+   ],
+   "note": "Patient: child, 2 years (child). Presenting with: continuous crying; blue face. Severity as described: severe. Setting requested: home visit."
+  },
+  {
+   "id": "2c10447c08-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "high fever with confusion, drowsiness, disorientation, anuria, respiratory distress, mottled skin, suspected shock in a 55-year-old"
+   ],
+   "note": "Patient: husband, 55 years. Presenting with: high fever; confusion; drowsiness; disorientation; anuria for 24 hours; respiratory distress; mottled skin; suspected shock. Onset: gradual. Duration: 3 days. Severity as described: severe. Background: bedridden for 3 days. Asking for: emergency medical help; ambulance; paramedical team. Setting requested: home visit."
+  },
+  {
+   "id": "22b088c75c-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "heavy fever with refusal to drink water in a 2-year-old"
+   ],
+   "note": "Patient: child, 2 years (child). Presenting with: heavy fever; refusal to drink water. Asking for: IV fluids administration. Setting requested: home visit."
+  },
+  {
+   "id": "ddb520ba6a-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "dehydration in a 4-year-old"
+   ],
+   "note": "Patient: son, 4 years (child). Presenting with: frequent vomiting; dehydration. Onset: sudden. Duration: since this morning. Asking for: doctor visit. Setting requested: home visit."
+  },
+  {
+   "id": "4671485f12-3",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [
+    "high fever in a 2-year-old"
+   ],
+   "note": "Patient: baby, 2 years (child). Presenting with: high fever; body heat. Severity as described: severe. Reported readings: temperature 103F. Asking for: doctor consultation."
+  },
+  {
+   "id": "2c10447c08-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "unresponsive to name, no urination for 15 hours, tachycardia, severe drowsiness, persistent vomiting, dizziness in a 34-year-old"
+   ],
+   "note": "Patient: wife, 34 years. Presenting with: stomach flu; persistent vomiting; dizziness; drowsiness; no urination for 15 hours; tachycardia; unresponsive to name. Onset: gradual. Duration: 2 days. Severity as described: severe. Reported readings: pulse fast. Asking for: doctor visit; ambulance. Setting requested: home visit."
+  },
+  {
+   "id": "a7d393ef68-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "sudden onset of foaming around mouth; body stiffness; unresponsive to voice; eyes open but unresponsive in an elderly patient"
+   ],
+   "note": "Patient: grandfather, elderly (elderly). Presenting with: fatigue since morning; sudden onset of foaming around mouth; body stiffness; unresponsive to voice; eyes open but unresponsive. Onset: sudden. Duration: since morning. Severity as described: severe. Asking for: guidance on emergency response; first aid advice."
+  },
+  {
+   "id": "fb27c40b97-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "anuria, inability to sit, dizziness, drowsiness in an 80-year-old"
+   ],
+   "note": "Patient: mother, 80 years (elderly). Presenting with: loss of appetite; anuria; inability to sit; dizziness; drowsiness. Duration: 2 days."
+  },
+  {
+   "id": "234ccf6bcd-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "severe shortness of breath and feeling of drowning in an elderly patient"
+   ],
+   "note": "Patient: 68 years (elderly). Presenting with: struggling to breathe; feeling of drowning; severe shortness of breath. Severity as described: severe. Denies: chest pain; dizziness; loss of consciousness."
+  },
+  {
+   "id": "234ccf6bcd-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "severe difficulty breathing in a 5-year-old"
+   ],
+   "note": "Patient: daughter, 5 years (child). Presenting with: severe wheezing; difficulty breathing. Severity as described: severe. Denies: fever; rash."
+  },
+  {
+   "id": "234ccf6bcd-2",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "severe difficulty breathing and orthopnea in a 45-year-old"
+   ],
+   "note": "Patient: husband. Presenting with: severe difficulty breathing; orthopnea. Severity as described: severe. Denies: chest pain; confusion."
+  },
+  {
+   "id": "e0545a01fc-4",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "fall with unconsciousness and bleeding in an elderly person"
+   ],
+   "note": "Patient: neighbor, elderly (elderly). Presenting with: fell on stairs; unconscious; bleeding. Onset: sudden. Severity as described: severe. Asking for: emergency medical assistance. Setting requested: home visit."
+  },
+  {
+   "id": "fb27c40b97-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "altered mental status and drowsiness in an elderly patient with oliguria (low urine output)"
+   ],
+   "note": "Patient: grandmother (elderly). Presenting with: altered mental status; drowsiness; dry mouth; oliguria. Onset: gradual. Duration: unknown. Severity as described: severe. Asking for: medical support."
+  },
+  {
+   "id": "fb27c40b97-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "no urination since yesterday evening in a 4-year-old"
+   ],
+   "note": "Patient: son, 4 years (child). Presenting with: no urination since yesterday evening; drowsiness; dry lips. Duration: since yesterday evening. Severity as described: severe."
+  },
+  {
+   "id": "7a6b11ea6f-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "fatigue, weight loss, and shortness of breath with minimal exertion in a 45-year-old woman"
+   ],
+   "note": "Patient: wife, 45 years. Presenting with: fatigue; weight loss; difficulty breathing; shortness of breath with minimal exertion. Duration: 3 days. Background: overthinking. Asking for: medical checkup. Setting requested: home visit."
+  },
+  {
+   "id": "d58e886e1d-3",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "bleeding from a leg artery in an elderly patient with high blood pressure and near loss of consciousness"
+   ],
+   "note": "Patient: grandfather (elderly). Presenting with: bleeding from leg; bleeding from leg artery; bleeding not stopping despite pressure; rapid breathing; near loss of consciousness. Onset: sudden. Duration: since last night. Severity as described: severe. Background: high blood pressure."
+  },
+  {
+   "id": "2c10447c08-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "drowsiness, difficulty waking up, no urine output for 12 hours, slurred speech, pale skin, cold skin in an 82-year-old"
+   ],
+   "note": "Patient: father, 82 years (elderly). Presenting with: drowsiness; difficulty waking up; no urine output for 12 hours; slurred speech; pale skin; cold skin. Duration: 2 days. Severity as described: severe. Asking for: ambulance; emergency help. Setting requested: home visit."
+  },
+  {
+   "id": "00571d0319-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "sudden loss of consciousness; bleeding; inability to drink water; cold body in an elderly patient"
+   ],
+   "note": "Patient: mother (elderly). Presenting with: sudden loss of consciousness; bleeding; inability to drink water; cold body. Onset: sudden. Duration: today. Severity as described: severe. Asking for: ambulance; doctor. Setting requested: home visit."
+  },
+  {
+   "id": "00571d0319-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "heavy bleeding with chest pressure and difficulty breathing"
+   ],
+   "note": "Patient: not stated. Presenting with: heavy bleeding; difficulty breathing; chest pressure; anxiety. Severity as described: severe. Asking for: medical help. Setting requested: home visit."
+  },
+  {
+   "id": "3d11a43a8e-3",
+   "gold": "home_nursing",
+   "level": null,
+   "signs": [],
+   "note": "Patient: wife. Background: recovering from illness. Asking for: catheter change. Setting requested: home visit."
+  },
+  {
+   "id": "aba8ff12e3-4",
+   "gold": "home_nursing",
+   "level": null,
+   "signs": [],
+   "note": "Patient: daughter, 5 years (child). Denies: breathing difficulty. Asking for: nebulization. Setting requested: home visit."
+  },
+  {
+   "id": "42b27284b1-4",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: son, 5 years (child). Presenting with: digestive issues; concern about medication adequacy. Duration: 10 days. Denies: severe abdominal pain; vomiting; signs of blood infection. Asking for: consultation on medication options."
+  },
+  {
+   "id": "man-cbecad0e5b",
+   "gold": "need_more_info",
+   "level": null,
+   "signs": [],
+   "note": "Patient: not stated. Asking for: doctor visit. Setting requested: home visit."
+  },
+  {
+   "id": "7a6b11ea6f-1",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "insomnia, fatigue, loss of appetite, lethargy, weakness in an elderly patient"
+   ],
+   "note": "Patient: mother, 68 years (elderly). Presenting with: insomnia; fatigue; loss of appetite; lethargy; weakness. Duration: 4 days. Severity as described: moderate. Denies: vomiting. Asking for: medical assessment; treatment advice. Setting requested: home visit."
+  },
+  {
+   "id": "2d9edf5757-1",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: male, 30 years. Presenting with: mild cold; runny nose. Onset: gradual. Duration: 3 days. Severity as described: mild. Asking for: medical advice. Setting requested: video consult."
+  },
+  {
+   "id": "1906facedf-0",
+   "gold": "lab_test_home",
+   "level": "see_doctor_today",
+   "signs": [
+    "fatigue and light-headedness upon waking in a 52-year-old"
+   ],
+   "note": "Patient: mother. Presenting with: fatigue; light-headedness upon waking; weight gain; loss of appetite. Duration: daily. Asking for: thyroid function test; blood sample collection. Setting requested: home visit."
+  },
+  {
+   "id": "580048df23-4",
+   "gold": "teleconsultation",
+   "level": null,
+   "signs": [],
+   "note": "Patient: grandfather (elderly). Background: kidney issues. Asking for: review kidney function test report; interpretation of kidney values."
+  },
+  {
+   "id": "42b27284b1-3",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: sister, 35 years. Presenting with: gum swelling; gum pain. Duration: 3 weeks. Denies: mouth ulcers; fever; cough; cold. Asking for: consultation on antibiotic safety and effectiveness."
+  },
+  {
+   "id": "95ebd184a8-3",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: husband, 41 years. Presenting with: sudden vomiting. Onset: sudden. Duration: last night. Severity as described: mild. Denies: ongoing symptoms; feeling unwell. Asking for: paramedic visit; medical assessment. Setting requested: home visit."
+  },
+  {
+   "id": "065ca5c590-3",
+   "gold": "home_nursing",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: young child (child). Presenting with: small scratch. Severity as described: mild. Denies: illness. Asking for: wound cleaning; wound bandaging. Setting requested: home visit."
+  },
+  {
+   "id": "30cdd527c5-0",
+   "gold": "lab_test_home",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: father, 62 years (elderly). Presenting with: increased thirst. Denies: vision changes; numbness in feet; recent weight loss. Asking for: HbA1c test; fasting blood sugar test. Setting requested: home visit."
+  },
+  {
+   "id": "5bcb9b69be-4",
+   "gold": "home_nursing",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: grandfather, 80 years (elderly). Presenting with: small wound on leg; wound not healing; mild infection. Severity as described: mild. Background: limited mobility. Asking for: wound dressing; check-up. Setting requested: home visit."
+  },
+  {
+   "id": "eed4d3ca82-1",
+   "gold": "teleconsultation",
+   "level": "routine",
+   "signs": [],
+   "note": "Patient: mother. Presenting with: dry hands; flaky hands; worsened by air conditioning. Asking for: second opinion on skin condition."
+  },
+  {
+   "id": "59c3cf5588-0",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: daughter, 7 years (child). Presenting with: vomited once; seems a bit off. Duration: today around noon. Severity as described: mild. Denies: fever; loss of appetite. Reported readings: temperature normal. Asking for: vitals check; quick check-up. Setting requested: home visit."
+  },
+  {
+   "id": "4e17fba818-2",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: wife, postpartum (pregnant). Presenting with: slow recovery post-delivery; bedridden; discomfort while getting up. Background: recent delivery. Asking for: nurse visit; physiotherapy. Setting requested: home visit."
+  },
+  {
+   "id": "man-f9de5882dc",
+   "gold": "need_more_info",
+   "level": null,
+   "signs": [],
+   "note": "Patient: son, 5 years (child)."
+  },
+  {
+   "id": "22b088c75c-4",
+   "gold": "home_nursing",
+   "level": "emergency_now",
+   "signs": [
+    "fatigue, dehydration, and weakness in a self-presenting patient"
+   ],
+   "note": "Patient: self. Presenting with: fatigue; dehydration; weakness. Asking for: IV saline drip. Setting requested: home visit."
+  },
+  {
+   "id": "22b088c75c-2",
+   "gold": "home_nursing",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: wife. Presenting with: wound discharge; pain. Duration: 4 days post-surgery. Background: recent surgery. Asking for: wound dressing; IV line maintenance. Setting requested: home visit."
+  },
+  {
+   "id": "42b27284b1-1",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: mother, 70 years (elderly). Presenting with: hip pain. Denies: sudden back pain; redness at site; swelling at site. Asking for: medication dosage advice."
+  },
+  {
+   "id": "c7743e1db3-2",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: grandmother (elderly). Presenting with: leg pain; inability to walk; fatigue. Setting requested: home visit."
+  },
+  {
+   "id": "82bdb533de-1",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: father, 68 years (elderly). Presenting with: heaviness after meals; mild discomfort after dinner. Duration: recently. Severity as described: mild. Background: acidity. Asking for: medication review; dietary advice. Setting requested: video consult."
+  },
+  {
+   "id": "org-fce4158f1a",
+   "gold": "lab_test_home",
+   "level": null,
+   "signs": [],
+   "note": "Patient: not stated. Asking for: CBC test; Thyroid test; sample collection. Setting requested: lab test."
+  },
+  {
+   "id": "ddb520ba6a-4",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: nephew, 5 years (child). Presenting with: intermittent vomiting. Duration: last few hours. Asking for: medical assessment. Setting requested: home visit."
+  },
+  {
+   "id": "59c3cf5588-2",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: husband. Presenting with: vomiting once last night; not feeling 100%. Duration: last night. Asking for: check overall health parameters; confirm recovery; medication review. Setting requested: home visit."
+  },
+  {
+   "id": "dd9af98a37-4",
+   "gold": "home_nursing",
+   "level": null,
+   "signs": [],
+   "note": "Patient: grandfather, 80 years (elderly). Asking for: catheter change. Setting requested: home visit."
+  },
+  {
+   "id": "9349da52c1-2",
+   "gold": "lab_test_home",
+   "level": "routine",
+   "signs": [],
+   "note": "Patient: daughter, 24 years. Presenting with: weight gain; hair fall. Asking for: lipid panel; thyroid test; home sample collection. Setting requested: lab test."
+  },
+  {
+   "id": "338e5524c7-3",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: not stated. Presenting with: slight headaches in the evening. Onset: gradual. Duration: 3 days. Severity as described: mild. Asking for: consultation for medication advice. Setting requested: video consult."
+  },
+  {
+   "id": "c1c8d688e6-1",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: mother, 72 years (elderly). Presenting with: single episode of vomiting. Denies: other abnormalities. Asking for: home visit for condition check. Setting requested: home visit."
+  },
+  {
+   "id": "c1c8d688e6-0",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: son, 5 years (child). Presenting with: single episode of vomiting. Onset: sudden. Duration: this morning. Asking for: physical examination. Setting requested: home visit."
+  },
+  {
+   "id": "580048df23-1",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: father. Presenting with: frequent mild gas in stomach. Asking for: review of lipid profile and liver function test reports. Setting requested: video consult."
+  },
+  {
+   "id": "c9847ae12a-3",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: young son (child). Presenting with: single episode of vomiting last night. Duration: last night. Asking for: child health checkup. Setting requested: home visit."
+  },
+  {
+   "id": "6c8f42fb15-0",
+   "gold": "emergency_112",
+   "level": "emergency_now",
+   "signs": [
+    "general weakness, continuous abdominal pain, and vomiting in an elderly patient"
+   ],
+   "note": "Patient: father (elderly). Presenting with: general weakness; continuous abdominal pain; vomiting. Asking for: IV drip administration; nurse visit. Setting requested: home visit."
+  },
+  {
+   "id": "6c8f42fb15-1",
+   "gold": "home_nursing",
+   "level": null,
+   "signs": [],
+   "note": "Patient: mother (elderly). Background: recent hospital discharge; dialysis. Asking for: daily IV saline administration; home nursing care. Setting requested: home visit."
+  },
+  {
+   "id": "793cb15d91-3",
+   "gold": "home_nursing",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: son, 8 years (child). Presenting with: small abrasion on elbow; fall from playground. Onset: sudden. Severity as described: mild. Denies: active bleeding; round red skin. Asking for: wound dressing. Setting requested: home visit."
+  },
+  {
+   "id": "ddb520ba6a-3",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: son, 9 years (child). Presenting with: repeated vomiting episodes. Onset: sudden. Duration: since early morning. Asking for: doctor visit. Setting requested: home visit."
+  },
+  {
+   "id": "065ca5c590-1",
+   "gold": "home_nursing",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: father (elderly). Presenting with: knee scrape; pain. Asking for: wound dressing. Setting requested: home visit."
+  },
+  {
+   "id": "30cdd527c5-1",
+   "gold": "lab_test_home",
+   "level": "routine",
+   "signs": [],
+   "note": "Patient: 35 years. Presenting with: daytime fatigue. Denies: frequent urination; blurred vision; extreme hunger. Asking for: blood test for high blood sugar; sample collection. Setting requested: home visit."
+  },
+  {
+   "id": "84a19b6642-3",
+   "gold": "emergency_112",
+   "level": "see_doctor_today",
+   "signs": [
+    "frequent dizziness and vomiting in a child"
+   ],
+   "note": "Patient: daughter (child). Presenting with: frequent dizziness after school; vomiting after drinking water; loss of appetite. Duration: frequent. Asking for: medical advice."
+  },
+  {
+   "id": "ea334c744e-1",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: mother. Presenting with: weakness; sadness. Duration: 3 days. Background: recent hospital discharge. Asking for: checkup. Setting requested: home visit."
+  },
+  {
+   "id": "95ebd184a8-0",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: self, 34 years. Presenting with: single episode of vomiting; nausea. Duration: this morning. Asking for: vitals check. Setting requested: home visit."
+  },
+  {
+   "id": "2d9edf5757-2",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: son, 8 years (child). Presenting with: mild sore throat; cough. Onset: gradual. Duration: since yesterday. Severity as described: mild. Denies: fever. Reported readings: temperature normal. Asking for: review of symptoms; advice on hospital vs home treatment. Setting requested: video consult."
+  },
+  {
+   "id": "6f234eb276-3",
+   "gold": "home_nursing",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: wife. Presenting with: scratch on hand. Asking for: injection; blood pressure check. Setting requested: home visit."
+  },
+  {
+   "id": "2d9edf5757-0",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: mother, 55 years. Presenting with: mild throat irritation; occasional dry cough. Duration: since last week. Asking for: review of checkup report; advice on medication or treatment."
+  },
+  {
+   "id": "ea334c744e-2",
+   "gold": "paramedic_home_visit",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: child (child). Presenting with: mild fever. Severity as described: mild. Asking for: nurse or paramedic check. Setting requested: home visit."
+  },
+  {
+   "id": "org-f1229c19e8",
+   "gold": "need_more_info",
+   "level": null,
+   "signs": [],
+   "note": "Patient: mother."
+  },
+  {
+   "id": "a4afa3b20e-1",
+   "gold": "teleconsultation",
+   "level": null,
+   "signs": [],
+   "note": "Patient: female. Reported readings: fasted blood sugar 110; HbA1c 5.7%. Asking for: report review. Setting requested: video consult."
+  },
+  {
+   "id": "71f8229b39-4",
+   "gold": "home_nursing",
+   "level": "emergency_now",
+   "signs": [],
+   "note": "Patient: grandfather (elderly). Presenting with: illness. Duration: daily. Asking for: regular nurse visit; IV drip administration; patient care. Setting requested: home visit."
+  },
+  {
+   "id": "2a7cfe5870-0",
+   "gold": "lab_test_home",
+   "level": null,
+   "signs": [],
+   "note": "Patient: self. Asking for: lipid profile test; sample collection. Setting requested: home visit."
+  },
+  {
+   "id": "82bdb533de-3",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: not stated. Presenting with: irregular periods. Duration: this cycle. Background: PCOS. Asking for: review of food log; dietary advice regarding protein intake. Setting requested: video consult."
+  },
+  {
+   "id": "2d9edf5757-4",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: grandfather, 75 years (elderly). Presenting with: mild cold; dry cough; slightly elevated blood pressure. Onset: gradual. Duration: 2 days. Reported readings: blood pressure slightly elevated. Asking for: symptom assessment; advice on home treatment vs doctor visit. Setting requested: video consult."
+  },
+  {
+   "id": "5e4229be18-4",
+   "gold": "lab_test_home",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: user and wife, 34 years. Presenting with: excessive thirst. Denies: abnormal urine color; abnormal urine smell. Asking for: regular sugar checkup. Setting requested: home visit."
+  },
+  {
+   "id": "2e574a080e-0",
+   "gold": "teleconsultation",
+   "level": null,
+   "signs": [],
+   "note": "Patient: father, 65 years (elderly). Denies: fever; pain; fatigue. Asking for: review routine blood test reports."
+  },
+  {
+   "id": "71f8229b39-2",
+   "gold": "home_nursing",
+   "level": null,
+   "signs": [],
+   "note": "Patient: sister. Background: recent surgery. Asking for: IV drip administration. Setting requested: home visit."
+  },
+  {
+   "id": "8c0598560e-2",
+   "gold": "lab_test_home",
+   "level": null,
+   "signs": [],
+   "note": "Patient: son, 5 years (child). Asking for: urine test; sample pickup. Setting requested: lab test."
+  },
+  {
+   "id": "eed4d3ca82-4",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: not stated. Presenting with: itch on forearm; mild skin irritation. Severity as described: mild. Denies: spreading rash. Asking for: prescription for skin irritation. Setting requested: video consult."
+  },
+  {
+   "id": "3d11a43a8e-0",
+   "gold": "home_nursing",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: grandmother (elderly). Presenting with: distress. Denies: general illness. Background: catheter in use. Asking for: catheter change. Setting requested: home visit."
+  },
+  {
+   "id": "eed4d3ca82-3",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: grandfather, 78 years (elderly). Presenting with: scaly patches on shins; recurrent eczema. Background: eczema. Asking for: photo review. Setting requested: video consult."
+  },
+  {
+   "id": "dd9af98a37-2",
+   "gold": "home_nursing",
+   "level": null,
+   "signs": [],
+   "note": "Patient: son, 5 years (child). Asking for: catheter change. Setting requested: home visit."
+  },
+  {
+   "id": "580048df23-3",
+   "gold": "teleconsultation",
+   "level": "see_doctor_today",
+   "signs": [],
+   "note": "Patient: wife. Presenting with: fatigue. Duration: 5 days. Background: thyroid condition. Asking for: review thyroid test reports (TSH, T3, T4); medication advice. Setting requested: video consult."
+  }
+ ]
+}

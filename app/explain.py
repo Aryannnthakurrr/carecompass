@@ -90,10 +90,11 @@ def _say(system: str, prompt: str) -> str:
     return llm.chat(system, prompt).strip().strip('"')
 
 
-def follow_up(missing: list[str], context: str, lang: str) -> str:
-    """context = a facts summary (never the raw user text)."""
+def follow_up(missing: list[str], context: str, lang: str, guide: str = "") -> str:
+    """context = a facts summary (never the raw user text); guide = protocol cards for the complaint."""
+    proto = f"\nUseful questions for this complaint (use them to word the missing facts well): {guide}" if guide else ""
     try:
-        return _say(ASK_SYS, f"Reply language: {REPLY_LANG[lang]}\nWhat we know: {context}\nMissing facts: {missing}")
+        return _say(ASK_SYS, f"Reply language: {REPLY_LANG[lang]}\nWhat we know: {context}\nMissing facts: {missing}{proto}")
     except Exception:  # noqa: BLE001
         return FALLBACK_ASK[lang]
 
@@ -126,6 +127,14 @@ REDIRECT_THIRD = {
     "hinglish": "Main health assistant hoon, sirf sehat ki pareshani mein madad kar sakta hoon. Likhiye ya boliye kise kya problem hai.",
 }
 GATE_TEXTS = {v for d in (REDIRECT, CALM, REDIRECT_AGAIN, REDIRECT_THIRD) for v in d.values()}
+END = {
+    "en": "I'm not able to help further in this conversation. If someone is unwell, please start a new chat and tell me who it is "
+          "and what is happening. In an emergency, call 112 (ambulance 108).",
+    "hi": "मैं इस बातचीत में आगे मदद नहीं कर पाऊँगा। अगर कोई बीमार है, तो नई चैट शुरू करके बताइए कि कौन है और क्या हो रहा है। "
+          "आपात स्थिति में 112 (एम्बुलेंस 108) पर कॉल करें।",
+    "hinglish": "Main is baatcheet mein aage madad nahi kar paaunga. Agar koi beemar hai, to nayi chat shuru karke bataiye kaun hai "
+                "aur kya ho raha hai. Emergency mein 112 (ambulance 108) par call karein.",
+}
 
 
 def redirect(lang: str, abusive: bool = False, before: int = 0) -> str:

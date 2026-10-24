@@ -17,7 +17,7 @@ import re
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-from app import explain, intake, lexicon, matching, redflags, screen, smart, smart_match, triage
+from app import explain, intake, lexicon, matching, protocols, redflags, screen, smart, smart_match, triage
 from app.emergency_text import EMERGENCY
 from app.llm import CFG
 from app.schemas import CaseFacts, Emergency, TriageRequest, TriageResponse
@@ -30,6 +30,9 @@ SMART_CARE_LABEL = {"hospital_visit": "a hospital visit", "clinic_visit": "a doc
                     "diagnostic_test": "a test or scan", "lab_test_home": "a home sample collection", "home_nursing": "nursing at home",
                     "paramedic_home_visit": "a home check-up", "teleconsultation": "a video consultation"}
 GATE_STOP = {"off_topic", "nonsense", "abusive"}
+SUPPRESSIBLE = {"chest_pain", "breathlessness"}  # red flags that are also everyday figures of speech
+MAX_REDIRECTS = 3  # junk / abuse / off-topic messages steered back this many times; the next one ends the conversation
+EXTRA_ASKS_AFTER_BASICS = 2  # once who/age and since-when are known, the classifier's own questions stop at this many asked
 SAFETY_MARK = "112"  # every safety-check question ends with the pre-written call-112 line (explain.SAFETY_LINE)
 _POOL = ThreadPoolExecutor(max_workers=8)
 
@@ -116,6 +119,14 @@ def _grounded(signs: list[str], facts: CaseFacts) -> list[str]:
 _STOP = {_stem(w) for w in ("with", "that", "this", "patient", "very", "since", "years", "from", "have", "been", "some", "more")}
 
 
+def _may_ask(facts: CaseFacts, asked: int) -> bool:
+    """The classifier's own questions: never past the cap or after "no more questions", and once the basics are known,
+    not past EXTRA_ASKS_AFTER_BASICS asked in total (protocol checklists otherwise turn into an interrogation)."""
+    if facts.no_more_questions or asked >= MAX_FOLLOW_UPS:
+        return False
+    return bool(_basic_gaps(facts)) or asked < EXTRA_ASKS_AFTER_BASICS
+
+
 def _norm(q: str) -> str:
     return re.sub(r"[^\w]+", " ", q.lower()).strip()
 
@@ -183,7 +194,10 @@ def _run(req: TriageRequest) -> TriageResponse:
             signs = [f.replace("_", " ") for f in retracted]
             q, line = explain.safety_check(f"Just to be safe: is there any {' or '.join(signs)} right now?", signs, lang)
             return _ask(q, lang, req.mode, "safety_check", f"Red flag mentioned then denied ({', '.join(signs)}); confirming.", line)
-        if retracted or facts.not_literal or facts.message_check in GATE_STOP:
+        # only common figures of speech ("heart attack aa jayega", "can't breathe from laughing") may be explained away, and
+        # only when the analyst names them; self-harm, collapse, fits, stroke, bleeding, poisoning never are
+        figurative = facts.not_literal and set(hit) <= SUPPRESSIBLE
+        if retracted or figurative:
             safety_note = explain.SAFETY_LINE[lang]  # not sounding the alarm for a figure of speech, but saying how to get help
             log.info("raw rule hit %s judged not literal or denied: %s", hit, facts.not_literal or retracted)
         else:
@@ -193,6 +207,10 @@ def _run(req: TriageRequest) -> TriageResponse:
     log.info("intake check=%s notes=%s wants=%s", facts.message_check, facts.check_notes, facts.user_wants)
     if facts.message_check in GATE_STOP and not _medical(facts):
         redirects = sum(t.role == "assistant" and t.content in explain.GATE_TEXTS for t in history)
+        if redirects >= MAX_REDIRECTS:  # still nothing medical after repeated steering: close politely, keep the 112 path
+            log.info("conversation ended after %d redirects", redirects)
+            return TriageResponse(language=lang, mode=req.mode, conversation_ended=True, explanation=explain.END[lang],
+                                  reasoning=f"No health concern after {redirects} redirects; conversation closed.")
         return _ask(explain.redirect(lang, facts.message_check == "abusive", redirects), lang, req.mode, "redirect",
                     "No health concern described; steering back to the health problem.", safety_note)
     if facts.message_check == "unclear" and (voice or not _medical(facts)) and asked < MAX_FOLLOW_UPS:
@@ -223,14 +241,14 @@ def _run_dataset(req, facts, user_turns, asked_qs, lang, t0, scr, safety_note) -
         return _emergency(mapped, more, lang, "dataset", why=decision.reasoning)
     ctx = _context(facts)
     if missing := _missing_basics(facts, asked):
-        return _ask(explain.follow_up(missing, ctx, lang), lang, "dataset", "medical",
+        return _ask(explain.follow_up(missing, ctx, lang, protocols.guide(facts)), lang, "dataset", "medical",
                     f"Need {' and '.join(missing)} before routing safely.", safety_note)
     if (out := _screened(scr, facts, req.conversation_history, asked, lang, "dataset")) is not None:
         return out
     if decision is None:  # both classifiers down: someone should see the patient
         care, reasoning = "paramedic_home_visit", "Classifier unavailable; defaulting to an in-person Medic assessment."
-    elif (decision.status == "need_more_info" and asked < MAX_FOLLOW_UPS and not facts.no_more_questions
-          and (q := _fresh(explain.follow_up(decision.missing_info or ["main concern"], ctx, lang), asked_qs))):
+    elif (decision.status == "need_more_info" and _may_ask(facts, asked)
+          and (q := _fresh(explain.follow_up(decision.missing_info or ["main concern"], ctx, lang, protocols.guide(facts)), asked_qs))):
         return _ask(q, lang, "dataset", "medical", decision.reasoning, safety_note)
     elif decision.status == "need_more_info":  # nothing new to ask: decide with what we have
         care = decision.care_type
@@ -269,15 +287,15 @@ def _run_smart(req, facts, user_turns, asked_qs, lang, t0, scr, safety_note) -> 
         return _emergency(mapped, more, lang, "smart", why=decision.reasoning)
     ctx = _context(facts)
     if missing := _missing_basics(facts, asked):
-        return _ask(explain.follow_up(missing, ctx, lang), lang, "smart", "medical",
+        return _ask(explain.follow_up(missing, ctx, lang, protocols.guide(facts)), lang, "smart", "medical",
                     f"Need {' and '.join(missing)} before routing safely.", safety_note, seriousness=decision.seriousness)
     if (out := _screened(scr, facts, req.conversation_history, asked, lang, "smart")) is not None:
         return out
     graded = scr.result() if scr else None
     if graded and graded.level == "see_doctor_today" and decision.seriousness == "routine":
         decision = decision.model_copy(update={"seriousness": "soon"})  # MedGemma says a doctor soon: not "plan it whenever"
-    if (decision.status == "need_more_info" and asked < MAX_FOLLOW_UPS and not facts.no_more_questions
-            and (q := _fresh(explain.follow_up(decision.missing_info or ["main concern"], ctx, lang), asked_qs))):
+    if (decision.status == "need_more_info" and _may_ask(facts, asked)
+            and (q := _fresh(explain.follow_up(decision.missing_info or ["main concern"], ctx, lang, protocols.guide(facts)), asked_qs))):
         return _ask(q, lang, "smart", "medical", decision.reasoning, safety_note, seriousness=decision.seriousness)
 
     providers, summary, need = smart_match.match(decision, hints, facts, req.location, lang)

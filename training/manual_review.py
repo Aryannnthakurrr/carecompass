@@ -37,6 +37,10 @@ EMERGENCY_AT = {
     332, 336, 337, 342, 346, 349, 351, 364, 366, 367, 368, 372, 373, 379, 385, 387, 388, 389, 390, 394, 395, 396, 397, 398,
     405, 418, 419, 421, 423, 424, 434, 435, 445, 448, 451, 456, 484, 486, 488, 489, 490, 491, 493, 496, 497, 498, 506, 526,
 }
+# second-sign rule (chosen 25 Oct): an elderly person who is only weak / not eating / tired stays a home visit; these
+# relabels had no second sign (drowsiness, confusion, cannot get up, not drinking, dizziness or fainting) and are reverted
+SECOND_SIGN_REVERTED = {283, 284, 286, 321, 337, 349, 372, 490, 493}
+EMERGENCY_AT -= SECOND_SIGN_REVERTED
 # overruled-emergency review rows (in file order): toddler fever WITH a danger sign
 OVERRULED_EMERGENCY_AT = {0, 1, 3, 5, 9, 16}
 
@@ -86,7 +90,7 @@ def main():
                          reasoning="High fever in a young child without danger signs needs a same-day home assessment.")
         out.append({**r, "target": d.care_type, "decision": d.model_dump(), "keep": True, "how": "manual review (overruled vote)"})
     (SFT / "manual_review.jsonl").write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in out), encoding="utf-8")
-    print(f"wrote {len(out)} rows: {len(EMERGENCY_AT)} relabelled to emergency, {len(overruled)} overruled-vote rows "
+    print(f"wrote {len(out)} rows: {len(EMERGENCY_AT)} relabelled to emergency ({len(SECOND_SIGN_REVERTED)} reverted by the second-sign rule), {len(overruled)} overruled-vote rows "
           f"({len(OVERRULED_EMERGENCY_AT)} emergency)")
 
 

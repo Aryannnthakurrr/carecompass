@@ -1,0 +1,358 @@
+{
+ "medgemma-4b-it-GGUF_Q4_K_M__few_shot__test": {
+  "rows": 254,
+  "valid": "250/254",
+  "care_macro_f1": 0.689,
+  "urgency_macro_f1": 0.638,
+  "accuracy": 0.736,
+  "emergency_recall": "37/73",
+  "under_triaged": 53,
+  "false_emergencies": 0,
+  "needless_follow_ups": 23,
+  "missed_follow_ups": 4,
+  "median_s": 4.2,
+  "p90_s": 4.76,
+  "accuracy_organiser": "6/6",
+  "accuracy_synthetic": "180/243",
+  "accuracy_en": "55/80",
+  "accuracy_hi": "65/80",
+  "accuracy_hinglish": "67/94",
+  "errors": [
+   {
+    "facts": "{\"symptoms_present\": [\"blurred vision upon standing up quickly\", \"dizziness\"], \"onset\": \"gradual\", \"duration\": \"2-3 days\", \"patient\": \"self\", \"existing_conditions\": [\"hypertension\"], \"services_requested\": [\"consultation regarding potential medication interaction\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\", \"quality\"]}",
+    "gold": "paramedic_home_visit",
+    "pred": "teleconsultation"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"breathlessness after playing\", \"breathlessness after climbing stairs\", \"increased fatigue\"], \"onset\": \"gradual\", \"duration\": \"2 months\", \"patient\": \"son, 12 years\", \"special_population\": [\"child\"], \"services_requested\": [\"pediatrician consultation\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"dry hands\", \"flaky hands\", \"worsened by air conditioning\"], \"patient\": \"mother\", \"services_requested\": [\"second opinion on skin condition\"], \"setting_requested\": \"unspecified\", \"preferences\": [\"consult_only\"]}",
+    "gold": "teleconsultation",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"red patches on elbow\", \"itching\"], \"onset\": \"gradual\", \"duration\": \"1 day\", \"patient\": \"child, 4 years\", \"special_population\": [\"child\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "teleconsultation",
+    "pred": "INVALID"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"mild throat irritation\", \"occasional dry cough\"], \"duration\": \"since last week\", \"patient\": \"mother, 55 years\", \"services_requested\": [\"review of checkup report\", \"advice on medication or treatment\"], \"setting_requested\": \"unspecified\", \"preferences\": [\"consult_only\"]}",
+    "gold": "teleconsultation",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_denied\": [\"weight loss\", \"tremors\", \"heart palpitations\", \"neck swelling\"], \"patient\": \"mother, 58 years\", \"special_population\": [\"elderly\"], \"services_requested\": [\"second opinion on thyroid profile\"], \"setting_requested\": \"unspecified\", \"preferences\": [\"consult_only\"]}",
+    "gold": "teleconsultation",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"dizziness upon standing\", \"daily dizziness\"], \"duration\": \"daily\", \"patient\": \"father\", \"special_population\": [\"elderly\"], \"existing_conditions\": [\"hypertension\"], \"services_requested\": [\"medication review\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "teleconsultation"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"allergy\"], \"services_requested\": [\"medication alternative suggestion\"], \"setting_requested\": \"unspecified\", \"preferences\": [\"consult_only\"]}",
+    "gold": "teleconsultation",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"frequent dizziness after school\", \"vomiting after drinking water\", \"loss of appetite\"], \"duration\": \"frequent\", \"patient\": \"daughter\", \"special_population\": [\"child\"], \"services_requested\": [\"medical advice\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"fatigue\", \"insomnia\"], \"patient\": \"grandfather\", \"special_population\": [\"elderly\"], \"services_requested\": [\"elderly care services\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"dizziness on standing\", \"weakness\"], \"symptoms_denied\": [\"vomiting\"], \"patient\": \"62 years\", \"special_population\": [\"elderly\"], \"existing_conditions\": [\"hypertension\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "INVALID"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"loss of appetite for 2 days\", \"mild abdominal pain\", \"excessive sleepiness\"], \"onset\": \"gradual\", \"duration\": \"2 days\", \"patient\": \"younger brother, 4 years\", \"special_population\": [\"child\"], \"services_requested\": [\"suggestion for solution\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"low health\", \"poor responsiveness\", \"eyes closing upon standing or sitting up\", \"fainting\", \"falling down\"], \"patient\": \"grandmother\", \"special_population\": [\"elderly\"], \"existing_conditions\": [\"high blood pressure\", \"on medication\"], \"services_requested\": [\"health check\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"lower back pain\", \"difficulty climbing stairs\", \"pain worsening at night\", \"insomnia due to pain\"], \"symptoms_denied\": [\"injury\"], \"duration\": \"4 days\", \"patient\": \"father\", \"services_requested\": [\"consultation\", \"X-ray\"], \"setting_requested\": \"unspecified\", \"preferences\": [\"consult_only\"]}",
+    "gold": "paramedic_home_visit",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"setting_requested\": \"lab_test\"}",
+    "gold": "need_more_info",
+    "pred": "lab_test_home"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"heavy menstrual bleeding\", \"changing toilet paper every 10 minutes\", \"dizziness\", \"pale face\", \"shortness of breath\", \"weakness\"], \"patient\": \"wife\", \"services_requested\": [\"doctor visit\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"patient\": \"son, 10 years\", \"special_population\": [\"child\"], \"existing_conditions\": [\"dairy allergy\"], \"services_requested\": [\"review previous lab report\", \"second opinion on supplement schedule\"], \"setting_requested\": \"unspecified\", \"preferences\": [\"consult_only\"]}",
+    "gold": "teleconsultation",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"feeling faint on standing\", \"orthostatic dizziness\"], \"patient\": \"mother\", \"special_population\": [\"elderly\"], \"existing_conditions\": [\"hypertension\"], \"services_requested\": [\"guidance\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"tight breathing\"], \"patient\": \"father\", \"special_population\": [\"elderly\"], \"services_requested\": [\"nebulization at home\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"soon\", \"home\"]}",
+    "gold": "emergency_112",
+    "pred": "home_nursing"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"lower abdominal cramping\", \"weakness\", \"confusion with bladder issues\"], \"patient\": \"grandfather, 81 years\", \"special_population\": [\"elderly\"], \"existing_conditions\": [\"diabetes\"], \"services_requested\": [\"medication delivery\", \"consultation on symptoms\"], \"setting_requested\": \"video_consult\", \"preferences\": [\"home\", \"online\"]}",
+    "gold": "emergency_112",
+    "pred": "teleconsultation"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"breathlessness on climbing stairs\", \"progressive worsening over 2 months\"], \"onset\": \"gradual\", \"duration\": \"2 months\", \"patient\": \"mother\", \"services_requested\": [\"BP check\", \"lung check\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"soon\", \"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"dizziness\", \"vertigo\", \"weakness\", \"inability to stand\"], \"onset\": \"sudden\", \"duration\": \"since this morning\", \"patient\": \"mother\", \"special_population\": [\"elderly\"], \"existing_conditions\": [\"hypertension\", \"on BP medication since childhood\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "emergency_112",
+    "pred": "INVALID"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"blurred vision\", \"weakness in legs\"], \"symptoms_denied\": [\"difficulty breathing\", \"facial twitching\"], \"onset\": \"gradual\", \"duration\": \"1 month\", \"patient\": \"mother, 68 years\", \"special_population\": [\"elderly\"], \"services_requested\": [\"consultation\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"weakness\", \"unconsciousness\"], \"duration\": \"today\", \"patient\": \"grandmother, 80+ years\", \"special_population\": [\"elderly\"], \"existing_conditions\": [\"bedridden\"], \"services_requested\": [\"IV injection\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"quality\", \"soon\", \"home\"]}",
+    "gold": "emergency_112",
+    "pred": "home_nursing"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"high fever\", \"not eating since last night\", \"weakness\"], \"duration\": \"since last night\", \"patient\": \"daughter, 2 years\", \"special_population\": [\"child\"], \"vitals_reported\": [\"temperature 103F\"], \"services_requested\": [\"home nurse or doctor\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"soon\", \"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"dizziness upon standing in the morning\"], \"onset\": \"gradual\", \"duration\": \"2 weeks\", \"patient\": \"wife\", \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"frequent urination\", \"nocturia\", \"excessive thirst\"], \"onset\": \"gradual\", \"duration\": \"2 days\", \"patient\": \"grandfather\", \"special_population\": [\"elderly\"], \"services_requested\": [\"checkup\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"shortness of breath on exertion\", \"breathlessness while walking\", \"breathlessness while climbing stairs\"], \"onset\": \"gradual\", \"duration\": \"4-5 months\", \"patient\": \"uncle, 78 years\", \"special_population\": [\"elderly\"], \"services_requested\": [\"checkup\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"fatigue\"], \"patient\": \"father, 72 years\", \"special_population\": [\"elderly\"], \"existing_conditions\": [\"diabetes\"], \"services_requested\": [\"blood test for lipids\", \"blood sugar check\", \"phlebotomy at home\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\", \"soon\"]}",
+    "gold": "lab_test_home",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"numbness in left hand\", \"weakness in left hand\"], \"patient\": \"brother\", \"setting_requested\": \"unspecified\"}",
+    "gold": "emergency_112",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"single episode of vomiting\", \"unsteady gait\"], \"symptoms_denied\": [\"fever\"], \"duration\": \"yesterday evening\", \"patient\": \"son, 4 years\", \"special_population\": [\"child\"], \"services_requested\": [\"physical examination\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"inability to close one eye\", \"drooping corner of mouth\", \"difficulty swallowing water\"], \"patient\": \"mother\", \"special_population\": [\"elderly\"], \"setting_requested\": \"unspecified\", \"preferences\": [\"soon\"]}",
+    "gold": "emergency_112",
+    "pred": "home_nursing"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"refusal to drink water\", \"dehydration\", \"high fever\", \"gastrointestinal issues\"], \"patient\": \"son, 4 years\", \"special_population\": [\"child\"], \"services_requested\": [\"IV drip administration\", \"hydration therapy\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "home_nursing"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"difficulty getting up\", \"weakness in hand\"], \"patient\": \"patient, recently discharged\", \"existing_conditions\": [\"recent hospital discharge\"], \"services_requested\": [\"home checkup\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"digestive issues\", \"concern about medication adequacy\"], \"symptoms_denied\": [\"severe abdominal pain\", \"vomiting\", \"signs of blood infection\"], \"duration\": \"10 days\", \"patient\": \"son, 5 years\", \"special_population\": [\"child\"], \"services_requested\": [\"consultation on medication options\"], \"setting_requested\": \"unspecified\", \"preferences\": [\"consult_only\"]}",
+    "gold": "teleconsultation",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"lethargy\", \"weakness\", \"refusal to eat\", \"refusal to drink\", \"no fluid intake for 2 days\"], \"onset\": \"gradual\", \"duration\": \"2 days\", \"patient\": \"daughter, 7 years\", \"special_population\": [\"child\"], \"services_requested\": [\"medical assessment\", \"advice on management\"], \"setting_requested\": \"home_visit\", \"severity\": \"severe\", \"preferences\": [\"soon\", \"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"continuous vomiting\", \"dehydration\", \"inability to eat\"], \"duration\": \"3 days\", \"patient\": \"female, 28 years\", \"services_requested\": [\"paramedic visit\", \"condition check\", \"medication\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"patient\": \"son, 5 years\", \"special_population\": [\"child\"]}",
+    "gold": "need_more_info",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"excessive thirst\"], \"symptoms_denied\": [\"abnormal urine color\", \"abnormal urine smell\"], \"patient\": \"user and wife, 34 years\", \"services_requested\": [\"regular sugar checkup\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\", \"soon\"]}",
+    "gold": "lab_test_home",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"mild throat burning while eating\", \"abdominal bloating\"], \"symptoms_denied\": [\"insomnia after heavy meals\", \"vomiting\", \"blood in stool\"], \"onset\": \"gradual\", \"duration\": \"2-3 weeks\", \"patient\": \"grandfather, 75 years\", \"special_population\": [\"elderly\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "teleconsultation",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"exertional dyspnea\", \"difficulty climbing stairs\"], \"onset\": \"gradual\", \"duration\": \"3 months\", \"patient\": \"wife, 39 years\", \"services_requested\": [\"consultation to understand cause\"], \"setting_requested\": \"unspecified\", \"preferences\": [\"consult_only\"]}",
+    "gold": "emergency_112",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"slow recovery post-delivery\", \"bedridden\", \"discomfort while getting up\"], \"patient\": \"wife, postpartum\", \"special_population\": [\"pregnant\"], \"existing_conditions\": [\"recent delivery\"], \"services_requested\": [\"nurse visit\", \"physiotherapy\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "paramedic_home_visit",
+    "pred": "home_nursing"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"shortness of breath on exertion\", \"shortness of breath climbing stairs\"], \"onset\": \"gradual\", \"duration\": \"past few months\", \"patient\": \"father, 68 years\", \"special_population\": [\"elderly\"], \"services_requested\": [\"doctor consultation\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"budget\", \"home\"]}",
+    "gold": "emergency_112",
+    "pred": "teleconsultation"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"vomiting once\", \"acting strange\"], \"symptoms_denied\": [\"fever\"], \"duration\": \"this morning\", \"patient\": \"mother, 68 years\", \"special_population\": [\"elderly\"], \"services_requested\": [\"thorough health check\", \"BP measurement\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"mild knee injury\", \"reluctance to run\", \"anxiety about injury\"], \"symptoms_denied\": [\"knee swelling\", \"sharp pain\"], \"onset\": \"gradual\", \"duration\": \"since last week\", \"patient\": \"daughter, 8 years\", \"special_population\": [\"child\"], \"services_requested\": [\"consultation with physiotherapist\"], \"setting_requested\": \"unspecified\", \"severity\": \"mild\"}",
+    "gold": "teleconsultation",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"feeling of unease after medication\", \"suspected allergy to Amoxicillin\"], \"patient\": \"self\", \"existing_conditions\": [\"infection\"], \"services_requested\": [\"advice on stopping or continuing Amoxicillin\", \"risk assessment for stopping medication\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "teleconsultation",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"eyes closed for 2 days\", \"unwilling to get up\", \"dizziness upon attempting to stand\", \"loss of appetite\", \"inability to retain water\", \"no response to regular medication\"], \"onset\": \"gradual\", \"duration\": \"2 days\", \"patient\": \"grandfather, 85 years\", \"special_population\": [\"elderly\"], \"services_requested\": [\"BP and sugar check\", \"paramedic or doctor visit\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"heavy breathing on exertion\", \"dyspnea on climbing stairs\"], \"onset\": \"gradual\", \"duration\": \"4 months\", \"patient\": \"father, 68 years\", \"special_population\": [\"elderly\"], \"services_requested\": [\"vitals check\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"shortness of breath on exertion\", \"increasing fatigue\"], \"onset\": \"gradual\", \"duration\": \"2 months\", \"patient\": \"45 years old\", \"services_requested\": [\"checkup\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "emergency_112",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"breathlessness\"], \"patient\": \"father\", \"special_population\": [\"elderly\"], \"services_requested\": [\"subcutaneous fluid administration\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"quality\", \"home\", \"soon\"]}",
+    "gold": "emergency_112",
+    "pred": "home_nursing"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"fever 103F\", \"excessive crying\"], \"onset\": \"sudden\", \"duration\": \"since morning\", \"patient\": \"baby, 2 years\", \"special_population\": [\"infant\"], \"vitals_reported\": [\"temperature 103F\"], \"services_requested\": [\"doctor consultation\"], \"setting_requested\": \"unspecified\", \"severity\": \"severe\"}",
+    "gold": "emergency_112",
+    "pred": "teleconsultation"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"fever\", \"difficulty breathing\"], \"patient\": \"father\", \"existing_conditions\": [\"recent hospital discharge\"], \"services_requested\": [\"paramedic visit\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"lightheadedness on movement\"], \"duration\": \"3 days\", \"patient\": \"grandfather, 78 years\", \"special_population\": [\"elderly\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"shortness of breath on exertion\", \"fatigue\", \"reduced mobility\"], \"onset\": \"gradual\", \"duration\": \"few months\", \"patient\": \"grandmother, 82 years\", \"special_population\": [\"elderly\"], \"services_requested\": [\"medical assessment\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"difficulty breathing\", \"exhaustion after climbing stairs\"], \"onset\": \"gradual\", \"duration\": \"6 months\", \"patient\": \"sister-in-law, 45 years\", \"services_requested\": [\"home health check\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"refusal of food and water\", \"inability to get out of bed\", \"weakness\"], \"patient\": \"grandfather, 82 years\", \"special_population\": [\"elderly\"], \"services_requested\": [\"IV saline\", \"nutrition drip\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"soon\", \"home\"]}",
+    "gold": "emergency_112",
+    "pred": "home_nursing"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"mild chest tightness\"], \"duration\": \"1 day\", \"patient\": \"husband\", \"services_requested\": [\"lipid profile\", \"complete blood count\"], \"setting_requested\": \"lab_test\", \"severity\": \"mild\", \"preferences\": [\"home\", \"soon\"]}",
+    "gold": "emergency_112",
+    "pred": "lab_test_home"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"heavy fever\", \"refusal to drink water\"], \"patient\": \"child, 2 years\", \"special_population\": [\"child\"], \"services_requested\": [\"IV fluids administration\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"female\", \"home\"]}",
+    "gold": "emergency_112",
+    "pred": "home_nursing"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"abdominal swelling\", \"heaviness in stomach\"], \"symptoms_denied\": [\"blood in stool\", \"severe diarrhea\", \"vomiting\"], \"duration\": \"20 days\", \"patient\": \"father, 65 years\", \"special_population\": [\"elderly\"], \"services_requested\": [\"review of current medication\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "paramedic_home_visit",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"frequent vomiting\", \"dehydration\"], \"onset\": \"sudden\", \"duration\": \"since this morning\", \"patient\": \"son, 4 years\", \"special_population\": [\"child\"], \"services_requested\": [\"doctor visit\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"high fever\", \"body heat\"], \"patient\": \"baby, 2 years\", \"special_population\": [\"child\"], \"vitals_reported\": [\"temperature 103F\"], \"services_requested\": [\"doctor consultation\"], \"setting_requested\": \"unspecified\", \"severity\": \"severe\", \"preferences\": [\"soon\"]}",
+    "gold": "emergency_112",
+    "pred": "teleconsultation"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"loss of appetite\", \"anuria\", \"inability to sit\", \"dizziness\", \"drowsiness\"], \"duration\": \"2 days\", \"patient\": \"mother, 80 years\", \"special_population\": [\"elderly\"], \"setting_requested\": \"unspecified\"}",
+    "gold": "emergency_112",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"dry cough\"], \"symptoms_denied\": [\"fever\", \"difficulty breathing\", \"chest pain\"], \"duration\": \"8 days\", \"patient\": \"husband, 40 years\", \"services_requested\": [\"opinion on current medication\"], \"setting_requested\": \"unspecified\", \"preferences\": [\"consult_only\"]}",
+    "gold": "teleconsultation",
+    "pred": "need_more_info"
+   },
+   {
+    "facts": "{\"services_requested\": [\"doctor visit\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "need_more_info",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"no urination since yesterday evening\", \"drowsiness\", \"dry lips\"], \"duration\": \"since yesterday evening\", \"patient\": \"son, 4 years\", \"special_population\": [\"child\"], \"setting_requested\": \"unspecified\", \"severity\": \"severe\", \"preferences\": [\"soon\"]}",
+    "gold": "emergency_112",
+    "pred": "INVALID"
+   },
+   {
+    "facts": "{\"symptoms_present\": [\"fatigue\", \"weight loss\", \"difficulty breathing\", \"shortness of breath with minimal exertion\"], \"duration\": \"3 days\", \"patient\": \"wife, 45 years\", \"existing_conditions\": [\"overthinking\"], \"services_requested\": [\"medical checkup\"], \"setting_requested\": \"home_visit\", \"preferences\": [\"home\"]}",
+    "gold": "emergency_112",
+    "pred": "paramedic_home_visit"
+   },
+   {
+    "facts": "{\"patient\": \"father\", \"existing_conditions\": [\"recent surgery\"]}",
+    "gold": "need_more_info",
+    "pred": "home_nursing"
+   }
+  ]
+ }
+}

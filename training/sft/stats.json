@@ -3,10 +3,10 @@
   "rows": 1326,
   "by_target": {
    "home_nursing": 213,
-   "emergency_112": 485,
+   "emergency_112": 478,
    "lab_test_home": 148,
    "teleconsultation": 222,
-   "paramedic_home_visit": 223,
+   "paramedic_home_visit": 230,
    "need_more_info": 35
   },
   "by_lang": {
@@ -37,9 +37,9 @@
   "rows": 260,
   "by_target": {
    "lab_test_home": 42,
-   "paramedic_home_visit": 30,
+   "paramedic_home_visit": 32,
    "home_nursing": 46,
-   "emergency_112": 101,
+   "emergency_112": 99,
    "teleconsultation": 36,
    "need_more_info": 5
   },
@@ -61,19 +61,19 @@
   }
  },
  "how": {
-  "unanimous": 1393,
-  "manual review (recall-first)": 105,
+  "unanimous": 1402,
+  "manual review (recall-first)": 96,
   "adjudicated by gpt-5.4": 123,
   "adjudicated by gpt-oss-120b-high": 43,
   "manual review (overruled vote)": 17,
   "hand-written": 34
  },
- "changed_from_written_for": 410,
+ "changed_from_written_for": 402,
  "agreement_with_final": {
   "adjudicator": "177/198",
-  "gpt-5.4-mini": "1525/1681",
-  "gpt-oss-120b": "1439/1671",
-  "qwen": "1464/1680"
+  "gpt-5.4-mini": "1534/1681",
+  "gpt-oss-120b": "1448/1671",
+  "qwen": "1473/1680"
  },
  "by_generator": {
   "synthetic": 1431,
@@ -81,5 +81,5 @@
   "qwen": 209,
   "manual": 34
  },
- "emergency_rows_rules_missed": 404
+ "emergency_rows_rules_missed": 395
 }

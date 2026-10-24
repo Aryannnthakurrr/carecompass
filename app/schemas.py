@@ -81,6 +81,7 @@ class TriageResponse(BaseModel):
     # conversation control
     follow_up_kind: Optional[Literal["medical", "safety_check", "clarify", "redirect", "misheard"]] = None
     safety_note: Optional[str] = None  # shown with a safety_check question: "if this is happening right now, call 112"
+    conversation_ended: bool = False   # repeated non-health messages: closed politely (explanation holds the closing line)
 
 
 # ---------------------------------------------------------------- model I/O

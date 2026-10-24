@@ -3,7 +3,7 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
-from app import intake, llm
+from app import intake, llm, protocols
 from app.schemas import CaseFacts, Decision
 
 URGENCY_FOR_CARE = llm.CFG["labels"]["urgency_for_care"]
@@ -61,6 +61,8 @@ def payload(facts: CaseFacts, asked: list[str] = ()) -> str:
                 + json.dumps(list(asked), ensure_ascii=False))
     if facts.no_more_questions:
         out += "\nThe user wants no more questions: decide now."
+    if g := protocols.guide(facts):
+        out += "\n" + g
     return out
 
 
