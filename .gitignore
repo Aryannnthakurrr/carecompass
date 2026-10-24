@@ -31,3 +31,7 @@ data/*.db
 ios/build/
 ios/*.xcodeproj/xcuserdata/
 ios/*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Kaggle staging and downloads (training/kaggle_run.py)
+training/kaggle/
+models/kaggle/

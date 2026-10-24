@@ -119,11 +119,34 @@ def append(name, rows):
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
 
+# Out-of-money / out-of-quota errors stop the whole build at once. Retrying them burned the Cerebras account
+# and kept paying OpenAI for rows that could no longer be kept (24 Oct 2026).
+FATAL = ("402", "payment_required", "insufficient_quota", "RESOURCE_EXHAUSTED", "PerDay", "billing")
+HALT = threading.Event()
+
+
+class Halt(RuntimeError):
+    pass
+
+
+def halt(why):
+    if not HALT.is_set():
+        print(f"\n  HALT: {why}\n  Nothing more will be called. Rows finished so far are saved; rerun the stage to resume.", flush=True)
+    HALT.set()
+    raise Halt(why)
+
+
 def retry(fn, tries=4):
     for i in range(tries):
+        if HALT.is_set():
+            raise Halt("halted")
         try:
             return fn()
+        except Halt:
+            raise
         except Exception as e:  # noqa: BLE001 - rate limits and provider hiccups
+            if any(k in str(e) for k in FATAL):
+                halt(str(e)[:200])
             if i == tries - 1:
                 raise
             print(f"  retry {i + 1}: {str(e)[:120]}", flush=True)
@@ -137,11 +160,25 @@ def pmap(fn, items, workers):
         for i, f in enumerate(as_completed(futs), 1):
             try:
                 out.append(f.result())
+            except Halt:
+                for g in futs:
+                    g.cancel()
             except Exception as e:  # noqa: BLE001
                 print(f"  dropped: {str(e)[:160]}", flush=True)
             if i % 25 == 0:
                 print(f"  {i}/{len(items)}", flush=True)
     return [o for o in out if o]
+
+
+CALLS, CALL_CAPS = {}, {}  # requests per provider this run, and the --max-calls ceiling
+
+
+def count_call(endpoint):
+    with _lock:
+        CALLS[endpoint] = CALLS.get(endpoint, 0) + 1
+        n = CALLS[endpoint]
+    if n > CALL_CAPS.get(endpoint, float("inf")):
+        halt(f"{endpoint} request cap reached ({CALL_CAPS[endpoint]}); raise --max-calls-{endpoint} to continue")
 
 
 def chunks(items, n=100):
@@ -183,6 +220,7 @@ def ask(name, system, user, **override):
     endpoint, model, kw, price = MODELS[name]
     if not affordable(name):
         raise RuntimeError(f"{name} budget cap reached")
+    count_call(endpoint)
     msgs = ([{"role": "system", "content": system}] if system else []) + [{"role": "user", "content": user}]
     r = client(endpoint).chat.completions.create(model=model, messages=msgs, response_format={"type": "json_object"}, **{**kw, **override})
     if price:  # meter real usage; reasoning tokens are billed as output and are included in completion_tokens
@@ -280,6 +318,7 @@ def stage_facts(a):
     def one(r):
         *opener, last = r["turns"]
         history = [t for o in opener for t in (Turn(role="user", content=o), Turn(role="assistant", content=ASK[r["lang"]]))]
+        count_call("cerebras")  # the production structurer: Qwen on Cerebras
         facts = retry(lambda: intake.structure(history, last))
         raw_flags = redflags.detect(*r["turns"])
         lang = intake.guess_language(last) if r["source"] == "synthetic" else r["lang"]  # the generator sometimes switches script
@@ -291,6 +330,8 @@ def stage_facts(a):
         rows = pmap(one, chunk, a.workers)
         append("facts.jsonl", rows)
         n += len(rows)
+        if HALT.is_set():
+            break
     print(f"  +{n} facts")
 
 
@@ -342,6 +383,8 @@ def stage_label(a):
             panel = dict(zip(a.teachers, ex.map(lambda n: vote(n, user), a.teachers)))
         valid = [d for d in panel.values() if d]
         out = {**r, "votes": {n: lab(d) for n, d in panel.items()}, "written_for": r["target"]}
+        if HALT.is_set():
+            return None  # not labelled; a resumed run picks it up
         if len(valid) < 2:
             return {**out, "keep": False, "why": "fewer than two teachers answered"}
         if len({lab(d) for d in valid}) == 1:
@@ -375,6 +418,8 @@ def stage_label(a):
         append("review.jsonl", [r for r in rows if not r["keep"]])
         kept, review = kept + sum(r["keep"] for r in rows), review + sum(not r["keep"] for r in rows)
         save_spend()
+        if HALT.is_set():
+            break
         print(f"  kept {kept}, review {review}, OpenAI spend (all runs) {({k: round(v, 3) for k, v in SPEND.items()})}", flush=True)
 
 
@@ -389,7 +434,7 @@ def to_chat(r):
 
 
 def stage_export(a):
-    rows = read("labelled.jsonl")
+    rows = read("labelled.jsonl") + read("manual.jsonl")  # manual.jsonl: hand-written follow-up cases (manual_followups.py)
     # deduplicate identical inputs (the structurer often maps paraphrases to the same facts)
     uniq = {}
     for r in rows:
@@ -456,10 +501,18 @@ if __name__ == "__main__":
     ap.add_argument("--workers", type=int, default=8, help="rows in flight; each row calls every teacher at once")
     ap.add_argument("--generator", default="qwen", choices=["qwen", "gpt-oss-120b"])
     ap.add_argument("--teachers", default="gpt-oss-120b,gpt-5.4-mini,qwen", help="the voting panel; all must agree or gpt-5.4 adjudicates")
+    ap.add_argument("--max-calls-cerebras", type=int, default=1500, help="hard ceiling on Cerebras requests per run")
+    ap.add_argument("--max-calls-openai", type=int, default=1500, help="hard ceiling on OpenAI requests per run")
     ap.add_argument("--budget", type=float, default=3.75, help="max OpenAI USD across all runs (split mini 69%% / adjudicator 31%%); spend is kept in sft/spend.json")
     ap.add_argument("--seed", type=int, default=7)
     args = ap.parse_args()
     args.teachers = [t for t in args.teachers.split(",") if t]
+    CALL_CAPS.update(cerebras=args.max_calls_cerebras, openai=args.max_calls_openai)
+    if os.environ.get("CEREBRAS_TRAINING_API_KEY"):  # keep the live app's key out of bulk jobs (this process only)
+        os.environ["CEREBRAS_API_KEY"] = os.environ["CEREBRAS_TRAINING_API_KEY"]
     OUT.mkdir(parents=True, exist_ok=True)
     for st in (["generate", "facts", "label", "export"] if args.stage == "all" else [args.stage]):
+        if HALT.is_set():
+            sys.exit(2)
         globals()[f"stage_{st}"](args)
+    print(f"requests this run: {CALLS}")

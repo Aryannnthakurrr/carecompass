@@ -1,51 +1,52 @@
 {
  "train": {
-  "rows": 1249,
+  "rows": 1274,
   "by_target": {
-   "paramedic_home_visit": 276,
-   "emergency_112": 393,
-   "lab_test_home": 153,
-   "home_nursing": 228,
-   "teleconsultation": 194,
-   "need_more_info": 5
+   "paramedic_home_visit": 266,
+   "emergency_112": 404,
+   "teleconsultation": 193,
+   "lab_test_home": 152,
+   "home_nursing": 226,
+   "need_more_info": 33
   },
   "by_lang": {
-   "hinglish": 417,
-   "en": 466,
-   "hi": 366
+   "hi": 369,
+   "en": 483,
+   "hinglish": 422
   },
-  "organiser": 32
+  "organiser": 31
  },
  "val": {
-  "rows": 188,
+  "rows": 170,
   "by_target": {
-   "teleconsultation": 32,
-   "emergency_112": 76,
-   "home_nursing": 21,
-   "paramedic_home_visit": 32,
+   "emergency_112": 63,
+   "paramedic_home_visit": 36,
    "lab_test_home": 24,
-   "need_more_info": 3
+   "home_nursing": 19,
+   "need_more_info": 3,
+   "teleconsultation": 25
   },
   "by_lang": {
-   "hinglish": 56,
-   "en": 88,
-   "hi": 44
+   "hinglish": 44,
+   "en": 92,
+   "hi": 34
   },
-  "organiser": 3
+  "organiser": 4
  },
  "test": {
-  "rows": 227,
+  "rows": 254,
   "by_target": {
-   "home_nursing": 41,
-   "emergency_112": 71,
-   "paramedic_home_visit": 49,
-   "teleconsultation": 38,
-   "lab_test_home": 28
+   "paramedic_home_visit": 55,
+   "emergency_112": 73,
+   "teleconsultation": 46,
+   "home_nursing": 45,
+   "lab_test_home": 29,
+   "need_more_info": 6
   },
   "by_lang": {
-   "hinglish": 87,
-   "hi": 73,
-   "en": 67
+   "hinglish": 94,
+   "hi": 80,
+   "en": 80
   },
   "organiser": 6
  },
@@ -62,7 +63,8 @@
  "how": {
   "unanimous": 1483,
   "adjudicated by gpt-5.4": 136,
-  "adjudicated by gpt-oss-120b-high": 45
+  "adjudicated by gpt-oss-120b-high": 45,
+  "hand-written": 34
  },
  "changed_from_written_for": 343,
  "agreement_with_final": {
@@ -74,7 +76,8 @@
  "by_generator": {
   "synthetic": 1431,
   "organiser": 41,
-  "qwen": 192
+  "qwen": 192,
+  "manual": 34
  },
  "emergency_rows_rules_missed": 293
 }
