@@ -147,13 +147,45 @@ def normalize_phone(raw: str) -> str:
 HTTPSMS_URL = "https://api.httpsms.com/v1/messages/send"
 
 
-def sms_configured() -> bool:
+def twilio_configured() -> bool:
+    return all(os.getenv(k) for k in ("TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_VERIFY_SID"))
+
+
+def httpsms_configured() -> bool:
     return bool(os.getenv("HTTPSMS_API_KEY") and os.getenv("HTTPSMS_FROM"))
 
 
+def sms_configured() -> bool:
+    return twilio_configured() or httpsms_configured()
+
+
+def _twilio(path: str, **data) -> requests.Response:
+    """Twilio Verify generates, sends and checks the code (and handles India's DLT rules for us)."""
+    return requests.post(
+        f"https://verify.twilio.com/v2/Services/{os.environ['TWILIO_VERIFY_SID']}/{path}", data=data,
+        auth=(os.environ["TWILIO_ACCOUNT_SID"], os.environ["TWILIO_AUTH_TOKEN"]), timeout=10,
+    )
+
+
+def twilio_check(phone: str, code: str) -> bool:
+    r = _twilio("VerificationCheck", To=phone, Code=code)
+    if not r.ok and r.status_code not in (404, 429):  # 404/429: expired or too many tries, i.e. not approved
+        log.error("Twilio check failed: %s %s", r.status_code, r.text[:300])
+        raise HTTPException(502, "Couldn't check the code. Please try again.")
+    return r.ok and r.json().get("status") == "approved"
+
+
 def send_sms(phone: str, code: str) -> None:
-    """Deliver the code through httpSMS (an Android phone acting as the gateway); dev mode only logs it."""
-    if not sms_configured():
+    """Deliver the code: Twilio Verify (sends its own code), else httpSMS (an Android phone as gateway); dev mode only logs it."""
+    if twilio_configured():
+        r = _twilio("Verifications", To=phone, Channel="sms")
+        if not r.ok:
+            log.error("Twilio send failed: %s %s", r.status_code, r.text[:300])
+            if r.json().get("code") == 21608:  # trial accounts can only text numbers verified in the console
+                raise HTTPException(502, "This number isn't verified on the Twilio trial account yet.")
+            raise HTTPException(502, "Couldn't send the SMS. Please try again.")
+        return
+    if not httpsms_configured():
         log.warning("OTP for %s: %s (dev mode, not sent by SMS)", phone, code)
         return
     r = requests.post(
@@ -179,7 +211,7 @@ class OtpIn(PhoneIn):
 @router.post("/otp/send")
 def otp_send(body: PhoneIn):
     if not (sms_configured() or otp_dev_mode()):
-        raise HTTPException(503, "Phone sign-in needs HTTPSMS_API_KEY and HTTPSMS_FROM (or OTP_DEV_MODE=1 for the demo)")
+        raise HTTPException(503, "Phone sign-in needs Twilio (TWILIO_*) or httpSMS (HTTPSMS_*) keys, or OTP_DEV_MODE=1 for the demo")
     phone = normalize_phone(body.phone)
     now = int(time.time())
     with db.connect() as con:
@@ -211,6 +243,8 @@ def otp_send(body: PhoneIn):
 def otp_verify(body: OtpIn, response: Response):
     phone = normalize_phone(body.phone)
     now = int(time.time())
+    # Twilio owns the code when it sent it; ask it first, outside the DB transaction (it's a network call).
+    approved = twilio_check(phone, body.code) if twilio_configured() else None
     # Decide inside the transaction, raise after it, so a wrong-attempt count is committed.
     with db.connect() as con:
         row = con.execute("SELECT * FROM otps WHERE phone = ?", (phone,)).fetchone()
@@ -218,7 +252,7 @@ def otp_verify(body: OtpIn, response: Response):
             error = (400, "Code expired. Ask for a new one.")
         elif row["attempts"] >= OTP_MAX_ATTEMPTS:
             error = (429, "Too many wrong tries. Ask for a new code.")
-        elif not hmac.compare_digest(row["code_hash"], _code_hash(phone, body.code)):
+        elif not (approved if approved is not None else hmac.compare_digest(row["code_hash"], _code_hash(phone, body.code))):
             con.execute("UPDATE otps SET attempts = attempts + 1 WHERE phone = ?", (phone,))
             error = (400, "Wrong code")
         else:
