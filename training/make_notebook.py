@@ -29,8 +29,8 @@ Gemma 3 notebook: MedGemma 4B is a Gemma 3 4B fine-tune, so their Gemma 3 recipe
 MedGemma is under Google's Health AI Developer Foundations terms; the fine-tune inherits them.
 """)
 code("""
-# Parameters. training/kaggle_run.py rewrites these two lines for each run (MedGemma vs plain Gemma 3).
-MODEL_NAME = "unsloth/medgemma-4b-it"   # VERIFY name; not gated on HF. Control: "unsloth/gemma-3-4b-it"
+# Parameters. training/kaggle_run.py rewrites these two lines for each run.
+MODEL_NAME = "unsloth/medgemma-4b-it"   # not gated on HF; Google HAI-DEF terms apply
 RUN = "medgemma"
 EXPORT_GGUF = True
 """)

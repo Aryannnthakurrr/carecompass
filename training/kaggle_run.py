@@ -9,7 +9,7 @@ Then:
   python training/kaggle_run.py wait                # poll until every run finishes
   python training/kaggle_run.py pull                # metrics -> pick winner -> GGUF -> ollama create -> local eval
 
-Candidates: MedGemma 4B-it vs plain Gemma 3 4B-it (does medical pretraining help routing?).
+Trains MedGemma 4B-it only (the model the app runs). Add an entry to CANDIDATES to train another model the same way.
 """
 import argparse
 import json
@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 STAGE = ROOT / "training" / "kaggle"
 OUT = ROOT / "models" / "kaggle"
 KAGGLE = str(Path(sys.executable).with_name("kaggle.exe" if sys.platform == "win32" else "kaggle"))
-CANDIDATES = {"medgemma": "unsloth/medgemma-4b-it", "gemma3": "unsloth/gemma-3-4b-it"}
+CANDIDATES = {"medgemma": "unsloth/medgemma-4b-it"}
 DATASET_SLUG = "carecompass-sft"
 OLLAMA_NAME = "carecompass-triage"
 
