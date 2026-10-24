@@ -14,6 +14,7 @@
 		6BE65716934149F0F2A4C4D5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C192719AFCF3961EFFDAA10 /* HomeView.swift */; };
 		8555ED52D97D626AA2CD9A01 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20786EF4454A6296F121693F /* ProfileView.swift */; };
 		8A9D648824D3D2CD19A986A2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D55C33D009FAE835AF4A15B /* Theme.swift */; };
+		96996D9942F45B76FB4A1443 /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DBAEB2862C707A1DEA465A /* Shortcuts.swift */; };
 		96EB4F11D18E5FF8C9BB0471 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B215EC5858EF245F5B542AF4 /* AppState.swift */; };
 		BE3DA26A676AA25A7826D779 /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613E2A19EC8B1850881E34A5 /* Booking.swift */; };
 		DA8329462570EC8067329B99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D2F959DB6D39D58438B3AD6 /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 		33441990590B3A27EF94E4CC /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
 		4D2F959DB6D39D58438B3AD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		613E2A19EC8B1850881E34A5 /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
+		70DBAEB2862C707A1DEA465A /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
 		9F25716C5C3CAE07A50FEDAB /* SOSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SOSView.swift; sourceTree = "<group>"; };
 		B215EC5858EF245F5B542AF4 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		CB85F7B23166503611F1EA29 /* CareCompass.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CareCompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,6 +68,7 @@
 				2C192719AFCF3961EFFDAA10 /* HomeView.swift */,
 				DFD241023F791FBCF127D649 /* Info.plist */,
 				20786EF4454A6296F121693F /* ProfileView.swift */,
+				70DBAEB2862C707A1DEA465A /* Shortcuts.swift */,
 				9F25716C5C3CAE07A50FEDAB /* SOSView.swift */,
 				0D55C33D009FAE835AF4A15B /* Theme.swift */,
 			);
@@ -152,6 +155,7 @@
 				6BE65716934149F0F2A4C4D5 /* HomeView.swift in Sources */,
 				8555ED52D97D626AA2CD9A01 /* ProfileView.swift in Sources */,
 				FF6139586BE5A822AF500900 /* SOSView.swift in Sources */,
+				96996D9942F45B76FB4A1443 /* Shortcuts.swift in Sources */,
 				8A9D648824D3D2CD19A986A2 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
