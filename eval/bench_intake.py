@@ -33,7 +33,7 @@ CASES = [
 
 gem = genai.Client(api_key=require_env("GEMINI_API_KEY"))
 sarvam = SarvamAI(api_subscription_key=require_env("SARVAM_API_KEY"))
-ollama = OpenAI(base_url=CFG["models"]["triage"]["base_url"], api_key="ollama")
+ollama = OpenAI(base_url=CFG["models"]["local_fallback"]["base_url"], api_key="ollama")
 
 
 def gemini(model, thinking_level=None):
@@ -92,7 +92,7 @@ CANDIDATES = {
     "gemini-3.8-flash (minimal)": gemini("gemini-3.8-flash", "minimal"),
     "gemini-flash-lite-latest": gemini("gemini-flash-lite-latest"),
     "sarvam-105b (low)": sarvam_chat("sarvam-105b"),
-    "medgemma-4b local": local(CFG["models"]["triage"]["model"]),
+    "medgemma-4b local": local(CFG["models"]["local_fallback"]["model"]),
 }
 
 

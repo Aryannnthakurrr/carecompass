@@ -1,0 +1,541 @@
+{
+ "sarvam mayura:v1": {
+  "summary": {
+   "ok": "20/20",
+   "symptom_terms_found(keyword)": 0.531,
+   "negations_preserved(keyword)": "3/4",
+   "median_s": 1.25,
+   "p90_s": 1.59,
+   "max_s": 1.87
+  },
+  "rows": [
+   {
+    "id": "H1",
+    "ok": true,
+    "groups": 2,
+    "hit": 2,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.79,
+    "out": "Papa has had a fever and cough for two days."
+   },
+   {
+    "id": "H2",
+    "ok": true,
+    "groups": 2,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.23,
+    "out": "Mom has been feeling dizzy since morning and vomited twice, takes BP medicine, age 62"
+   },
+   {
+    "id": "H3",
+    "ok": true,
+    "groups": 2,
+    "hit": 2,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 1.31,
+    "out": "Brother is having seizures and he has fainted."
+   },
+   {
+    "id": "H4",
+    "ok": true,
+    "groups": 1,
+    "hit": 0,
+    "neg_total": 1,
+    "neg_ok": 1,
+    "red_flag": false,
+    "latency": 1.24,
+    "out": "I have been having pain in my stomach for three days, I don't have a fever, I am able to eat."
+   },
+   {
+    "id": "H5",
+    "ok": true,
+    "groups": 2,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 1.16,
+    "out": "Grandmother is having a lot of difficulty breathing and her lips are turning blue."
+   },
+   {
+    "id": "H6",
+    "ok": true,
+    "groups": 2,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.59,
+    "out": "Son, you are 5 years old, have had a headache since last night, and a slight fever too."
+   },
+   {
+    "id": "H7",
+    "ok": true,
+    "groups": 2,
+    "hit": 0,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.2,
+    "out": "There is burning sensation in the urine for two days, and I have to go frequently."
+   },
+   {
+    "id": "H8",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.26,
+    "out": "Nana Ji had an operation, an injection needs to be given at home, and dressing needs to be done."
+   },
+   {
+    "id": "H9",
+    "ok": true,
+    "groups": 2,
+    "hit": 0,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 1.32,
+    "out": "There is pain in the side and also in the left hand, Umar 48"
+   },
+   {
+    "id": "H10",
+    "ok": true,
+    "groups": 2,
+    "hit": 0,
+    "neg_total": 1,
+    "neg_ok": 1,
+    "red_flag": false,
+    "latency": 1.23,
+    "out": "There is a rash in the throat and the nose is running for a week, no fever."
+   },
+   {
+    "id": "D1",
+    "ok": true,
+    "groups": 2,
+    "hit": 2,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 1.28,
+    "out": "My mother has been having chest pain and sweating since morning"
+   },
+   {
+    "id": "D2",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.37,
+    "out": "My son has had a high fever for three days, age 10 years"
+   },
+   {
+    "id": "D3",
+    "ok": true,
+    "groups": 2,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.41,
+    "out": "My father has been having pain in his knees for several months, and he has difficulty walking"
+   },
+   {
+    "id": "D4",
+    "ok": true,
+    "groups": 2,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 1.41,
+    "out": "Grandfather's face is tilted to one side, and he has difficulty speaking"
+   },
+   {
+    "id": "D5",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 1,
+    "neg_ok": 1,
+    "red_flag": false,
+    "latency": 1.18,
+    "out": "I have been having diarrhea for two days, no vomiting"
+   },
+   {
+    "id": "D6",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 1.17,
+    "out": "My wife accidentally drank insecticide"
+   },
+   {
+    "id": "D7",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.22,
+    "out": "My mother has diabetes, and she has a wound on her foot that is not healing, for two weeks"
+   },
+   {
+    "id": "D8",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 1,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.21,
+    "out": "The child has had a cough since last night, no difficulty in breathing, age 4 years"
+   },
+   {
+    "id": "D9",
+    "ok": true,
+    "groups": 2,
+    "hit": 0,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 1.16,
+    "out": "I am feeling very anxious and I don't feel like living"
+   },
+   {
+    "id": "D10",
+    "ok": true,
+    "groups": 1,
+    "hit": 0,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.87,
+    "out": "\"An ailing father, 80 years old, is in bed and is dependent on a nurse for care.\""
+   }
+  ]
+ },
+ "sarvam-translate:v1": {
+  "summary": {
+   "ok": "0/20",
+   "symptom_terms_found(keyword)": 0.0,
+   "negations_preserved(keyword)": "0/0"
+  },
+  "rows": [
+   {
+    "id": "H1",
+    "ok": false
+   },
+   {
+    "id": "H2",
+    "ok": false
+   },
+   {
+    "id": "H3",
+    "ok": false
+   },
+   {
+    "id": "H4",
+    "ok": false
+   },
+   {
+    "id": "H5",
+    "ok": false
+   },
+   {
+    "id": "H6",
+    "ok": false
+   },
+   {
+    "id": "H7",
+    "ok": false
+   },
+   {
+    "id": "H8",
+    "ok": false
+   },
+   {
+    "id": "H9",
+    "ok": false
+   },
+   {
+    "id": "H10",
+    "ok": false
+   },
+   {
+    "id": "D1",
+    "ok": false
+   },
+   {
+    "id": "D2",
+    "ok": false
+   },
+   {
+    "id": "D3",
+    "ok": false
+   },
+   {
+    "id": "D4",
+    "ok": false
+   },
+   {
+    "id": "D5",
+    "ok": false
+   },
+   {
+    "id": "D6",
+    "ok": false
+   },
+   {
+    "id": "D7",
+    "ok": false
+   },
+   {
+    "id": "D8",
+    "ok": false
+   },
+   {
+    "id": "D9",
+    "ok": false
+   },
+   {
+    "id": "D10",
+    "ok": false
+   }
+  ]
+ },
+ "gemini-3.5-flash-lite": {
+  "summary": {
+   "ok": "18/20",
+   "symptom_terms_found(keyword)": 0.571,
+   "negations_preserved(keyword)": "4/4",
+   "median_s": 1.65,
+   "p90_s": 3.26,
+   "max_s": 18.46
+  },
+  "rows": [
+   {
+    "id": "H1",
+    "ok": true,
+    "groups": 2,
+    "hit": 2,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.86,
+    "out": "Dad has had a fever and a cough for two days."
+   },
+   {
+    "id": "H2",
+    "ok": true,
+    "groups": 2,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.2,
+    "out": "My 62-year-old mother has been feeling dizzy since this morning and has vomited twice. She takes blood pressure medication."
+   },
+   {
+    "id": "H3",
+    "ok": false
+   },
+   {
+    "id": "H4",
+    "ok": true,
+    "groups": 1,
+    "hit": 0,
+    "neg_total": 1,
+    "neg_ok": 1,
+    "red_flag": false,
+    "latency": 18.46,
+    "out": "I have had pain in my stomach for three days, I don't have a fever, and I am able to eat."
+   },
+   {
+    "id": "H5",
+    "ok": true,
+    "groups": 2,
+    "hit": 0,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 1.48,
+    "out": "My grandmother is having a lot of trouble breathing and her lips are turning blue."
+   },
+   {
+    "id": "H6",
+    "ok": true,
+    "groups": 2,
+    "hit": 2,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 2.14,
+    "out": "My 5-year-old son has had ear pain since last night, along with a mild fever."
+   },
+   {
+    "id": "H7",
+    "ok": true,
+    "groups": 2,
+    "hit": 0,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 3.26,
+    "out": "I have been experiencing a burning sensation when urinating for the past two days, and I need to go very frequently."
+   },
+   {
+    "id": "H8",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.87,
+    "out": "My grandfather had surgery, and we need to get an injection and have his dressing changed at home."
+   },
+   {
+    "id": "H9",
+    "ok": true,
+    "groups": 2,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 2.12,
+    "out": "I am having chest pain and also in my left arm, age 48."
+   },
+   {
+    "id": "H10",
+    "ok": true,
+    "groups": 2,
+    "hit": 2,
+    "neg_total": 1,
+    "neg_ok": 1,
+    "red_flag": false,
+    "latency": 2.11,
+    "out": "I have a sore throat and a runny nose for a week, no fever."
+   },
+   {
+    "id": "D1",
+    "ok": true,
+    "groups": 2,
+    "hit": 2,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 1.12,
+    "out": "My mother has been having chest pain and sweating since morning."
+   },
+   {
+    "id": "D2",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.82,
+    "out": "My 10-year-old son has had a high fever for three days."
+   },
+   {
+    "id": "D3",
+    "ok": false
+   },
+   {
+    "id": "D4",
+    "ok": true,
+    "groups": 2,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 6.06,
+    "out": "Grandfather's face has drooped on one side and he is having trouble speaking."
+   },
+   {
+    "id": "D5",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 1,
+    "neg_ok": 1,
+    "red_flag": false,
+    "latency": 1.16,
+    "out": "I have had diarrhea for two days, no vomiting."
+   },
+   {
+    "id": "D6",
+    "ok": true,
+    "groups": 1,
+    "hit": 0,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 0.61,
+    "out": "My wife accidentally drank bug spray."
+   },
+   {
+    "id": "D7",
+    "ok": true,
+    "groups": 1,
+    "hit": 0,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 1.18,
+    "out": "Mom has diabetes and has had a sore on her foot that won't heal for two weeks."
+   },
+   {
+    "id": "D8",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 1,
+    "neg_ok": 1,
+    "red_flag": false,
+    "latency": 1.02,
+    "out": "The child has had a cough since last night, no difficulty breathing, age 4 years."
+   },
+   {
+    "id": "D9",
+    "ok": true,
+    "groups": 2,
+    "hit": 0,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": true,
+    "latency": 0.91,
+    "out": "I am feeling very anxious and don't feel like living."
+   },
+   {
+    "id": "D10",
+    "ok": true,
+    "groups": 1,
+    "hit": 1,
+    "neg_total": 0,
+    "neg_ok": 0,
+    "red_flag": false,
+    "latency": 0.68,
+    "out": "My 80-year-old elderly father is bedridden, and I need a nurse to care for him."
+   }
+  ]
+ }
+}

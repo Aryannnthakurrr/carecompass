@@ -1,0 +1,3374 @@
+{
+ "gemini-3.5-flash-lite": {
+  "summary": {
+   "valid_json": "30/30",
+   "symptom_recall": 0.979,
+   "unmatched_extra_symptoms": 1,
+   "negation_leaks": "0/7",
+   "negations_captured": "7/7",
+   "red_flag_cases_fully_kept": "11/11",
+   "age_correct": "10/10",
+   "language_correct": "30/30",
+   "follow_up_right_script": "22/23",
+   "median_s": 2.4,
+   "p90_s": 4.13,
+   "max_s": 11.53
+  },
+  "rows": [
+   {
+    "id": "E1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 1.74,
+    "out": {
+     "symptoms_en": [
+      "fever",
+      "dry cough"
+     ],
+     "negated_symptoms_en": [
+      "breathlessness"
+     ],
+     "duration": "three days",
+     "patient_age": "70 years",
+     "severity": "moderate",
+     "missing_slots": [],
+     "follow_up_question": null,
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E2",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 2,
+    "neg_leak": 0,
+    "neg_caught": 2,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 11.53,
+    "out": {
+     "symptoms_en": [
+      "headache"
+     ],
+     "negated_symptoms_en": [
+      "vomiting",
+      "blurred vision"
+     ],
+     "duration": "since this morning",
+     "patient_age": null,
+     "severity": "mild",
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "Could you please tell me your age?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E3",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 1.0,
+    "out": {
+     "symptoms_en": [
+      "right arm weakness",
+      "slurred speech"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "20 minutes",
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "What is the patient's age?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E4",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 1.93,
+    "out": {
+     "symptoms_en": [
+      "fever",
+      "elevated temperature"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since last night",
+     "patient_age": "2 months",
+     "severity": "moderate",
+     "missing_slots": [],
+     "follow_up_question": null,
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E5",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 1.07,
+    "out": {
+     "symptoms_en": [
+      "surgical wound dressing change required"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "1 week",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "Could you please let me know your grandfather's age?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E6",
+    "valid": true,
+    "groups": 3,
+    "hit": 3,
+    "extra": 0,
+    "n_pred": 3,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 1.53,
+    "out": {
+     "symptoms_en": [
+      "hyperglycemia",
+      "excessive thirst",
+      "fatigue"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since yesterday",
+     "patient_age": null,
+     "severity": "moderate",
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "What is your husband's age?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E7",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 1.15,
+    "out": {
+     "symptoms_en": [
+      "chest tightness",
+      "excessive sweating"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "55 years",
+     "severity": "severe",
+     "missing_slots": [
+      "duration"
+     ],
+     "follow_up_question": "How long have you been experiencing chest tightness?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E8",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 1.41,
+    "out": {
+     "symptoms_en": [
+      "diarrhea"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since morning",
+     "patient_age": "8 years",
+     "severity": "moderate",
+     "missing_slots": [],
+     "follow_up_question": null,
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E9",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 1.49,
+    "out": {
+     "symptoms_en": [
+      "knee pain",
+      "worse on climbing stairs"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "6 months",
+     "patient_age": null,
+     "severity": "moderate",
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "What is the patient's age?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E10",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 0.97,
+    "out": {
+     "symptoms_en": [
+      "vaginal bleeding"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "duration",
+      "severity of bleeding",
+      "associated pain"
+     ],
+     "follow_up_question": "How heavy is the bleeding, and is she experiencing any abdominal pain or cramping?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "H1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": false,
+    "latency": 1.08,
+    "out": {
+     "symptoms_en": [
+      "fever",
+      "cough"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "2 days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "पापा की उम्र कितनी है और क्या उन्हें इसके साथ और कोई तकलीफ है?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H2",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 1.37,
+    "out": {
+     "symptoms_en": [
+      "dizziness",
+      "vomiting"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since morning",
+     "patient_age": "62 years",
+     "severity": null,
+     "missing_slots": [],
+     "follow_up_question": null,
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H3",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 1.69,
+    "out": {
+     "symptoms_en": [
+      "seizures",
+      "loss of consciousness"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "patient_age",
+      "duration"
+     ],
+     "follow_up_question": "Yeh kitni der se ho raha hai aur patient ki umar kya hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H4",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 1.41,
+    "out": {
+     "symptoms_en": [
+      "abdominal pain"
+     ],
+     "negated_symptoms_en": [
+      "fever"
+     ],
+     "duration": "three days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "Aapki umar kitni hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H5",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 2.24,
+    "out": {
+     "symptoms_en": [
+      "severe breathing difficulty",
+      "cyanosis"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "duration",
+      "patient_age"
+     ],
+     "follow_up_question": "Yeh takleef kab se hai aur dadi ji ki umar kitni hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H6",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 7.87,
+    "out": {
+     "symptoms_en": [
+      "earache",
+      "mild fever"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "kal raat se",
+     "patient_age": "5 years",
+     "severity": "mild",
+     "missing_slots": [],
+     "follow_up_question": null,
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H7",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 2.37,
+    "out": {
+     "symptoms_en": [
+      "burning urination",
+      "frequent urination"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "two days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "Kya aapki umar kitni hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H8",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 2.48,
+    "out": {
+     "symptoms_en": [
+      "post-operative state"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "duration"
+     ],
+     "follow_up_question": "Nana ji ki umar kitni hai aur unka operation kab hua tha?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H9",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.09,
+    "out": {
+     "symptoms_en": [
+      "chest pain",
+      "left arm pain"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "48 years",
+     "severity": "severe",
+     "missing_slots": [
+      "duration"
+     ],
+     "follow_up_question": "Yeh dard kab se shuru hua hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H10",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.51,
+    "out": {
+     "symptoms_en": [
+      "throat irritation",
+      "rhinorrhea"
+     ],
+     "negated_symptoms_en": [
+      "fever"
+     ],
+     "duration": "1 week",
+     "patient_age": null,
+     "severity": "mild",
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "Patient ki umar (age) kitni hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "D1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.34,
+    "out": {
+     "symptoms_en": [
+      "chest pain",
+      "sweating"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since morning",
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "आपकी माता जी की उम्र कितनी है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D2",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 3.27,
+    "out": {
+     "symptoms_en": [
+      "high fever"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "3 days",
+     "patient_age": "10 years",
+     "severity": "severe",
+     "missing_slots": [],
+     "follow_up_question": null,
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D3",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.61,
+    "out": {
+     "symptoms_en": [
+      "knee pain",
+      "difficulty walking"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "several months",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "पिताजी की उम्र क्या है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D4",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 2.42,
+    "out": {
+     "symptoms_en": [
+      "facial asymmetry",
+      "speech difficulty"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "elderly",
+     "severity": "severe",
+     "missing_slots": [
+      "patient_age",
+      "duration"
+     ],
+     "follow_up_question": "दादाजी की उम्र कितनी है और यह समस्या कब से शुरू हुई है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D5",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 2.75,
+    "out": {
+     "symptoms_en": [
+      "diarrhea"
+     ],
+     "negated_symptoms_en": [
+      "vomiting"
+     ],
+     "duration": "2 days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "मरीज की आयु कितनी है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D6",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.77,
+    "out": {
+     "symptoms_en": [
+      "accidental pesticide ingestion"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "duration",
+      "patient_age"
+     ],
+     "follow_up_question": "क्या आपकी पत्नी को अभी उल्टी, चक्कर या सांस लेने में तकलीफ हो रही है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D7",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 4.43,
+    "out": {
+     "symptoms_en": [
+      "non-healing foot ulcer"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "2 weeks",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "माता जी की उम्र कितनी है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D8",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 3.47,
+    "out": {
+     "symptoms_en": [
+      "cough"
+     ],
+     "negated_symptoms_en": [
+      "difficulty breathing"
+     ],
+     "duration": "since last night",
+     "patient_age": "4 years",
+     "severity": null,
+     "missing_slots": [],
+     "follow_up_question": null,
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D9",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.95,
+    "out": {
+     "symptoms_en": [
+      "severe anxiety",
+      "suicidal ideation"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "duration",
+      "patient_age"
+     ],
+     "follow_up_question": "क्या आप अपनी उम्र और यह घबराहट कितने दिनों से महसूस हो रही है, बता सकते हैं?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D10",
+    "valid": true,
+    "groups": 1,
+    "hit": 0,
+    "extra": 0,
+    "n_pred": 0,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 4.13,
+    "out": {
+     "symptoms_en": [],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "80 years",
+     "severity": null,
+     "missing_slots": [
+      "symptoms_en",
+      "duration"
+     ],
+     "follow_up_question": "आपके पिताजी को क्या तकलीफ है या किस प्रकार की देखभाल की आवश्यकता है?",
+     "detected_language": "hi"
+    }
+   }
+  ]
+ },
+ "gemma-4-26b-a4b": {
+  "summary": {
+   "valid_json": "30/30",
+   "symptom_recall": 0.957,
+   "unmatched_extra_symptoms": 2,
+   "negation_leaks": "0/7",
+   "negations_captured": "7/7",
+   "red_flag_cases_fully_kept": "11/11",
+   "age_correct": "10/10",
+   "language_correct": "30/30",
+   "follow_up_right_script": "27/28",
+   "median_s": 3.68,
+   "p90_s": 3.96,
+   "max_s": 4.15
+  },
+  "rows": [
+   {
+    "id": "E1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.82,
+    "out": {
+     "symptoms_en": [
+      "fever",
+      "dry cough"
+     ],
+     "negated_symptoms_en": [
+      "breathlessness",
+      "loss of appetite"
+     ],
+     "duration": "3 days",
+     "patient_age": "70 years",
+     "severity": null,
+     "missing_slots": [
+      "severity"
+     ],
+     "follow_up_question": "How severe is the fever and cough?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E2",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 2,
+    "neg_leak": 0,
+    "neg_caught": 2,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.66,
+    "out": {
+     "symptoms_en": [
+      "mild headache"
+     ],
+     "negated_symptoms_en": [
+      "vomiting",
+      "blurred vision"
+     ],
+     "duration": "since this morning",
+     "patient_age": null,
+     "severity": "mild",
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "How old are you?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E3",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.59,
+    "out": {
+     "symptoms_en": [
+      "right arm paralysis",
+      "slurred speech"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "20 minutes",
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "How old is your mother?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E4",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.45,
+    "out": {
+     "symptoms_en": [
+      "fever"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since last night",
+     "patient_age": "2 months",
+     "severity": "moderate",
+     "missing_slots": [
+      "severity"
+     ],
+     "follow_up_question": "Is the baby showing any other symptoms like cough or vomiting?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E5",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.48,
+    "out": {
+     "symptoms_en": [
+      "surgical wound"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since last week",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "How old is your grandfather?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E6",
+    "valid": true,
+    "groups": 3,
+    "hit": 3,
+    "extra": 0,
+    "n_pred": 3,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.61,
+    "out": {
+     "symptoms_en": [
+      "hyperglycemia",
+      "polydipsia",
+      "fatigue"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since yesterday",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "How old is your husband?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E7",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.75,
+    "out": {
+     "symptoms_en": [
+      "chest tightness",
+      "diaphoresis"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "55 years",
+     "severity": null,
+     "missing_slots": [
+      "duration",
+      "severity"
+     ],
+     "follow_up_question": "How long have you been feeling this tightness and sweating?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E8",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 3.25,
+    "out": {
+     "symptoms_en": [
+      "loose motions"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since morning",
+     "patient_age": "8 years",
+     "severity": "mild",
+     "missing_slots": [
+      "severity"
+     ],
+     "follow_up_question": null,
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E9",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 4.1,
+    "out": {
+     "symptoms_en": [
+      "knee pain",
+      "pain aggravated by climbing stairs"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "6 months",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "How old are you, and how severe is the pain on a scale of 1 to 10?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E10",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.65,
+    "out": {
+     "symptoms_en": [
+      "vaginal bleeding"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "7 months pregnant",
+     "severity": null,
+     "missing_slots": [
+      "duration",
+      "severity"
+     ],
+     "follow_up_question": "How long has the bleeding been occurring and how heavy is it?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "H1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 4.03,
+    "out": {
+     "symptoms_en": [
+      "fever",
+      "cough"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "2 days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "Aapke papa ki umar kya hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H2",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.7,
+    "out": {
+     "symptoms_en": [
+      "dizziness",
+      "vomiting"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since morning",
+     "patient_age": "62 years",
+     "severity": null,
+     "missing_slots": [
+      "severity"
+     ],
+     "follow_up_question": "Kya unhe chakkar ke saath sar dard ya koi aur takleef bhi ho rahi hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H3",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.89,
+    "out": {
+     "symptoms_en": [
+      "seizures",
+      "loss of consciousness"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "patient_age",
+      "duration"
+     ],
+     "follow_up_question": "Bhai ki umar kya hai aur ye kab se ho raha hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H4",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.73,
+    "out": {
+     "symptoms_en": [
+      "abdominal pain"
+     ],
+     "negated_symptoms_en": [
+      "fever"
+     ],
+     "duration": "3 days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "Aapki umar kya hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H5",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.76,
+    "out": {
+     "symptoms_en": [
+      "difficulty breathing",
+      "cyanosis of lips"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "duration",
+      "patient_age"
+     ],
+     "follow_up_question": "Dadi ki umar kya hai aur ye kab se ho raha hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H6",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.66,
+    "out": {
+     "symptoms_en": [
+      "ear pain",
+      "fever"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since last night",
+     "patient_age": "5 years",
+     "severity": null,
+     "missing_slots": [
+      "severity"
+     ],
+     "follow_up_question": "Dard kitna zyada hai, mild hai ya severe?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H7",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.66,
+    "out": {
+     "symptoms_en": [
+      "dysuria",
+      "increased urinary frequency"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "2 days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "Aapki umar kya hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H8",
+    "valid": true,
+    "groups": 1,
+    "hit": 0,
+    "extra": 0,
+    "n_pred": 0,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.64,
+    "out": {
+     "symptoms_en": [],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "symptoms_en",
+      "duration"
+     ],
+     "follow_up_question": "Nana ji ki umar kya hai aur unhe kya takleef ho rahi hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H9",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.81,
+    "out": {
+     "symptoms_en": [
+      "chest pain",
+      "left arm pain"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "48 years",
+     "severity": null,
+     "missing_slots": [
+      "duration",
+      "severity"
+     ],
+     "follow_up_question": "Dard kab se ho raha hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H10",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.8,
+    "out": {
+     "symptoms_en": [
+      "sore throat",
+      "runny nose"
+     ],
+     "negated_symptoms_en": [
+      "fever"
+     ],
+     "duration": "one week",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "Aapki umar kya hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "D1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.63,
+    "out": {
+     "symptoms_en": [
+      "chest pain",
+      "sweating"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since morning",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "आपकी माताजी की उम्र क्या है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D2",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 3.04,
+    "out": {
+     "symptoms_en": [
+      "high fever"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "3 days",
+     "patient_age": "10 years",
+     "severity": "severe",
+     "missing_slots": [],
+     "follow_up_question": null,
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D3",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.55,
+    "out": {
+     "symptoms_en": [
+      "knee pain",
+      "difficulty walking"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "several months",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "आपके पिताजी की उम्र क्या है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D4",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.96,
+    "out": {
+     "symptoms_en": [
+      "facial asymmetry",
+      "difficulty speaking"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "duration",
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "यह समस्या कब से शुरू हुई है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D5",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.83,
+    "out": {
+     "symptoms_en": [
+      "diarrhea"
+     ],
+     "negated_symptoms_en": [
+      "vomiting"
+     ],
+     "duration": "2 days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "आपकी उम्र क्या है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D6",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.71,
+    "out": {
+     "symptoms_en": [
+      "accidental ingestion of insecticide"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "patient_age",
+      "duration",
+      "symptoms_en"
+     ],
+     "follow_up_question": "आपकी पत्नी की उम्र क्या है और उन्होंने कितना जहर पिया है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D7",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.61,
+    "out": {
+     "symptoms_en": [
+      "non-healing foot wound",
+      "diabetes"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "2 weeks",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "आपकी माताजी की उम्र क्या है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D8",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": false,
+    "latency": 3.65,
+    "out": {
+     "symptoms_en": [
+      "cough"
+     ],
+     "negated_symptoms_en": [
+      "difficulty breathing"
+     ],
+     "duration": "since last night",
+     "patient_age": "4 years",
+     "severity": null,
+     "missing_slots": [
+      "severity"
+     ],
+     "follow_up_question": "खांसी कितनी गंभीर है? (mild, moderate, or severe)",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D9",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 4.15,
+    "out": {
+     "symptoms_en": [
+      "anxiety",
+      "suicidal ideation"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": "severe",
+     "missing_slots": [
+      "duration",
+      "patient_age"
+     ],
+     "follow_up_question": "यह कब से हो रहा है और आपकी उम्र क्या है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D10",
+    "valid": true,
+    "groups": 1,
+    "hit": 0,
+    "extra": 0,
+    "n_pred": 0,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 3.72,
+    "out": {
+     "symptoms_en": [],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "80 years",
+     "severity": null,
+     "missing_slots": [
+      "symptoms_en",
+      "duration",
+      "severity"
+     ],
+     "follow_up_question": "पिताजी को क्या तकलीफ है और यह कब से है?",
+     "detected_language": "hi"
+    }
+   }
+  ]
+ },
+ "sarvam-105b": {
+  "summary": {
+   "valid_json": "17/30",
+   "symptom_recall": 0.962,
+   "unmatched_extra_symptoms": 1,
+   "negation_leaks": "0/3",
+   "negations_captured": "3/3",
+   "red_flag_cases_fully_kept": "7/11",
+   "age_correct": "7/10",
+   "language_correct": "17/30",
+   "follow_up_right_script": "15/15",
+   "median_s": 12.4,
+   "p90_s": 15.33,
+   "max_s": 17.42
+  },
+  "rows": [
+   {
+    "id": "E1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 17.42,
+    "out": {
+     "symptoms_en": [
+      "fever",
+      "dry cough"
+     ],
+     "negated_symptoms_en": [
+      "no breathlessness"
+     ],
+     "duration": "three days",
+     "patient_age": "70 years",
+     "severity": null,
+     "missing_slots": [
+      "severity"
+     ],
+     "follow_up_question": null,
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E2",
+    "valid": false
+   },
+   {
+    "id": "E3",
+    "valid": false
+   },
+   {
+    "id": "E4",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 15.13,
+    "out": {
+     "symptoms_en": [
+      "fever"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since last night",
+     "patient_age": "2 months",
+     "severity": null,
+     "missing_slots": [],
+     "follow_up_question": "Is the baby feeding well?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E5",
+    "valid": false
+   },
+   {
+    "id": "E6",
+    "valid": false
+   },
+   {
+    "id": "E7",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 6.76,
+    "out": {
+     "symptoms_en": [
+      "chest tightness",
+      "diaphoresis"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "55 years",
+     "severity": null,
+     "missing_slots": [
+      "duration"
+     ],
+     "follow_up_question": "How long have you had these symptoms?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E8",
+    "valid": false
+   },
+   {
+    "id": "E9",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 10.44,
+    "out": {
+     "symptoms_en": [
+      "knee pain",
+      "stair climbing worsens pain"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "6 months",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "Is there any swelling, stiffness, or instability in the knee?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E10",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 5.04,
+    "out": {
+     "symptoms_en": [
+      "vaginal bleeding"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "duration"
+     ],
+     "follow_up_question": "How long has the bleeding been happening?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "H1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 12.22,
+    "out": {
+     "symptoms_en": [
+      "fever",
+      "cough"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "2 days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "Papa ki umar kya hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H2",
+    "valid": false
+   },
+   {
+    "id": "H3",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 12.4,
+    "out": {
+     "symptoms_en": [
+      "seizures",
+      "loss of consciousness"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "duration"
+     ],
+     "follow_up_question": "Bhai ki umar kitni hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H4",
+    "valid": false
+   },
+   {
+    "id": "H5",
+    "valid": false
+   },
+   {
+    "id": "H6",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 11.05,
+    "out": {
+     "symptoms_en": [
+      "ear pain",
+      "fever"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since last night",
+     "patient_age": "5 years",
+     "severity": "mild",
+     "missing_slots": [
+      "current temperature",
+      "ear discharge",
+      "vomiting or diarrhea",
+      "medicines tried"
+     ],
+     "follow_up_question": "Kya kaan se koi discharge bhi aa raha hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H7",
+    "valid": false
+   },
+   {
+    "id": "H8",
+    "valid": true,
+    "groups": 1,
+    "hit": 0,
+    "extra": 0,
+    "n_pred": 0,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 13.05,
+    "out": {
+     "symptoms_en": [],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "duration"
+     ],
+     "follow_up_question": "Nana ji ki umar kitni hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H9",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 13.69,
+    "out": {
+     "symptoms_en": [
+      "chest pain",
+      "left arm pain"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "48 years",
+     "severity": null,
+     "missing_slots": [
+      "duration"
+     ],
+     "follow_up_question": "Seene ka dard kitne samay se ho raha hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H10",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 16.89,
+    "out": {
+     "symptoms_en": [
+      "sore throat",
+      "runny nose"
+     ],
+     "negated_symptoms_en": [
+      "fever"
+     ],
+     "duration": "1 week",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "Aapki umar kya hai?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "D1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 10.27,
+    "out": {
+     "symptoms_en": [
+      "chest pain",
+      "sweating"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "since morning",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "माँ की उम्र क्या है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D2",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": null,
+    "latency": 14.83,
+    "out": {
+     "symptoms_en": [
+      "fever"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "three days",
+     "patient_age": "10 years",
+     "severity": null,
+     "missing_slots": [],
+     "follow_up_question": null,
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D3",
+    "valid": false
+   },
+   {
+    "id": "D4",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 15.33,
+    "out": {
+     "symptoms_en": [
+      "one-sided facial droop",
+      "speech difficulty"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "duration"
+     ],
+     "follow_up_question": "दादाजी की उम्र क्या है और यह लक्षण कितने समय से हैं?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D5",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 11.02,
+    "out": {
+     "symptoms_en": [
+      "diarrhea"
+     ],
+     "negated_symptoms_en": [
+      "vomiting"
+     ],
+     "duration": "2 days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "आपकी उम्र क्या है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D6",
+    "valid": false
+   },
+   {
+    "id": "D7",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 15.3,
+    "out": {
+     "symptoms_en": [
+      "Non-healing wound on leg"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "2 weeks",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age"
+     ],
+     "follow_up_question": "माँ की उम्र क्या है?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D8",
+    "valid": false
+   },
+   {
+    "id": "D9",
+    "valid": false
+   },
+   {
+    "id": "D10",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 11.72,
+    "out": {
+     "symptoms_en": [
+      "bedridden"
+     ],
+     "negated_symptoms_en": [],
+     "duration": null,
+     "patient_age": "80 years",
+     "severity": null,
+     "missing_slots": [
+      "duration",
+      "reason for bedridden status"
+     ],
+     "follow_up_question": "पिताजी कितने समय से बिस्तर पर हैं?",
+     "detected_language": "hi"
+    }
+   }
+  ]
+ },
+ "medgemma-4b(local)": {
+  "summary": {
+   "valid_json": "24/30",
+   "symptom_recall": 0.897,
+   "unmatched_extra_symptoms": 10,
+   "negation_leaks": "2/6",
+   "negations_captured": "5/6",
+   "red_flag_cases_fully_kept": "7/11",
+   "age_correct": "8/10",
+   "language_correct": "14/30",
+   "follow_up_right_script": "16/24",
+   "median_s": 6.07,
+   "p90_s": 6.98,
+   "max_s": 7.91
+  },
+  "rows": [
+   {
+    "id": "E1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 5.85,
+    "out": {
+     "symptoms_en": [
+      "Fever",
+      "Dry cough"
+     ],
+     "negated_symptoms_en": [
+      "No breathlessness"
+     ],
+     "duration": "3 days",
+     "patient_age": "70",
+     "severity": "mild",
+     "missing_slots": [],
+     "follow_up_question": "Is there any other symptoms?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E2",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 2,
+    "neg_total": 2,
+    "neg_leak": 0,
+    "neg_caught": 2,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 6.93,
+    "out": {
+     "symptoms_en": [
+      "headache",
+      "screen time"
+     ],
+     "negated_symptoms_en": [
+      "vomiting",
+      "blurred vision"
+     ],
+     "duration": "since this morning",
+     "patient_age": null,
+     "severity": "mild",
+     "missing_slots": [
+      "patient_age",
+      "medical_history",
+      "allergies",
+      "medications",
+      "family_history",
+      "social_history",
+      "vital_signs",
+      "examination_findings"
+     ],
+     "follow_up_question": "Is there anything else I should know?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E3",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 6.57,
+    "out": {
+     "symptoms_en": [
+      "Right arm paralysis",
+      "Slurred speech"
+     ],
+     "negated_symptoms_en": [
+      "No fever",
+      "No vomiting"
+     ],
+     "duration": "20 minutes",
+     "patient_age": "mother",
+     "severity": "moderate",
+     "missing_slots": [
+      "onset_time",
+      "location",
+      "context"
+     ],
+     "follow_up_question": "Is there any history of stroke, head trauma, or neurological conditions in the past?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E4",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 6.15,
+    "out": {
+     "symptoms_en": [
+      "Fever",
+      "Fever"
+     ],
+     "negated_symptoms_en": [
+      "No vomiting",
+      "No vomiting"
+     ],
+     "duration": "Last night",
+     "patient_age": "2 months",
+     "severity": "mild",
+     "missing_slots": [],
+     "follow_up_question": "Is the baby feeding normally? Is the baby alert and responsive?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E5",
+    "valid": false
+   },
+   {
+    "id": "E6",
+    "valid": true,
+    "groups": 3,
+    "hit": 3,
+    "extra": 1,
+    "n_pred": 4,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 7.2,
+    "out": {
+     "symptoms_en": [
+      "Hyperglycemia",
+      "Polyuria",
+      "Polydipsia",
+      "Fatigue"
+     ],
+     "negated_symptoms_en": [
+      "No fever",
+      "No vomiting"
+     ],
+     "duration": "Since yesterday",
+     "patient_age": null,
+     "severity": "moderate",
+     "missing_slots": [
+      "medical_history",
+      "allergies",
+      "medications",
+      "family_history",
+      "social_history",
+      "contact_info"
+     ],
+     "follow_up_question": "Is he experiencing any other symptoms like blurred vision, frequent urination, or unexplained weight loss?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E7",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 5.66,
+    "out": {
+     "symptoms_en": [
+      "Chest tightness",
+      "Sweating"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "acute",
+     "patient_age": "55",
+     "severity": "moderate",
+     "missing_slots": [],
+     "follow_up_question": "Do you have any history of heart problems or asthma?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E8",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 5.91,
+    "out": {
+     "symptoms_en": [
+      "Diarrhea"
+     ],
+     "negated_symptoms_en": [
+      "No fever",
+      "No vomiting"
+     ],
+     "duration": "4-5 times since morning",
+     "patient_age": "8",
+     "severity": "mild",
+     "missing_slots": [],
+     "follow_up_question": "Is there any blood in the stool? Any abdominal pain?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E9",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 5.81,
+    "out": {
+     "symptoms_en": [
+      "knee pain",
+      "pain worsens with stair climbing"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "6 months",
+     "patient_age": null,
+     "severity": "mild",
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "How severe is the knee pain on a scale of 1 to 10, with 10 being the worst pain imaginable?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "E10",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 5.69,
+    "out": {
+     "symptoms_en": [
+      "Bleeding"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "7 months pregnant",
+     "patient_age": "7 months pregnant",
+     "severity": "moderate",
+     "missing_slots": [],
+     "follow_up_question": "Is the bleeding continuous or intermittent? How much blood is being lost? Is there any pain or cramping associated with the bleeding?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "H1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 5.11,
+    "out": {
+     "symptoms_en": [
+      "cough",
+      "fever"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "2 days",
+     "patient_age": "father",
+     "severity": "mild",
+     "missing_slots": [],
+     "follow_up_question": "Is there any difficulty breathing or chest pain?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H2",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 1,
+    "n_pred": 3,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": false,
+    "fu_script_ok": true,
+    "latency": 6.88,
+    "out": {
+     "symptoms_en": [
+      "Dizziness",
+      "Vomiting",
+      "High Blood Pressure"
+     ],
+     "negated_symptoms_en": [
+      "Fever",
+      "Vomiting"
+     ],
+     "duration": "Since morning",
+     "patient_age": "62",
+     "severity": "mild",
+     "missing_slots": [
+      "Medication_name",
+      "Medication_dosage",
+      "Medication_frequency",
+      "Medication_reason"
+     ],
+     "follow_up_question": "Please provide the name and dosage of the blood pressure medication.",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "H3",
+    "valid": false
+   },
+   {
+    "id": "H4",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 3,
+    "neg_total": 1,
+    "neg_leak": 1,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": false,
+    "fu_script_ok": true,
+    "latency": 6.65,
+    "out": {
+     "symptoms_en": [
+      "Abdominal pain for 3 days",
+      "No fever",
+      "Able to eat"
+     ],
+     "negated_symptoms_en": [
+      "No fever",
+      "No vomiting"
+     ],
+     "duration": "3 days",
+     "patient_age": null,
+     "severity": "mild",
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "Can you describe the abdominal pain in more detail? Is it constant or intermittent? Where is the pain located? What makes it better or worse?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "H5",
+    "valid": true,
+    "groups": 2,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": false,
+    "age_ok": null,
+    "lang_ok": false,
+    "fu_script_ok": true,
+    "latency": 7.22,
+    "out": {
+     "symptoms_en": [
+      "Shortness of breath",
+      "Chest pain"
+     ],
+     "negated_symptoms_en": [
+      "No fever",
+      "No vomiting"
+     ],
+     "duration": "Not specified",
+     "patient_age": "Grandmother",
+     "severity": "moderate",
+     "missing_slots": [
+      "allergies",
+      "medications",
+      "past_medical_history",
+      "family_history",
+      "social_history",
+      "vital_signs",
+      "emergency_contact",
+      "location"
+     ],
+     "follow_up_question": "Can you describe the chest pain? Is it sharp, dull, or pressure-like? Where is the pain located? Is it constant or intermittent?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "H6",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 1,
+    "n_pred": 3,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": true,
+    "latency": 6.34,
+    "out": {
+     "symptoms_en": [
+      "Ear pain",
+      "Slight fever",
+      "Slight cough"
+     ],
+     "negated_symptoms_en": [
+      "No vomiting"
+     ],
+     "duration": "Since last night",
+     "patient_age": "5 years old",
+     "severity": "mild",
+     "missing_slots": [],
+     "follow_up_question": "Is the ear pain constant or intermittent?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "H7",
+    "valid": true,
+    "groups": 2,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": false,
+    "fu_script_ok": true,
+    "latency": 6.98,
+    "out": {
+     "symptoms_en": [
+      "Burning sensation in urine for 2 days",
+      "Frequent urination"
+     ],
+     "negated_symptoms_en": [
+      "No fever"
+     ],
+     "duration": "2 days",
+     "patient_age": null,
+     "severity": "moderate",
+     "missing_slots": [
+      "medical_history",
+      "allergies",
+      "medications",
+      "family_history",
+      "social_history",
+      "vital_signs",
+      "examination_findings"
+     ],
+     "follow_up_question": "Can you describe the burning sensation in more detail? Is it constant or intermittent? Does anything make it better or worse?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "H8",
+    "valid": false
+   },
+   {
+    "id": "H9",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": false,
+    "fu_script_ok": true,
+    "latency": 6.67,
+    "out": {
+     "symptoms_en": [
+      "Chest pain",
+      "Pain in left hand"
+     ],
+     "negated_symptoms_en": [
+      "No fever"
+     ],
+     "duration": "48 years old",
+     "patient_age": ": 48",
+     "severity": "mild",
+     "missing_slots": [],
+     "follow_up_question": "Can you describe the chest pain in more detail? Where is the pain located, and what does it feel like (e.g., sharp, dull, pressure)? Also, can you describe the pain in your left hand?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "H10",
+    "valid": false
+   },
+   {
+    "id": "D1",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": false,
+    "latency": 5.47,
+    "out": {
+     "symptoms_en": [
+      "Chest pain",
+      "Sweating"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "Since morning",
+     "patient_age": "Mother",
+     "severity": "mild",
+     "missing_slots": [],
+     "follow_up_question": "Can you describe the chest pain? Is it sharp, dull, or pressure-like? Is it constant or intermittent? What makes it better or worse?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D2",
+    "valid": false
+   },
+   {
+    "id": "D3",
+    "valid": true,
+    "groups": 2,
+    "hit": 2,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": false,
+    "fu_script_ok": false,
+    "latency": 5.8,
+    "out": {
+     "symptoms_en": [
+      "knee pain",
+      "difficulty walking"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "several months",
+     "patient_age": "father",
+     "severity": "moderate",
+     "missing_slots": [],
+     "follow_up_question": "Can you describe the pain in more detail? Where exactly is the pain located? Is it constant or intermittent? What makes it better or worse?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "D4",
+    "valid": true,
+    "groups": 2,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": false,
+    "age_ok": null,
+    "lang_ok": false,
+    "fu_script_ok": false,
+    "latency": 5.93,
+    "out": {
+     "symptoms_en": [
+      "Asymmetrical face",
+      "Difficulty speaking"
+     ],
+     "negated_symptoms_en": [],
+     "duration": "Unknown",
+     "patient_age": "Unknown",
+     "severity": "moderate",
+     "missing_slots": [],
+     "follow_up_question": "Can you describe the asymmetry of the face? Is the difficulty speaking constant or intermittent? What kind of difficulty is it (e.g., slurred speech, inability to form words)?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "D5",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 1,
+    "neg_total": 1,
+    "neg_leak": 0,
+    "neg_caught": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": false,
+    "fu_script_ok": false,
+    "latency": 5.89,
+    "out": {
+     "symptoms_en": [
+      "Diarrhea"
+     ],
+     "negated_symptoms_en": [
+      "Vomiting"
+     ],
+     "duration": "2 days",
+     "patient_age": null,
+     "severity": null,
+     "missing_slots": [
+      "patient_age",
+      "severity"
+     ],
+     "follow_up_question": "Can you please provide more details about the diarrhea, such as the frequency and consistency of the stools?",
+     "detected_language": "en"
+    }
+   },
+   {
+    "id": "D6",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": false,
+    "fu_script_ok": false,
+    "latency": 7.91,
+    "out": {
+     "symptoms_en": [
+      "ingestion of insecticide",
+      "unclear if ingestion was intentional or accidental"
+     ],
+     "negated_symptoms_en": [
+      "bukhar nahi",
+      "no vomiting"
+     ],
+     "duration": "unknown",
+     "patient_age": "unknown",
+     "severity": "moderate",
+     "missing_slots": [
+      "patient_gender",
+      "patient_weight",
+      "patient_height",
+      "patient_medical_history",
+      "patient_allergies",
+      "patient_medications",
+      "patient_contact_info",
+      "patient_address",
+      "patient_emergency_contact",
+      "patient_reason_for_visit",
+      "patient_other_symptoms"
+     ],
+     "follow_up_question": "Was the ingestion intentional or accidental? What is the approximate amount ingested? Is the patient conscious? Is there any vomiting? Is there any difficulty breathing?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "D7",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "fu_script_ok": false,
+    "latency": 5.98,
+    "out": {
+     "symptoms_en": [
+      "Diabetic foot ulcer",
+      "Unhealing wound"
+     ],
+     "negated_symptoms_en": [
+      "No fever",
+      "No vomiting"
+     ],
+     "duration": "2 weeks",
+     "patient_age": "Mother",
+     "severity": "moderate",
+     "missing_slots": [],
+     "follow_up_question": "When was the last time the wound was cleaned/dressed?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D8",
+    "valid": true,
+    "groups": 1,
+    "hit": 1,
+    "extra": 0,
+    "n_pred": 2,
+    "neg_total": 1,
+    "neg_leak": 1,
+    "neg_caught": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "fu_script_ok": false,
+    "latency": 5.86,
+    "out": {
+     "symptoms_en": [
+      "cough",
+      "no difficulty breathing"
+     ],
+     "negated_symptoms_en": [
+      "no fever",
+      "no vomiting"
+     ],
+     "duration": "night",
+     "patient_age": ": 4 years",
+     "severity": "mild",
+     "missing_slots": [],
+     "follow_up_question": "Is the cough dry or productive?",
+     "detected_language": "hi"
+    }
+   },
+   {
+    "id": "D9",
+    "valid": true,
+    "groups": 2,
+    "hit": 1,
+    "extra": 1,
+    "n_pred": 2,
+    "neg_total": 0,
+    "neg_leak": 0,
+    "neg_caught": 0,
+    "redflag_kept": false,
+    "age_ok": null,
+    "lang_ok": false,
+    "fu_script_ok": false,
+    "latency": 6.8,
+    "out": {
+     "symptoms_en": [
+      "Anxiety",
+      "No desire to live"
+     ],
+     "negated_symptoms_en": [
+      "No fever",
+      "No vomiting"
+     ],
+     "duration": "Not specified",
+     "patient_age": "Not specified",
+     "severity": "moderate",
+     "missing_slots": [
+      "medical_history",
+      "medications",
+      "allergies",
+      "family_history",
+      "social_history",
+      "contact_details"
+     ],
+     "follow_up_question": "Can you describe the anxiety you are experiencing? Is it constant or intermittent? What triggers it?",
+     "detected_language": "hinglish"
+    }
+   },
+   {
+    "id": "D10",
+    "valid": false
+   }
+  ]
+ }
+}

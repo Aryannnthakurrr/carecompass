@@ -1,0 +1,1742 @@
+{
+ "gemini-3.5-flash-lite": {
+  "summary": {
+   "valid": "30/30",
+   "care_type_acc": 0.9,
+   "urgency_acc": 0.833,
+   "emergency_recall": "11/11",
+   "false_emergencies": 0,
+   "under_triaged": 1,
+   "median_s": 1.46,
+   "p90_s": 4.46,
+   "max_s": 16.88
+  },
+  "rows": [
+   {
+    "id": "E1",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day"
+    },
+    "latency": 2.85
+   },
+   {
+    "id": "E2",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.21
+   },
+   {
+    "id": "E3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 2.79
+   },
+   {
+    "id": "E4",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 2.98
+   },
+   {
+    "id": "E5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.2
+   },
+   {
+    "id": "E6",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 3.64
+   },
+   {
+    "id": "E7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.87
+   },
+   {
+    "id": "E8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 4.46
+   },
+   {
+    "id": "E9",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "specialist",
+     "urgency": "routine"
+    },
+    "latency": 5.13
+   },
+   {
+    "id": "E10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 4.6
+   },
+   {
+    "id": "H1",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 3.25
+   },
+   {
+    "id": "H2",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day"
+    },
+    "latency": 2.84
+   },
+   {
+    "id": "H3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.84
+   },
+   {
+    "id": "H4",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "specialist",
+     "urgency": "routine"
+    },
+    "latency": 1.56
+   },
+   {
+    "id": "H5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.0
+   },
+   {
+    "id": "H6",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day"
+    },
+    "latency": 1.35
+   },
+   {
+    "id": "H7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 16.88
+   },
+   {
+    "id": "H8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 1.14
+   },
+   {
+    "id": "H9",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 0.71
+   },
+   {
+    "id": "H10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 1.2
+   },
+   {
+    "id": "D1",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.3
+   },
+   {
+    "id": "D2",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day"
+    },
+    "latency": 0.79
+   },
+   {
+    "id": "D3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "specialist",
+     "urgency": "routine"
+    },
+    "latency": 0.7
+   },
+   {
+    "id": "D4",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 0.7
+   },
+   {
+    "id": "D5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 0.82
+   },
+   {
+    "id": "D6",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 0.89
+   },
+   {
+    "id": "D7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 1.0
+   },
+   {
+    "id": "D8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 0.78
+   },
+   {
+    "id": "D9",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.07
+   },
+   {
+    "id": "D10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 1.25
+   }
+  ]
+ },
+ "gemma-4-26b-a4b": {
+  "summary": {
+   "valid": "30/30",
+   "care_type_acc": 0.967,
+   "urgency_acc": 0.833,
+   "emergency_recall": "11/11",
+   "false_emergencies": 0,
+   "under_triaged": 0,
+   "median_s": 1.6,
+   "p90_s": 1.78,
+   "max_s": 7.37
+  },
+  "rows": [
+   {
+    "id": "E1",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day"
+    },
+    "latency": 1.78
+   },
+   {
+    "id": "E2",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 1.47
+   },
+   {
+    "id": "E3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.63
+   },
+   {
+    "id": "E4",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.62
+   },
+   {
+    "id": "E5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 1.64
+   },
+   {
+    "id": "E6",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 1.72
+   },
+   {
+    "id": "E7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.66
+   },
+   {
+    "id": "E8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 1.59
+   },
+   {
+    "id": "E9",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "specialist",
+     "urgency": "routine"
+    },
+    "latency": 1.2
+   },
+   {
+    "id": "E10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.54
+   },
+   {
+    "id": "H1",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 1.53
+   },
+   {
+    "id": "H2",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day"
+    },
+    "latency": 1.78
+   },
+   {
+    "id": "H3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.69
+   },
+   {
+    "id": "H4",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 1.26
+   },
+   {
+    "id": "H5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.6
+   },
+   {
+    "id": "H6",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 7.37
+   },
+   {
+    "id": "H7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 1.61
+   },
+   {
+    "id": "H8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 1.49
+   },
+   {
+    "id": "H9",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.82
+   },
+   {
+    "id": "H10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 1.58
+   },
+   {
+    "id": "D1",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.59
+   },
+   {
+    "id": "D2",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day"
+    },
+    "latency": 1.63
+   },
+   {
+    "id": "D3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "specialist",
+     "urgency": "routine"
+    },
+    "latency": 1.44
+   },
+   {
+    "id": "D4",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.36
+   },
+   {
+    "id": "D5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 1.45
+   },
+   {
+    "id": "D6",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.61
+   },
+   {
+    "id": "D7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 1.62
+   },
+   {
+    "id": "D8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 1.55
+   },
+   {
+    "id": "D9",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 1.46
+   },
+   {
+    "id": "D10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 1.38
+   }
+  ]
+ },
+ "medgemma-4b raw text": {
+  "summary": {
+   "valid": "30/30",
+   "care_type_acc": 0.567,
+   "urgency_acc": 0.633,
+   "emergency_recall": "5/11",
+   "false_emergencies": 0,
+   "under_triaged": 10,
+   "median_s": 3.26,
+   "p90_s": 3.36,
+   "max_s": 3.64
+  },
+  "rows": [
+   {
+    "id": "E1",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.64
+   },
+   {
+    "id": "E2",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.27
+   },
+   {
+    "id": "E3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.23
+   },
+   {
+    "id": "E4",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": true,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.28
+   },
+   {
+    "id": "E5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "routine"
+    },
+    "latency": 3.21
+   },
+   {
+    "id": "E6",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 3.32
+   },
+   {
+    "id": "E7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.2
+   },
+   {
+    "id": "E8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.23
+   },
+   {
+    "id": "E9",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "specialist",
+     "urgency": "routine"
+    },
+    "latency": 3.26
+   },
+   {
+    "id": "E10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.26
+   },
+   {
+    "id": "H1",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "routine"
+    },
+    "latency": 3.22
+   },
+   {
+    "id": "H2",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.28
+   },
+   {
+    "id": "H3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.22
+   },
+   {
+    "id": "H4",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.26
+   },
+   {
+    "id": "H5",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "paramedic_home_visit",
+     "urgency": "immediate"
+    },
+    "latency": 3.29
+   },
+   {
+    "id": "H6",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.42
+   },
+   {
+    "id": "H7",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.3
+   },
+   {
+    "id": "H8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "routine"
+    },
+    "latency": 3.24
+   },
+   {
+    "id": "H9",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": true,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.26
+   },
+   {
+    "id": "H10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.26
+   },
+   {
+    "id": "D1",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.14
+   },
+   {
+    "id": "D2",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.3
+   },
+   {
+    "id": "D3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "specialist",
+     "urgency": "routine"
+    },
+    "latency": 3.22
+   },
+   {
+    "id": "D4",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": true,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "specialist",
+     "urgency": "same_day"
+    },
+    "latency": 3.24
+   },
+   {
+    "id": "D5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.36
+   },
+   {
+    "id": "D6",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": true,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 3.33
+   },
+   {
+    "id": "D7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.24
+   },
+   {
+    "id": "D8",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "routine"
+    },
+    "latency": 3.23
+   },
+   {
+    "id": "D9",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": true,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 3.27
+   },
+   {
+    "id": "D10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.36
+   }
+  ]
+ },
+ "medgemma-4b on English (mayura)": {
+  "summary": {
+   "valid": "30/30",
+   "care_type_acc": 0.8,
+   "urgency_acc": 0.667,
+   "emergency_recall": "8/11",
+   "false_emergencies": 0,
+   "under_triaged": 10,
+   "median_s": 3.29,
+   "p90_s": 3.38,
+   "max_s": 3.43
+  },
+  "rows": [
+   {
+    "id": "E1",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.3
+   },
+   {
+    "id": "E2",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.34
+   },
+   {
+    "id": "E3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.2
+   },
+   {
+    "id": "E4",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": true,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.23
+   },
+   {
+    "id": "E5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "routine"
+    },
+    "latency": 3.32
+   },
+   {
+    "id": "E6",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 3.32
+   },
+   {
+    "id": "E7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.27
+   },
+   {
+    "id": "E8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.24
+   },
+   {
+    "id": "E9",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "specialist",
+     "urgency": "routine"
+    },
+    "latency": 3.3
+   },
+   {
+    "id": "E10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.27
+   },
+   {
+    "id": "H1",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.26
+   },
+   {
+    "id": "H2",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day"
+    },
+    "latency": 3.38
+   },
+   {
+    "id": "H3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.24
+   },
+   {
+    "id": "H4",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.26
+   },
+   {
+    "id": "H5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.32
+   },
+   {
+    "id": "H6",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.43
+   },
+   {
+    "id": "H7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.3
+   },
+   {
+    "id": "H8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "routine"
+    },
+    "latency": 3.33
+   },
+   {
+    "id": "H9",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": true,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.31
+   },
+   {
+    "id": "H10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.31
+   },
+   {
+    "id": "D1",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.26
+   },
+   {
+    "id": "D2",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.27
+   },
+   {
+    "id": "D3",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "specialist",
+     "urgency": "routine"
+    },
+    "latency": 3.39
+   },
+   {
+    "id": "D4",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.19
+   },
+   {
+    "id": "D5",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.28
+   },
+   {
+    "id": "D6",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "pred": {
+     "care_type": "emergency",
+     "urgency": "immediate"
+    },
+    "latency": 3.21
+   },
+   {
+    "id": "D7",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "same_day"
+    },
+    "latency": 3.24
+   },
+   {
+    "id": "D8",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "routine"
+    },
+    "latency": 3.4
+   },
+   {
+    "id": "D9",
+    "valid": true,
+    "care_ok": false,
+    "urg_ok": false,
+    "emergency": true,
+    "pred_emergency": false,
+    "under": true,
+    "pred": {
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day"
+    },
+    "latency": 3.38
+   },
+   {
+    "id": "D10",
+    "valid": true,
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "pred": {
+     "care_type": "nurse",
+     "urgency": "routine"
+    },
+    "latency": 3.22
+   }
+  ]
+ }
+}

@@ -1,0 +1,483 @@
+{
+ "summary": {
+  "translate_symptom_terms_found(keyword)": 0.594,
+  "translate_negations_preserved": "3/4",
+  "transcribe_latency": {
+   "median_s": 0.43,
+   "p90_s": 0.79,
+   "max_s": 1.53
+  },
+  "codemix_latency": {
+   "median_s": 0.41,
+   "p90_s": 0.88,
+   "max_s": 1.64
+  },
+  "translate_latency": {
+   "median_s": 0.49,
+   "p90_s": 1.06,
+   "max_s": 2.42
+  }
+ },
+ "rows": [
+  {
+   "id": "H1",
+   "text": "papa ko do din se bukhar hai aur khansi bhi",
+   "transcribe": {
+    "text": "पापा को दो दिन से बुखार है और खांसी भी।",
+    "latency": 0.65,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "पापा को दो दिन से बुखार है और खांसी भी।",
+    "latency": 0.31,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "Dad has had a fever for two days and also a cough.",
+    "latency": 0.22,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 2,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "H2",
+   "text": "mummy ko subah se chakkar aa rahe hain aur do baar ulti hui, BP ki dawai leti hain, umar 62",
+   "transcribe": {
+    "text": "मम्मी को सुबह से चक्कर आ रहे हैं और दो बार उल्टे हुई। बीपी की दवाई लेती हैं। उम्र 62।",
+    "latency": 0.43,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "मम्मी को सुबह से चक्कर आ रहे हैं और दो बार उल्टे हुई, BP की दवाई लेती हैं, उम्र 62।",
+    "latency": 0.36,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "Mom has been feeling dizzy since morning and has vomited twice. She takes BP medicine, age 62.",
+    "latency": 0.44,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "H3",
+   "text": "bhai ko jhatke aa rahe hain aur woh behosh ho gaya",
+   "transcribe": {
+    "text": "भाई को झटके आ रहे हैं और वो बेहोश हो गया।",
+    "latency": 0.3,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "भाई को झटके आ रहे हैं और वो बेहोश हो गया।",
+    "latency": 0.25,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "My brother is having seizures and he has fainted.",
+    "latency": 0.25,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 2,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "H4",
+   "text": "mere pet mein teen din se dard hai, bukhar nahi hai, khana kha pa raha hu",
+   "transcribe": {
+    "text": "मियोपेट में तीन दिन से दर्द है, बुखार नहीं है, खाना खा पा रहा हूँ।",
+    "latency": 0.3,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "Myo Pet में तीन दिन से दर्द है, बुखार नहीं है, खाना खा पा रहा हूँ।",
+    "latency": 0.23,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "I have had pain in my stomach for three days, no fever, I am able to eat food.",
+    "latency": 1.06,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 0,
+   "translate_groups": 1,
+   "translate_neg_ok": 1,
+   "neg_total": 1
+  },
+  {
+   "id": "H5",
+   "text": "dadi ko saans lene mein bahut takleef ho rahi hai aur hoth neele pad rahe hain",
+   "transcribe": {
+    "text": "दादी को सांस लेने में बहुत तकलीफ हो रही है और होठ नीले पड़ रहे हैं।",
+    "latency": 0.28,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "दादी को सांस लेने में बहुत तकलीफ़ हो रही है और होठ नीले पड़ रहे हैं।",
+    "latency": 0.32,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "Grandmother is having a lot of trouble breathing, and her lips are turning blue.",
+    "latency": 0.29,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 0,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "H6",
+   "text": "beta 5 saal ka hai, kal raat se kaan mein dard hai, thoda bukhar bhi",
+   "transcribe": {
+    "text": "बेटा पाँच साल का है। कल रात से कान में दर्द है, थोड़ा बुखार भी।",
+    "latency": 0.37,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "बीटा पाँच साल का है। कल रात से कान में दर्द है, थोड़ा बुखार भी।",
+    "latency": 0.35,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "Beta is 5 years old. He has had an earache since last night, and a slight fever too.",
+    "latency": 0.52,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 2,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "H7",
+   "text": "peshab mein jalan ho rahi hai do din se, aur baar baar jaana pad raha hai",
+   "transcribe": {
+    "text": "पेशाब में जलन हो रही है, दो दिन से और बार-बार जाना पड़ रहा है।",
+    "latency": 0.42,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "पेशाब में जलन हो रही है दो दिन से और बार-बार जाना पड़ रहा है।",
+    "latency": 0.31,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "I am experiencing burning sensation during urination for the past two days and I have to go frequently.",
+    "latency": 0.8,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "H8",
+   "text": "nana ji ka operation hua tha, ghar pe injection lagwana hai aur dressing karwani hai",
+   "transcribe": {
+    "text": "नाना जी का ऑपरेशन हुआ था। घर पे इंजेक्शन लगवाना है और ड्रेसिंग करवानी है।",
+    "latency": 0.57,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "नाना जी का operation हुआ था। घर पे injection लगवाना है और dressing करवानी है।",
+    "latency": 1.28,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "Grandfather had an operation. I need to get an injection at home and get the dressing done.",
+    "latency": 0.56,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 1,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "H9",
+   "text": "seene mein dard ho raha hai aur left haath mein bhi, umar 48",
+   "transcribe": {
+    "text": "सीने में दर्द हो रहा है और लेफ्ट हाथ में भी। उम्र 48।",
+    "latency": 0.49,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "सीने में दर्द हो रहा है और left हाथ में भी उम्र 48।",
+    "latency": 0.45,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "I am having chest pain and also in the left hand, age 48.",
+    "latency": 0.4,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "H10",
+   "text": "gale mein kharash hai aur naak beh rahi hai ek hafte se, bukhar nahi",
+   "transcribe": {
+    "text": "गेल में खराश है और नाक बह रही है एक हफ्ते से, बुखार नहीं।",
+    "latency": 0.44,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "Gale में खराश है और नाक बह रही है एक हफ्ते से, बुखार नहीं।",
+    "latency": 0.88,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "There is itching in the throat and the nose is running for a week, no fever.",
+    "latency": 0.61,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 0,
+   "translate_groups": 2,
+   "translate_neg_ok": 1,
+   "neg_total": 1
+  },
+  {
+   "id": "D1",
+   "text": "मेरी माँ को सुबह से सीने में दर्द है और पसीना आ रहा है",
+   "transcribe": {
+    "text": "मेरी माँ को सुबह से सीने में दर्द है और पसीना आ रहा है।",
+    "latency": 0.83,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "मेरी माँ को सुबह से सीने में दर्द है और पसीना आ रहा है।",
+    "latency": 1.64,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "My mother has had chest pain and is sweating since morning.",
+    "latency": 1.23,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 2,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "D2",
+   "text": "मेरे बेटे को तीन दिन से तेज़ बुखार है, उम्र 10 साल",
+   "transcribe": {
+    "text": "मेरे बेटे को तीन दिन से तेज़ बुखार है, उम्र 10 साल।",
+    "latency": 0.77,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "मेरे बेटे को तीन दिन से तेज़ बुखार है, उम्र दस साल।",
+    "latency": 0.63,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "My son has had a high fever for 3 days, age 10 years.",
+    "latency": 0.91,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 1,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "D3",
+   "text": "पिताजी के घुटनों में कई महीनों से दर्द है, चलने में दिक्कत होती है",
+   "transcribe": {
+    "text": "पिताजी के घुटनों में कई महीनों से दर्द है, चलने में दिक्कत होती है।",
+    "latency": 0.79,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "पिताजी के घुटनों में कई महीनों से दर्द है, चलने में दिक्कत होती है।",
+    "latency": 0.52,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "Father has had pain in his knees for several months, and he has difficulty walking.",
+    "latency": 0.53,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "D4",
+   "text": "दादाजी का चेहरा एक तरफ टेढ़ा हो गया है और बोलने में दिक्कत है",
+   "transcribe": {
+    "text": "दादाजी का चेहरा एक तरफ टेढ़ा हो गया है और बोलने में दिक्कत है।",
+    "latency": 1.53,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "दादाजी का चेहरा एक तरफ टेढ़ा हो गया है और बोलने में दिक्कत है।",
+    "latency": 0.81,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "Grandfather's face is crooked on one side, and he has difficulty speaking.",
+    "latency": 2.42,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "D5",
+   "text": "मुझे दो दिन से दस्त हो रहे हैं, उल्टी नहीं है",
+   "transcribe": {
+    "text": "Mujhe 2 din se dast ho rahe hain, ulti nahi hai.",
+    "latency": 0.61,
+    "lang": "en-IN"
+   },
+   "codemix": {
+    "text": "मुझे दो दिन से दस्त हो रहे हैं उल्टी नहीं है।",
+    "latency": 0.42,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "I have been having diarrhea for two days, I am not vomiting.",
+    "latency": 0.41,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 1,
+   "translate_neg_ok": 1,
+   "neg_total": 1
+  },
+  {
+   "id": "D6",
+   "text": "मेरी पत्नी ने गलती से कीड़े मारने की दवा पी ली है",
+   "transcribe": {
+    "text": "मेरी पत्नी ने गलती से कीड़े मारने की दवा पी ली है।",
+    "latency": 0.41,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "मेरी पत्नी ने गलती से कीड़े मारने की दवा पी ली है।",
+    "latency": 0.45,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "My wife accidentally drank pesticide.",
+    "latency": 0.31,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 0,
+   "translate_groups": 1,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "D7",
+   "text": "माँ को डायबिटीज़ है, पैर पर एक घाव है जो ठीक नहीं हो रहा, दो हफ्ते से",
+   "transcribe": {
+    "text": "माँ को डायबिटीज़ है, पैर पर एक घाव है जो ठीक नहीं हो रहा, दो हफ़्ते से।",
+    "latency": 0.43,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "माँ को diabetes है, पैर पर एक घाव है जो ठीक नहीं हो रहा, दो हफ्ते से।",
+    "latency": 0.53,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "Mother has diabetes, there is a wound on her foot that is not healing, for two weeks.",
+    "latency": 0.41,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 1,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "D8",
+   "text": "बच्चे को रात से खांसी है, सांस लेने में कोई तकलीफ़ नहीं, उम्र 4 साल",
+   "transcribe": {
+    "text": "बच्चे को रात से खांसी है, सांस लेने में कोई तकलीफ नहीं, उम्र 4 साल।",
+    "latency": 0.4,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "बच्चे को रात से खांसी है, सांस लेने में कोई तकलीफ नहीं, उम्र चार साल।",
+    "latency": 0.39,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "The child has had a cough since last night, no difficulty in breathing, age 4 years.",
+    "latency": 0.58,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 1,
+   "translate_neg_ok": 0,
+   "neg_total": 1
+  },
+  {
+   "id": "D9",
+   "text": "मुझे बहुत घबराहट हो रही है और जीने का मन नहीं करता",
+   "transcribe": {
+    "text": "मुझे बहुत घबराहट हो रही है और जीने का मन नहीं करता।",
+    "latency": 0.42,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "मुझे बहुत घबराहट हो रही है और जीने का मन नहीं करता।",
+    "latency": 0.31,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "I am feeling very anxious and don't feel like living.",
+    "latency": 0.32,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 0,
+   "translate_groups": 2,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  },
+  {
+   "id": "D10",
+   "text": "बुज़ुर्ग पिताजी, 80 साल, बिस्तर पर हैं, उनकी देखभाल के लिए नर्स चाहिए",
+   "transcribe": {
+    "text": "बुजुर्ग पिताजी 80 साल बिस्तर पर हैं, उनकी देखभाल के लिए नर्स चाहिए।",
+    "latency": 0.5,
+    "lang": "hi-IN"
+   },
+   "codemix": {
+    "text": "बुजुर्ग पिताजी अस्सी साल बिस्तर पर हैं उनकी देखभाल के लिए nurse चाहिए।",
+    "latency": 0.39,
+    "lang": "hi-IN"
+   },
+   "translate": {
+    "text": "My elderly father is 80 years old and bedridden; I need a nurse to take care of him.",
+    "latency": 0.47,
+    "lang": "hi-IN"
+   },
+   "translate_hit": 1,
+   "translate_groups": 1,
+   "translate_neg_ok": 0,
+   "neg_total": 0
+  }
+ ]
+}

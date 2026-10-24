@@ -4,7 +4,8 @@ models:
   stt:
     provider: sarvam
     model: saaras:v4             # Saarika is retired; Saaras v4 is Sarvam's current STT
-    mode: transcribe             # alt: codemix (English words in Latin, Hindi in Devanagari)
+    mode: transcribe             # original words -> red-flag rules + screen
+    english_mode: translate      # speech -> English for the classifier (no LLM needed; eval/results/voice.json)
     language_code: unknown       # auto-detect
   tts:
     provider: sarvam
@@ -23,14 +24,17 @@ models:
     model: gemini-3.5-flash-lite
     thinking_level: minimal
     fallback: gemma-4-26b-a4b-it
+  # Provisional (eval/results/classify.json): gemma-4 29/30 care, 11/11 emergencies untrained;
+  # medgemma-4b only 5/11 emergencies untrained. Final pick on organiser validation split.
   triage:
-    provider: ollama
-    base_url: http://localhost:11434/v1
-    model: hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M   # baseline; replace with fine-tuned model after LoRA
+    provider: gemini
+    model: gemma-4-26b-a4b-it
+    thinking_level: minimal
+    second_opinion: gemini-3.5-flash-lite   # optional: run in parallel, more urgent answer wins
   local_fallback:
     provider: ollama
     base_url: http://localhost:11434/v1
-    model: hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M   # same model as triage: no GPU swap; API backup is Sarvam-M
+    model: hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M   # offline last resort only
 
 # Replace with organiser label strings once the taxonomy is released.
 labels:

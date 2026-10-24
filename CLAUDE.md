@@ -23,13 +23,15 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 
 | Stage | Model | Where it runs | Why |
 |---|---|---|---|
-| Speech → text | Sarvam **Saaras v4** (auto language detect; Saarika is retired) | Sarvam API | Best at Hindi/English/Hinglish code-mixing; keeps original wording so red-flag phrases aren't lost |
+| Speech → text | Sarvam **Saaras v4**: `transcribe` (original words) + `translate` (English) | Sarvam API | ~0.5 s each; voice needs no LLM for translation. Sarvam text translation (Mayura) rejected: mistranslated typed "seene mein dard" |
 | Text → structured English + next follow-up question | **Gemini 3.5 Flash-Lite** with enforced JSON schema (fallback: Gemma 4 26B-A4B) | Gemini API | Fastest with best schema adherence in `eval/bench_intake.py`; Gemma 4 ~3.4s, Sarvam-105b ~10s, MedGemma hallucinated symptoms |
-| Triage (care type + urgency) | Red-flag rules → **MedGemma 4B** (`unsloth/medgemma-4b-it-GGUF`), LoRA fine-tuned, Q4 GGUF | Local, via Ollama | Fast, trained on organisers' labels, open source |
+| Triage (care type + urgency) | Red-flag rules → **Gemma 4 26B-A4B** (provisional; optional Flash-Lite second opinion, more urgent wins) | Gemini API | Untrained: 29/30 care, 11/11 emergencies. MedGemma 4B untrained: 5/11 emergencies. Final pick on organiser validation split (also try fine-tuned MuRIL/XLM-R, MedGemma LoRA) |
 | Caregiver matching | Weighted scoring in Python | Local CPU | Deterministic, explainable |
 | Plain-language explanation | Gemini 3.5 Flash-Lite (fallback Gemma 4 26B-A4B) | Google AI Studio | Replies in the user's language |
 | Text → speech | Sarvam **Bulbul v3** | Sarvam API | Natural Indian voices, handles Hinglish |
-| Fallback LLM | Gemma 4 26B-A4B (API), then MedGemma 4B (local, already loaded) | Gemini API / Ollama | If Flash-Lite fails; avoids swapping models on the 6 GB GPU |
+| Fallback LLM | Gemma 4 26B-A4B (API), then MedGemma 4B (local, offline last resort) | Gemini API / Ollama | If Flash-Lite fails or times out |
+
+Model rationale + benchmark numbers: `eval/results/*.json`, `python eval/bench_pipeline.py <part>`. Free-tier limits: gemini-3.8-flash 20 RPD; Flash-Lite hits per-minute 429s under parallel load.
 
 Saaras is speech-to-TEXT. Bulbul is text-to-SPEECH. MedGemma is under Google's Health AI Developer Foundations terms.
 
