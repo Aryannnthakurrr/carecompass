@@ -11,16 +11,18 @@ models:
     model: bulbul:v3             # stable; v4-flash has persona voices e.g. simran_enhi_customer
     speaker: ritu
     language_code: hi-IN
+  # Chosen by eval/bench_intake.py (2026-10-24): flash-lite ~1-3s with enforced schema;
+  # gemma-4-26b ~3.4s + occasional 500s; sarvam-105b ~10s, flaky; medgemma local hallucinates symptoms.
   intake:
     provider: gemini
-    model: gemma-4-26b-a4b-it    # Gemma 3 no longer listed on Gemini API; MoE = low latency
-    thinking_level: minimal      # ~1.7s vs ~8s with default thinking
-    alt: gemma-4-31b-it          # slow (60s+) and often 503 on free tier; avoid
-    fallback: sarvam-m
+    model: gemini-3.5-flash-lite # pinned version, not the -latest alias
+    thinking_level: minimal
+    fallback: gemma-4-26b-a4b-it # open-weights, same API key
   explain:
     provider: gemini
-    model: gemma-4-26b-a4b-it
+    model: gemini-3.5-flash-lite
     thinking_level: minimal
+    fallback: gemma-4-26b-a4b-it
   triage:
     provider: ollama
     base_url: http://localhost:11434/v1

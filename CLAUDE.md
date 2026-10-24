@@ -24,12 +24,12 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 | Stage | Model | Where it runs | Why |
 |---|---|---|---|
 | Speech → text | Sarvam **Saaras v4** (auto language detect; Saarika is retired) | Sarvam API | Best at Hindi/English/Hinglish code-mixing; keeps original wording so red-flag phrases aren't lost |
-| Text → structured English + next follow-up question | **Gemma 4 26B-A4B** (alt: Gemma 4 31B) | Google AI Studio (Gemini API) | Gemma 3 no longer served there; MoE keeps latency low. Backup: Sarvam-M |
+| Text → structured English + next follow-up question | **Gemini 3.5 Flash-Lite** with enforced JSON schema (fallback: Gemma 4 26B-A4B) | Gemini API | Fastest with best schema adherence in `eval/bench_intake.py`; Gemma 4 ~3.4s, Sarvam-105b ~10s, MedGemma hallucinated symptoms |
 | Triage (care type + urgency) | Red-flag rules → **MedGemma 4B** (`unsloth/medgemma-4b-it-GGUF`), LoRA fine-tuned, Q4 GGUF | Local, via Ollama | Fast, trained on organisers' labels, open source |
 | Caregiver matching | Weighted scoring in Python | Local CPU | Deterministic, explainable |
-| Plain-language explanation | Gemma 4 26B-A4B | Google AI Studio | Replies in the user's language |
+| Plain-language explanation | Gemini 3.5 Flash-Lite (fallback Gemma 4 26B-A4B) | Google AI Studio | Replies in the user's language |
 | Text → speech | Sarvam **Bulbul v3** | Sarvam API | Natural Indian voices, handles Hinglish |
-| Fallback LLM | Sarvam-M (API), then MedGemma 4B (local, already loaded) | Sarvam API / Ollama | If Gemini is rate-limited; avoids swapping models on the 6 GB GPU |
+| Fallback LLM | Gemma 4 26B-A4B (API), then MedGemma 4B (local, already loaded) | Gemini API / Ollama | If Flash-Lite fails; avoids swapping models on the 6 GB GPU |
 
 Saaras is speech-to-TEXT. Bulbul is text-to-SPEECH. MedGemma is under Google's Health AI Developer Foundations terms.
 
@@ -79,11 +79,11 @@ Response:
 
 ## Pipeline logic
 
-1. **Intake (`intake.py`)**: ONE Gemma 4 call returns JSON: `{symptoms[], duration, patient_age, severity, missing_slots[], follow_up_question_in_user_language | null, detected_language}`. Structured output. Hard cap of 4 follow-up questions.
+1. **Intake (`intake.py`)**: ONE Flash-Lite call with a Pydantic `response_schema` (symptoms in English, negated symptoms separate, follow-up in user's language/script) returns JSON: `{symptoms[], duration, patient_age, severity, missing_slots[], follow_up_question_in_user_language | null, detected_language}`. Structured output. Hard cap of 4 follow-up questions.
 2. **Red flags (`redflags.py`)**: run on BOTH raw transcript and structured symptoms. Any hit → emergency path immediately, skip matching. Starter list: chest pain / seene mein dard · difficulty breathing / saans lene mein taklif / saans nahi aa rahi · unconscious / behosh · seizure / daura / jhatke · stroke signs (muh tedha, haath-pair sunn, bolne mein dikkat) · heavy bleeding / bahut khoon · severe head injury · poisoning / zeher · face or throat swelling · blue lips · sudden confusion · fever in infant < 3 months · bleeding in pregnancy · suicidal thoughts.
 3. **Triage (`triage.py`)**: MedGemma classifies care type + urgency. Safety bias: if output invalid/uncertain, or rules and model disagree, pick the MORE urgent option.
 4. **Matching (`matching.py`)**: filter by skill and availability within urgency window; score = weighted sum of distance (haversine), language match, rating, soonest slot (0.35/0.25/0.2/0.2). Reasons from templates, not the LLM.
-5. **Explain (`explain.py`)**: Gemma → 1–2 plain sentences in user's language. For speech, Hinglish in Devanagari; romanised on screen.
+5. **Explain (`explain.py`)**: Flash-Lite → 1–2 plain sentences in user's language. For speech, Hinglish in Devanagari; romanised on screen.
 6. **Emergency (`emergency_text.py`)**: NEVER generated. Pre-written EN/HI/Hinglish with "Call 112" and "Call 108" plus 2–3 simple steps.
 
 ## Clinical scope rules
