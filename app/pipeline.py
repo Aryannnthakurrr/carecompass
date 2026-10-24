@@ -136,7 +136,10 @@ def _basic_gaps(facts: CaseFacts, severity: bool = True) -> list[str]:
 
 
 def _severity_ask(facts: CaseFacts, fever: bool) -> str:
-    """How bad: the fact that most often moves the care type once who and how long are known."""
+    """How bad: the fact that most often moves the care type once who and how long are known. Complaint-specific from the
+    protocol cards (bleeding: does it stop with pressure; accident: what happened, can they move it, head hit)."""
+    if key := protocols.key_ask(facts):
+        return key
     if fever:
         return "how high the temperature is"
     if any(s.lower().strip() in ("pain", "ache", "dard", "body pain", "hurting", "swelling") for s in facts.symptoms_present):

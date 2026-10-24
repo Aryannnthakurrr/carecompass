@@ -22,7 +22,8 @@ CARDS = {
                  ["since when", "how bad", "any vision change, weakness or vomiting"],
                  ["sudden worst-ever headache", "after a head injury", "with weakness, confusion or speech trouble",
                   "with high fever and stiff neck"]),
-    "injury / fall": (("fall", "fell", "injur", "fracture", "sprain", "twist", "swollen wrist", "swollen ankle"),
+    "injury / fall": (("fall", "fell", "injur", "fracture", "sprain", "twist", "swollen wrist", "swollen ankle", "accident", "hit by",
+                       "crash", "collision"),
                       ["how it happened", "can they move it or put weight on it", "did they hit their head"],
                       ["hit the head and vomiting or drowsy", "bone visible or limb badly bent", "heavy bleeding"]),
     "cut / bleeding": (("cut", "bleed", "wound", "laceration"),
@@ -56,11 +57,40 @@ CARDS = {
 }
 
 
+# the one question that tells how serious each complaint is (asked when the user hasn't said how bad it is)
+KEY_ASK = {
+    "fever": "how high the temperature is",
+    "breathing / cough": "whether they are breathless even at rest, or only when walking",
+    "abdominal pain": "where exactly the pain is and how bad it is (mild, moderate or severe)",
+    "headache": "how bad the headache is, and whether there is vomiting, blurred vision or weakness",
+    "injury / fall": "what exactly happened, and whether they can move it or hit their head",
+    "cut / bleeding": "how heavy the bleeding is, and whether it stops when you press a clean cloth on it",
+    "vomiting / loose motions": "how many times, and whether they can keep water down",
+    "weakness / not eating": "whether they are eating and drinking, and any confusion or trouble getting up",
+    "dizziness / fainting": "whether they fainted or nearly fainted",
+    "rash / allergy": "where the rash is, and whether there is any face or lip swelling",
+    "pregnancy": "how many months pregnant, and what exactly is happening",
+    "urinary": "whether there is fever or back pain with it",
+    "low mood / anxiety": "whether they have had any thoughts of harming themselves",
+    "blood sugar": "the reading, and whether they are drowsy or confused",
+}
+
+
+def key_ask(facts: CaseFacts) -> str | None:
+    """The severity question for the most relevant complaint in the facts; None if no card matches."""
+    hit = cards(facts, limit=1)
+    return KEY_ASK.get(hit[0][0]) if hit else None
+
+
 def cards(facts: CaseFacts, limit: int = 2) -> list[tuple[str, list[str], list[str]]]:
     """-> (name, questions, danger signs) for the complaints in the facts, most relevant first."""
     text = " ".join(facts.symptoms_present + facts.vitals_reported + facts.special_population).lower()
     hits = [(name, ask, danger) for name, (keys, ask, danger) in CARDS.items() if any(k in text for k in keys)]
+    hits.sort(key=lambda h: FIRST.index(h[0]) if h[0] in FIRST else len(FIRST))  # the most time-critical complaint first
     return hits[:limit]
+
+
+FIRST = ["cut / bleeding", "injury / fall", "pregnancy", "low mood / anxiety", "blood sugar", "fever", "breathing / cough"]
 
 
 def guide(facts: CaseFacts) -> str:

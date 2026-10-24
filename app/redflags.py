@@ -30,7 +30,11 @@ RULES = {
     ],
     "severe_bleeding": [
         r"(heavy|severe|lot of|lots of|uncontrolled|profuse) bleeding", r"bleeding (that )?(won'?t|will not|doesn'?t|does not|is not|isn'?t) stop",
-        r"bleeding (is )?(not|never) stopp", r"bleeding (ruk|band) (nahi|nhi)", r"khoo?n (ruk|band) (nahi|nhi)", r"bahut khoo?n", r"vomiting blood", r"khoo?n ki ulti",
+        r"bleeding (is )?(not|never) stopp", r"bleeding (ruk|band) (nahi|nhi)", r"khoo?n (ruk|band) (nahi|nhi)",
+        r"(khoo?n|bleeding).{0,25}(nahi|nhi|na) (ruk|band ho)", r"(khoo?n|bleeding).{0,25}(ruk|band) (nahi|nhi|na) (raha|rahi|ho)",
+        r"(dabane|press).{0,30}(bhi|even).{0,20}(nahi|nhi|not|won'?t|doesn'?t) (ruk|stop)",
+        r"(won'?t|will not|doesn'?t|does not|isn'?t|not) stop(ping)? bleeding",
+        r"खून.{0,25}(नहीं|नही|ना) रुक", r"खून.{0,25}रुक (नहीं|नही) (रहा|रही)", r"bahut khoo?n", r"vomiting blood", r"khoo?n ki ulti",
         r"pregnan\w*.{0,30}bleed", r"bleed\w*.{0,30}pregnan",
         r"(heavy|severe|profuse|excessive) (vaginal|rectal|nose|menstrual) bleeding", r"(continuous|continuing|non-?stop) bleeding",
         r"(passing|passed) (large |big )?(blood )?clots?", r"bleeding.{0,20}clots",

@@ -22,6 +22,8 @@ FIRE = [
     "my baby is 2 months old and has fever",
     "i want to die", "mar jaana chahta hoon", "मर जाना चाहता हूँ", "i wish i was dead",
     "when he bombs a building the people end up injured", "dhamaka hua, log ghayal hain", "इमारत गिर गई, लोग फँसे हैं",
+    "kapda dabane par bhi khoon nahi ruk raha", "haath se khoon band nahi ho raha", "दबाने पर भी खून नहीं रुक रहा",
+    "even when I press it the bleeding does not stop", "pressing but it won't stop bleeding",
     "my son is drowning", "bijli ka current lag gaya", "saanp ne kaat liya", "baby is choking on a coin", "severe burns on his chest",
 ]
 QUIET = [
@@ -35,6 +37,7 @@ QUIET = [
     "i will die if hamilton dont win", "he bombs buildings", "no blast, nobody hurt", "i am dying to see the match",
     "this movie was a bomb", "small burn on finger from tea", "severe burning sensation in stomach", "current bill is high",
     "choked up at the wedding", "dog bite on leg",
+    "khoon ruk gaya hai", "dabane par khoon ruk gaya", "bleeding stopped when I pressed it", "थोड़ा खून आया था, अब रुक गया",
 ]
 
 
