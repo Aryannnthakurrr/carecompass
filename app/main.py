@@ -32,6 +32,13 @@ app.include_router(auth.router)
 app.include_router(services.router)
 
 
+@app.on_event("startup")
+def _warm_retrieval():
+    """Build the screener's similar-case index once at startup, not on the first patient's request."""
+    from app import retrieval
+    retrieval.warm()
+
+
 @app.post("/triage", response_model=TriageResponse)
 def triage(body: TriageRequest):
     """Returns either a follow_up_question (decision fields null) or a decision with matched caregivers."""

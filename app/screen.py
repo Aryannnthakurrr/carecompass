@@ -99,7 +99,14 @@ def screen(facts: CaseFacts) -> Optional[Screen]:
     """-> MedGemma's grade, or None when skipped, Ollama is down or the output is invalid (then nothing changes)."""
     if not wanted(facts):
         return None
-    out = llm.medgemma(SYSTEM, f"Case: {note(facts)}", Screen, num_predict=CFG.get("num_predict", 500))
+    prompt = f"Case: {note(facts)}"
+    if CFG.get("retrieval", True):
+        from app import retrieval
+        near = retrieval.similar(facts, CFG.get("retrieve_k", 4))
+        if near:
+            shown = "\n".join(f"- {n} -> {g}" for n, g in near)
+            prompt = f"Similar past cases and how they were graded (judge THIS case on its own findings):\n{shown}\n\n{prompt}"
+    out = llm.medgemma(SYSTEM, prompt, Screen, num_predict=CFG.get("num_predict", 500))
     if out is not None:
         log.info("screen level=%s signs=%s", out.level, out.danger_signs)
     return out
