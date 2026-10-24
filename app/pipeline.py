@@ -89,6 +89,9 @@ def _run_dataset(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
 def _run_smart(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
     text = " ".join(user_turns)
     hints = lexicon.analyse(text)
+    # patterns are the fast, explainable path; the structurer's reading catches phrasings the patterns don't know.
+    # "online" stays pattern-only: the structurer has read "dikhana hai" (see a doctor) as a video request before.
+    hints.preferences = list(dict.fromkeys(hints.preferences + [p for p in facts.preferences if p != "online"]))
     decision, votes = smart.classify(facts, hints)
     log.info("smart votes medgemma=%s qwen=%s hints=%s", votes["medgemma"] and votes["medgemma"].care_type,
              votes["qwen"] and votes["qwen"].care_type, hints.as_dict())

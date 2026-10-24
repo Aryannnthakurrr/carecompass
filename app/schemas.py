@@ -94,6 +94,11 @@ class CaseFacts(BaseModel):
     services_requested: list[str] = Field(default_factory=list, description="Specific tasks asked for, e.g. injection, wound dressing, catheter care, blood test, full body checkup, BP and sugar check, second opinion on reports")
     setting_requested: Optional[Literal["home_visit", "video_consult", "lab_test", "unspecified"]] = None
     severity: Optional[Literal["mild", "moderate", "severe"]] = None
+    preferences: list[Literal["quality", "nearby", "budget", "soon", "female", "home", "online", "consult_only", "hospital"]] = Field(
+        default_factory=list,
+        description="Only what the user explicitly asks for, in any language: quality (best, experienced, bad past doctor), nearby, "
+                    "budget (cheap, sasta/sasti, kam paise), soon (today, now), female (lady doctor), home, online (video/phone), "
+                    "consult_only (just a consultation, no tests), hospital")
     detected_language: Lang = Field(description="hi = Devanagari Hindi, hinglish = romanised Hindi/English mix, en = English")
 
 
