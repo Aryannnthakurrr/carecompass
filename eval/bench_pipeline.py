@@ -36,7 +36,7 @@ CASES = [json.loads(l) for l in (HERE / "intake_cases.jsonl").read_text(encoding
 gem = genai.Client(api_key=require_env("GEMINI_API_KEY"))
 sarvam = SarvamAI(api_subscription_key=require_env("SARVAM_API_KEY"))
 OLLAMA = "http://localhost:11434"
-MEDGEMMA = CFG["models"]["local_fallback"]["model"]
+MEDGEMMA = CFG["models"]["classifier"]["model"]
 
 
 # ---------------------------------------------------------------- schemas / prompts

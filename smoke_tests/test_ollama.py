@@ -15,7 +15,7 @@ PROMPT = (
 )
 
 failed = False
-for key in ("local_fallback",):
+for key in ("classifier",):
     m = cfg["models"][key]
     client = OpenAI(base_url=m["base_url"], api_key="ollama")
     t0 = time.perf_counter()

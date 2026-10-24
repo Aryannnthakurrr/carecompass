@@ -8,7 +8,7 @@ from google.genai import types
 from _common import CFG, require_env
 
 client = genai.Client(api_key=require_env("GEMINI_API_KEY"))
-m = CFG["models"]["intake"]
+m = CFG["models"]["conversation"]["fallback"]
 model = m["model"]
 
 gemma = sorted(m.name.removeprefix("models/") for m in client.models.list() if "gemma" in m.name)

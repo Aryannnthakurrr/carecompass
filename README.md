@@ -26,10 +26,10 @@ ollama pull hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M
 | Stage | Model | Provider |
 |---|---|---|
 | Speech → text | Sarvam Saaras v4 | Sarvam API |
-| Intake + explanation | Gemini 3.5 Flash-Lite (fallback Gemma 4 26B-A4B) | Gemini API |
-| Triage | MedGemma 4B (LoRA, Q4 GGUF) + rule-based red flags | Local (Ollama) |
+| Structurer, follow-ups, explanation | Qwen 3.8 27B (fallback Gemini 3.5 Flash-Lite) | Cerebras API |
+| Triage | Red-flag rules + MedGemma 4B (local) with Qwen 3.8 27B second opinion | Ollama + Cerebras |
 | Text → speech | Sarvam Bulbul v3 | Sarvam API |
-| Local fallback LLM | MedGemma 4B | Ollama |
+
 
 ## Status
 

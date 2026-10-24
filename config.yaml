@@ -12,29 +12,29 @@ models:
     model: bulbul:v3             # stable; v4-flash has persona voices e.g. simran_enhi_customer
     speaker: ritu
     language_code: hi-IN
-  # Chosen by eval/bench_intake.py (2026-10-24): flash-lite ~1-3s with enforced schema;
-  # gemma-4-26b ~3.4s + occasional 500s; sarvam-105b ~10s, flaky; medgemma local hallucinates symptoms.
-  intake:
-    provider: gemini
-    model: gemini-3.5-flash-lite # pinned version, not the -latest alias
-    thinking_level: minimal
-    fallback: gemma-4-26b-a4b-it # open-weights, same API key
-  explain:
-    provider: gemini
-    model: gemini-3.5-flash-lite
-    thinking_level: minimal
-    fallback: gemma-4-26b-a4b-it
-  # Provisional (eval/results/classify.json): gemma-4 29/30 care, 11/11 emergencies untrained;
-  # medgemma-4b only 5/11 emergencies untrained. Final pick on organiser validation split.
-  triage:
-    provider: gemini
-    model: gemma-4-26b-a4b-it
-    thinking_level: minimal
-    second_opinion: gemini-3.5-flash-lite   # optional: run in parallel, more urgent answer wins
-  local_fallback:
+  # Two-stage design, chosen by eval/bench_v2.py (2026-10-24). See docs rationale doc.
+  # Structurer: user's words -> English CaseFacts JSON. Also phrases follow-ups + explanations.
+  # qwen-3.8-27b: all facts 30/30, 11/11 red flags, 0 denial leaks, 0.45 s; follow-ups 17/17 script at 0.38 s.
+  conversation:
+    provider: cerebras
+    base_url: https://api.cerebras.ai/v1
+    model: qwen-3.8-27b          # open weights
+    reasoning_effort: none
+    fallback:
+      provider: gemini
+      model: gemini-3.5-flash-lite
+      thinking_level: minimal
+  # Classifier: CaseFacts only -> TriageDecision {status, care_type, urgency, red_flags, missing_info}.
+  # MedGemma (6 examples) + Qwen, more urgent wins: 11/11 emergencies, 0 under-triaged, 0 false emergencies.
+  classifier:
     provider: ollama
     base_url: http://localhost:11434/v1
-    model: hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M   # offline last resort only
+    model: hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M   # replace with LoRA fine-tune once trained
+    second_opinion:
+      provider: cerebras
+      base_url: https://api.cerebras.ai/v1
+      model: qwen-3.8-27b
+    combine: more_urgent_wins
 
 # Replace with organiser label strings once the taxonomy is released.
 labels:

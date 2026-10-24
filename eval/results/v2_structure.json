@@ -1,0 +1,4669 @@
+{
+ "gemini-3.5-flash-lite": {
+  "summary": {
+   "valid": "30/30",
+   "fact_recall": 0.979,
+   "cases_all_facts": "29/30",
+   "red_flag_cases_kept": "11/11",
+   "denial_leaks": "0/7",
+   "unmatched_extra_symptoms": 0,
+   "age_correct": "10/10",
+   "language_correct": "30/30",
+   "median_s": 4.56,
+   "p90_s": 5.81,
+   "max_s": 6.76
+  },
+  "rows": [
+   {
+    "out": {
+     "symptoms_present": [
+      "fever",
+      "dry cough"
+     ],
+     "symptoms_denied": [
+      "breathlessness"
+     ],
+     "onset": null,
+     "duration": "three days",
+     "patient_age": "70 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E1",
+    "valid": true,
+    "latency": 6.17
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "headache"
+     ],
+     "symptoms_denied": [
+      "vomiting",
+      "blurred vision"
+     ],
+     "onset": "sudden",
+     "duration": "since this morning",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "mild",
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 2,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E2",
+    "valid": true,
+    "latency": 4.98
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "unable to move right arm",
+      "slurred speech"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "20 minutes",
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E3",
+    "valid": true,
+    "latency": 6.76
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since last night",
+     "patient_age": "2 months",
+     "special_population": [
+      "infant"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [
+      "temperature 101"
+     ],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E4",
+    "valid": true,
+    "latency": 4.09
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "last week",
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "recent knee surgery"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "change surgical wound dressing"
+     ],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E5",
+    "valid": true,
+    "latency": 5.0
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "excessive thirst",
+      "tiredness"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since yesterday",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [
+      "diabetic"
+     ],
+     "vitals_reported": [
+      "sugar reading 350"
+     ],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 3,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E6",
+    "valid": true,
+    "latency": 3.6
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest tightness",
+      "heavy sweating"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "55 years",
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E7",
+    "valid": true,
+    "latency": 3.98
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "loose motions"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since morning",
+     "patient_age": "8 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E8",
+    "valid": true,
+    "latency": 3.48
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "knee pain",
+      "knee pain worsening on climbing stairs"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "6 months",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E9",
+    "valid": true,
+    "latency": 4.91
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "bleeding"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "pregnant"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E10",
+    "valid": true,
+    "latency": 5.41
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever",
+      "cough"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "two days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H1",
+    "valid": true,
+    "latency": 5.64
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "dizziness",
+      "vomiting"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "since morning",
+     "patient_age": "62 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "takes blood pressure medication"
+     ],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H2",
+    "valid": true,
+    "latency": 4.38
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "seizures",
+      "unconsciousness"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H3",
+    "valid": true,
+    "latency": 3.39
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "stomach pain"
+     ],
+     "symptoms_denied": [
+      "fever"
+     ],
+     "onset": null,
+     "duration": "three days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H4",
+    "valid": true,
+    "latency": 5.81
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "difficulty breathing",
+      "blue lips"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "severe",
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H5",
+    "valid": true,
+    "latency": 4.62
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "ear pain",
+      "mild fever"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since last night",
+     "patient_age": "5 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "mild",
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H6",
+    "valid": true,
+    "latency": 5.83
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "burning urination",
+      "frequent urination"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "two days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H7",
+    "valid": true,
+    "latency": 4.23
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "recent surgery"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "injection",
+      "dressing"
+     ],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H8",
+    "valid": true,
+    "latency": 3.61
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest pain",
+      "left arm pain"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "48 years",
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H9",
+    "valid": true,
+    "latency": 3.61
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "throat irritation",
+      "running nose"
+     ],
+     "symptoms_denied": [
+      "fever"
+     ],
+     "onset": null,
+     "duration": "one week",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H10",
+    "valid": true,
+    "latency": 4.51
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest pain",
+      "sweating"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "since morning",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D1",
+    "valid": true,
+    "latency": 3.53
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "high fever"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "three days",
+     "patient_age": "10 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "severe",
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D2",
+    "valid": true,
+    "latency": 4.47
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "knee pain",
+      "difficulty walking"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "several months",
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D3",
+    "valid": true,
+    "latency": 5.57
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "facial droop on one side",
+      "difficulty speaking"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D4",
+    "valid": true,
+    "latency": 5.33
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "diarrhea"
+     ],
+     "symptoms_denied": [
+      "vomiting"
+     ],
+     "onset": null,
+     "duration": "two days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D5",
+    "valid": true,
+    "latency": 5.09
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "accidental ingestion of pesticide"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D6",
+    "valid": true,
+    "latency": 5.56
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "wound on foot not healing"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "two weeks",
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "diabetes"
+     ],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D7",
+    "valid": true,
+    "latency": 4.22
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "cough"
+     ],
+     "symptoms_denied": [
+      "difficulty breathing"
+     ],
+     "onset": null,
+     "duration": "since last night",
+     "patient_age": "4 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D8",
+    "valid": true,
+    "latency": 4.51
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "severe anxiety",
+      "suicidal ideation"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "severe",
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D9",
+    "valid": true,
+    "latency": 4.28
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "80 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "bedridden"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "nurse for care"
+     ],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D10",
+    "valid": true,
+    "latency": 5.35
+   }
+  ]
+ },
+ "gpt-oss-120b (Cerebras)": {
+  "summary": {
+   "valid": "30/30",
+   "fact_recall": 0.936,
+   "cases_all_facts": "27/30",
+   "red_flag_cases_kept": "9/11",
+   "denial_leaks": "0/7",
+   "unmatched_extra_symptoms": 1,
+   "age_correct": "10/10",
+   "language_correct": "28/30",
+   "median_s": 0.47,
+   "p90_s": 0.63,
+   "max_s": 0.73
+  },
+  "rows": [
+   {
+    "out": {
+     "symptoms_present": [
+      "fever",
+      "dry cough"
+     ],
+     "symptoms_denied": [
+      "breathlessness"
+     ],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": "70 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E1",
+    "valid": true,
+    "latency": 0.6
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "headache"
+     ],
+     "symptoms_denied": [
+      "vomiting",
+      "blurred vision"
+     ],
+     "onset": "sudden",
+     "duration": "since this morning",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "mild",
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 2,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E2",
+    "valid": true,
+    "latency": 0.42
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "right arm weakness",
+      "slurred speech"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "20 minutes",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E3",
+    "valid": true,
+    "latency": 0.73
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since last night",
+     "patient_age": "2 months",
+     "special_population": [
+      "infant"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [
+      "temperature 101°F"
+     ],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E4",
+    "valid": true,
+    "latency": 0.5
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [
+      "wound dressing"
+     ],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E5",
+    "valid": true,
+    "latency": 0.43
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "increased thirst",
+      "fatigue"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since yesterday",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [
+      "diabetes"
+     ],
+     "vitals_reported": [
+      "blood sugar 350"
+     ],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 3,
+    "hit": 3,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E6",
+    "valid": true,
+    "latency": 0.51
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "tight chest",
+      "excessive sweating"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "55",
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E7",
+    "valid": true,
+    "latency": 0.63
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "diarrhea"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "since morning",
+     "patient_age": "8 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "mild",
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E8",
+    "valid": true,
+    "latency": 0.47
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "knee pain"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "6 months",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E9",
+    "valid": true,
+    "latency": 0.41
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "bleeding"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "pregnant"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E10",
+    "valid": true,
+    "latency": 0.39
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever",
+      "cough"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": false,
+    "id": "H1",
+    "valid": true,
+    "latency": 0.7
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "dizziness",
+      "vomiting"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since morning",
+     "patient_age": "62 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "hypertension"
+     ],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H2",
+    "valid": true,
+    "latency": 0.49
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "sensation of jolt",
+      "loss of consciousness"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 1,
+    "redflag_kept": false,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H3",
+    "valid": true,
+    "latency": 0.52
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "abdominal pain"
+     ],
+     "symptoms_denied": [
+      "fever"
+     ],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H4",
+    "valid": true,
+    "latency": 0.47
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "difficulty breathing",
+      "bluish lips"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H5",
+    "valid": true,
+    "latency": 0.47
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "ear pain",
+      "fever"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since last night",
+     "patient_age": "5 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H6",
+    "valid": true,
+    "latency": 0.45
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "burning sensation during urination",
+      "frequent urination"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H7",
+    "valid": true,
+    "latency": 0.55
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "postoperative"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "home injection",
+      "wound dressing"
+     ],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H8",
+    "valid": true,
+    "latency": 0.48
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest pain",
+      "left arm pain"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "48 years",
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H9",
+    "valid": true,
+    "latency": 0.42
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "itchy throat",
+      "runny nose"
+     ],
+     "symptoms_denied": [
+      "no fever"
+     ],
+     "onset": null,
+     "duration": "one week",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": false,
+    "id": "H10",
+    "valid": true,
+    "latency": 0.46
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest pain",
+      "sweating"
+     ],
+     "symptoms_denied": [],
+     "onset": "gradual",
+     "duration": "since morning",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D1",
+    "valid": true,
+    "latency": 0.45
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": "10 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D2",
+    "valid": true,
+    "latency": 0.56
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "knee pain",
+      "difficulty walking"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "several months",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D3",
+    "valid": true,
+    "latency": 0.4
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "one-sided facial droop",
+      "speech difficulty"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D4",
+    "valid": true,
+    "latency": 0.47
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "diarrhea"
+     ],
+     "symptoms_denied": [
+      "vomiting"
+     ],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D5",
+    "valid": true,
+    "latency": 0.43
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 0,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": false,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D6",
+    "valid": true,
+    "latency": 0.48
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "non-healing foot wound"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 weeks",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [
+      "diabetes"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "wound dressing"
+     ],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D7",
+    "valid": true,
+    "latency": 0.52
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "cough"
+     ],
+     "symptoms_denied": [
+      "difficulty breathing"
+     ],
+     "onset": null,
+     "duration": "since night",
+     "patient_age": "4 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D8",
+    "valid": true,
+    "latency": 0.45
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "anxiety",
+      "lack of desire to live"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D9",
+    "valid": true,
+    "latency": 0.46
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "80 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [
+      "nursing care"
+     ],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 0,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D10",
+    "valid": true,
+    "latency": 0.66
+   }
+  ]
+ },
+ "qwen-3.8-27b (Cerebras)": {
+  "summary": {
+   "valid": "30/30",
+   "fact_recall": 1.0,
+   "cases_all_facts": "30/30",
+   "red_flag_cases_kept": "11/11",
+   "denial_leaks": "0/7",
+   "unmatched_extra_symptoms": 1,
+   "age_correct": "10/10",
+   "language_correct": "30/30",
+   "median_s": 0.45,
+   "p90_s": 0.56,
+   "max_s": 0.61
+  },
+  "rows": [
+   {
+    "out": {
+     "symptoms_present": [
+      "fever",
+      "dry cough"
+     ],
+     "symptoms_denied": [
+      "breathlessness"
+     ],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": "70 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E1",
+    "valid": true,
+    "latency": 0.61
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "mild headache"
+     ],
+     "symptoms_denied": [
+      "vomiting",
+      "blurred vision"
+     ],
+     "onset": null,
+     "duration": "since this morning",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "mild",
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 2,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E2",
+    "valid": true,
+    "latency": 0.58
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "inability to move right arm",
+      "slurred speech"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "20 minutes",
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E3",
+    "valid": true,
+    "latency": 0.43
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since last night",
+     "patient_age": "2 months",
+     "special_population": [
+      "infant"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [
+      "temperature 101"
+     ],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E4",
+    "valid": true,
+    "latency": 0.45
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "recent knee surgery"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "wound dressing change at home"
+     ],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E5",
+    "valid": true,
+    "latency": 0.43
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "excessive thirst",
+      "fatigue"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since yesterday",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [
+      "diabetes"
+     ],
+     "vitals_reported": [
+      "blood sugar 350"
+     ],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 3,
+    "hit": 3,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E6",
+    "valid": true,
+    "latency": 0.45
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest tightness",
+      "excessive sweating"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "55 years",
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E7",
+    "valid": true,
+    "latency": 0.42
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "loose motions 4-5 times"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since morning",
+     "patient_age": "8 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E8",
+    "valid": true,
+    "latency": 0.46
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "knee pain",
+      "pain worsens with stair climbing"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "6 months",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E9",
+    "valid": true,
+    "latency": 0.44
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "vaginal bleeding"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "pregnant"
+     ],
+     "existing_conditions": [
+      "7 months pregnant"
+     ],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E10",
+    "valid": true,
+    "latency": 0.45
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever",
+      "cough"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H1",
+    "valid": true,
+    "latency": 0.54
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "dizziness",
+      "vomiting"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since morning",
+     "patient_age": "62 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "hypertension",
+      "on BP medication"
+     ],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H2",
+    "valid": true,
+    "latency": 0.5
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "seizures",
+      "loss of consciousness"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H3",
+    "valid": true,
+    "latency": 0.43
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "abdominal pain"
+     ],
+     "symptoms_denied": [
+      "fever"
+     ],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H4",
+    "valid": true,
+    "latency": 0.51
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "severe difficulty breathing",
+      "blue lips"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "severe",
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H5",
+    "valid": true,
+    "latency": 0.44
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "ear pain",
+      "fever"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since last night",
+     "patient_age": "5 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H6",
+    "valid": true,
+    "latency": 0.52
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "burning urination",
+      "frequent urination"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H7",
+    "valid": true,
+    "latency": 0.42
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "recent surgery"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "injection",
+      "wound dressing"
+     ],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H8",
+    "valid": true,
+    "latency": 0.47
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest pain",
+      "left arm pain"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "48 years",
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H9",
+    "valid": true,
+    "latency": 0.43
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "throat itching",
+      "runny nose"
+     ],
+     "symptoms_denied": [
+      "fever"
+     ],
+     "onset": null,
+     "duration": "one week",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H10",
+    "valid": true,
+    "latency": 0.46
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest pain",
+      "sweating"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since morning",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D1",
+    "valid": true,
+    "latency": 0.44
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "high fever"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": "10 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D2",
+    "valid": true,
+    "latency": 0.51
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "knee pain",
+      "difficulty walking"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "several months",
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D3",
+    "valid": true,
+    "latency": 0.56
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "facial drooping on one side",
+      "difficulty speaking"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D4",
+    "valid": true,
+    "latency": 0.59
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "loose motions"
+     ],
+     "symptoms_denied": [
+      "vomiting"
+     ],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D5",
+    "valid": true,
+    "latency": 0.44
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "ingestion of insecticide"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D6",
+    "valid": true,
+    "latency": 0.47
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "non-healing wound on foot"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 weeks",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [
+      "diabetes"
+     ],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D7",
+    "valid": true,
+    "latency": 0.45
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "cough since night"
+     ],
+     "symptoms_denied": [
+      "difficulty breathing"
+     ],
+     "onset": null,
+     "duration": "since night",
+     "patient_age": "4 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D8",
+    "valid": true,
+    "latency": 0.45
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "severe anxiety",
+      "suicidal ideation"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "severe",
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D9",
+    "valid": true,
+    "latency": 0.45
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "80 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "bedridden"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "nursing care"
+     ],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D10",
+    "valid": true,
+    "latency": 0.44
+   }
+  ]
+ },
+ "gpt-5.4-nano (OpenAI)": {
+  "summary": {
+   "valid": "30/30",
+   "fact_recall": 0.936,
+   "cases_all_facts": "27/30",
+   "red_flag_cases_kept": "10/11",
+   "denial_leaks": "1/7",
+   "unmatched_extra_symptoms": 5,
+   "age_correct": "10/10",
+   "language_correct": "26/30",
+   "median_s": 1.2,
+   "p90_s": 1.45,
+   "max_s": 1.58
+  },
+  "rows": [
+   {
+    "out": {
+     "symptoms_present": [
+      "fever",
+      "dry cough"
+     ],
+     "symptoms_denied": [
+      "no breathlessness",
+      "eating fine"
+     ],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": "70 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E1",
+    "valid": true,
+    "latency": 1.58
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "mild headache"
+     ],
+     "symptoms_denied": [
+      "vomiting",
+      "blurred vision"
+     ],
+     "onset": "gradual",
+     "duration": "since this morning",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "mild",
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 2,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E2",
+    "valid": true,
+    "latency": 1.25
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "sudden inability to move right arm",
+      "slurred speech"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "20 minutes",
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E3",
+    "valid": true,
+    "latency": 1.36
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever 101F"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "since last night",
+     "patient_age": "2 months",
+     "special_population": [
+      "infant"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [
+      "temperature 101F"
+     ],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E4",
+    "valid": true,
+    "latency": 1.43
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "last week",
+     "patient_age": "grandfather",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "knee surgery last week",
+      "surgical wound"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "dressing change at home"
+     ],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E5",
+    "valid": true,
+    "latency": 1.24
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "high blood sugar reading reported",
+      "very thirsty",
+      "fatigue",
+      "tiredness"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since yesterday",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [
+      "diabetes"
+     ],
+     "vitals_reported": [
+      "blood sugar 350"
+     ],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 3,
+    "hit": 3,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E6",
+    "valid": true,
+    "latency": 1.19
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest tightness",
+      "heavy sweating"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "55",
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E7",
+    "valid": true,
+    "latency": 1.1
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "loose stools",
+      "diarrhea 4-5 times since morning"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since morning",
+     "patient_age": "8 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E8",
+    "valid": true,
+    "latency": 1.48
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "knee pain",
+      "worse with climbing stairs"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "6 months",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E9",
+    "valid": true,
+    "latency": 1.46
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "vaginal bleeding",
+      "pregnant (7 months)"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "pregnant"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 1,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E10",
+    "valid": true,
+    "latency": 1.18
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever for 2 days",
+      "cough"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": false,
+    "id": "H1",
+    "valid": true,
+    "latency": 1.2
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "dizziness since morning",
+      "vomiting (two times)"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "since morning",
+     "patient_age": "62 years",
+     "special_population": [],
+     "existing_conditions": [
+      "takes BP medicine"
+     ],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H2",
+    "valid": true,
+    "latency": 1.27
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "jerking movements (seizure-like)",
+      "fainting/unconsciousness"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H3",
+    "valid": true,
+    "latency": 1.16
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "pain in pet for 3 days",
+      "able to eat food"
+     ],
+     "symptoms_denied": [
+      "no fever"
+     ],
+     "onset": "gradual",
+     "duration": "3 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 0,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 2,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": false,
+    "id": "H4",
+    "valid": true,
+    "latency": 1.32
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "severe difficulty breathing",
+      "lips turning blue (cyanosis)"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H5",
+    "valid": true,
+    "latency": 1.45
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "ear pain",
+      "fever"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "since last night",
+     "patient_age": "5 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": false,
+    "id": "H6",
+    "valid": true,
+    "latency": 1.17
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "burning sensation while urinating",
+      "urinary frequency"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H7",
+    "valid": true,
+    "latency": 1.14
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [
+      "recent operation (post-operative)"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "home injection",
+      "wound dressing"
+     ],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H8",
+    "valid": true,
+    "latency": 1.27
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest pain",
+      "pain in left arm"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "48 years",
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H9",
+    "valid": true,
+    "latency": 1.18
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "sore throat",
+      "runny nose"
+     ],
+     "symptoms_denied": [
+      "no fever"
+     ],
+     "onset": null,
+     "duration": "1 week",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": false,
+    "id": "H10",
+    "valid": true,
+    "latency": 1.2
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest pain since morning",
+      "sweating"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D1",
+    "valid": true,
+    "latency": 1.2
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "high fever for 3 days"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": "10 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D2",
+    "valid": true,
+    "latency": 1.15
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "knee pain for months",
+      "difficulty walking"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "several months",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D3",
+    "valid": true,
+    "latency": 1.11
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "face turned to one side",
+      "difficulty speaking"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D4",
+    "valid": true,
+    "latency": 1.16
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "diarrhea for 2 days"
+     ],
+     "symptoms_denied": [
+      "no vomiting"
+     ],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D5",
+    "valid": true,
+    "latency": 1.18
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "pregnant"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 0,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": false,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D6",
+    "valid": true,
+    "latency": 1.22
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "diabetes (mother)",
+      "foot wound not healing"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 weeks",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [
+      "diabetes"
+     ],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D7",
+    "valid": true,
+    "latency": 1.4
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "cough since night",
+      "no breathing difficulty"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "since night",
+     "patient_age": "4 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 1,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D8",
+    "valid": true,
+    "latency": 1.12
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "severe anxiety",
+      "suicidal thoughts"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D9",
+    "valid": true,
+    "latency": 1.08
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "80 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [
+      "nurse for bed care"
+     ],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 0,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D10",
+    "valid": true,
+    "latency": 1.39
+   }
+  ]
+ },
+ "gpt-5.4-mini (OpenAI)": {
+  "summary": {
+   "valid": "30/30",
+   "fact_recall": 1.0,
+   "cases_all_facts": "30/30",
+   "red_flag_cases_kept": "11/11",
+   "denial_leaks": "0/7",
+   "unmatched_extra_symptoms": 5,
+   "age_correct": "10/10",
+   "language_correct": "30/30",
+   "median_s": 1.03,
+   "p90_s": 1.25,
+   "max_s": 1.37
+  },
+  "rows": [
+   {
+    "out": {
+     "symptoms_present": [
+      "fever",
+      "dry cough"
+     ],
+     "symptoms_denied": [
+      "breathlessness"
+     ],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": "70 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E1",
+    "valid": true,
+    "latency": 1.37
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "mild headache"
+     ],
+     "symptoms_denied": [
+      "vomiting",
+      "blurred vision"
+     ],
+     "onset": "gradual",
+     "duration": "since this morning",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "mild",
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 2,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E2",
+    "valid": true,
+    "latency": 0.97
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "right arm weakness",
+      "slurred speech"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "20 minutes",
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E3",
+    "valid": true,
+    "latency": 1.07
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever"
+     ],
+     "symptoms_denied": [],
+     "onset": "gradual",
+     "duration": "since last night",
+     "patient_age": "2 months",
+     "special_population": [
+      "infant"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [
+      "temperature 101"
+     ],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E4",
+    "valid": true,
+    "latency": 1.03
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "last week",
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "recent knee surgery"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "wound dressing change at home"
+     ],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E5",
+    "valid": true,
+    "latency": 1.35
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "very thirsty",
+      "tiredness"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "since yesterday",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [
+      "diabetes"
+     ],
+     "vitals_reported": [
+      "blood sugar 350"
+     ],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 3,
+    "hit": 3,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E6",
+    "valid": true,
+    "latency": 1.02
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest tightness",
+      "sweating"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "55 years",
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E7",
+    "valid": true,
+    "latency": 1.01
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "loose motions 4-5 times",
+      "drinking water",
+      "playing"
+     ],
+     "symptoms_denied": [],
+     "onset": "sudden",
+     "duration": "since morning",
+     "patient_age": "8 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 2,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "E8",
+    "valid": true,
+    "latency": 1.03
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "knee pain",
+      "worse on climbing stairs"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "6 months",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E9",
+    "valid": true,
+    "latency": 1.07
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "bleeding",
+      "pregnant"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "pregnant"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "en"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 1,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "E10",
+    "valid": true,
+    "latency": 1.33
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "fever",
+      "cough"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H1",
+    "valid": true,
+    "latency": 1.02
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "dizziness",
+      "vomiting"
+     ],
+     "symptoms_denied": [],
+     "onset": "gradual",
+     "duration": "since morning",
+     "patient_age": "62 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "on blood pressure medication"
+     ],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H2",
+    "valid": true,
+    "latency": 1.07
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "seizure-like jerks",
+      "loss of consciousness"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H3",
+    "valid": true,
+    "latency": 1.04
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "abdominal pain",
+      "able to eat"
+     ],
+     "symptoms_denied": [
+      "fever"
+     ],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 1,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H4",
+    "valid": true,
+    "latency": 1.02
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "difficulty breathing",
+      "blue lips"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": "severe",
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H5",
+    "valid": true,
+    "latency": 1.07
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "ear pain",
+      "fever"
+     ],
+     "symptoms_denied": [],
+     "onset": "gradual",
+     "duration": "since last night",
+     "patient_age": "5 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H6",
+    "valid": true,
+    "latency": 1.03
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "burning urination",
+      "urinary frequency"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H7",
+    "valid": true,
+    "latency": 1.01
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "post-operative state"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "injection administration",
+      "wound dressing"
+     ],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H8",
+    "valid": true,
+    "latency": 1.12
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest pain",
+      "left arm pain"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "48 years",
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "H9",
+    "valid": true,
+    "latency": 0.93
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "sore throat",
+      "runny nose"
+     ],
+     "symptoms_denied": [
+      "fever"
+     ],
+     "onset": null,
+     "duration": "1 week",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hinglish"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "H10",
+    "valid": true,
+    "latency": 0.95
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "chest pain",
+      "sweating"
+     ],
+     "symptoms_denied": [],
+     "onset": "gradual",
+     "duration": "since morning",
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D1",
+    "valid": true,
+    "latency": 0.99
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "high fever"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "3 days",
+     "patient_age": "10 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D2",
+    "valid": true,
+    "latency": 1.03
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "knee pain",
+      "difficulty walking"
+     ],
+     "symptoms_denied": [],
+     "onset": "gradual",
+     "duration": "several months",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D3",
+    "valid": true,
+    "latency": 0.99
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "one-sided facial droop",
+      "speech difficulty"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D4",
+    "valid": true,
+    "latency": 0.97
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "diarrhea"
+     ],
+     "symptoms_denied": [
+      "vomiting"
+     ],
+     "onset": null,
+     "duration": "2 days",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D5",
+    "valid": true,
+    "latency": 1.04
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "ingested insecticide"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D6",
+    "valid": true,
+    "latency": 0.96
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "non-healing leg wound"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": "2 weeks",
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [
+      "diabetes"
+     ],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D7",
+    "valid": true,
+    "latency": 0.97
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "cough"
+     ],
+     "symptoms_denied": [
+      "breathing difficulty"
+     ],
+     "onset": "sudden",
+     "duration": "since night",
+     "patient_age": "4 years",
+     "special_population": [
+      "child"
+     ],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 1,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D8",
+    "valid": true,
+    "latency": 1.09
+   },
+   {
+    "out": {
+     "symptoms_present": [
+      "anxiety",
+      "loss of will to live"
+     ],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": null,
+     "special_population": [],
+     "existing_conditions": [],
+     "vitals_reported": [],
+     "services_requested": [],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 2,
+    "hit": 2,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": true,
+    "age_ok": null,
+    "lang_ok": true,
+    "id": "D9",
+    "valid": true,
+    "latency": 1.25
+   },
+   {
+    "out": {
+     "symptoms_present": [],
+     "symptoms_denied": [],
+     "onset": null,
+     "duration": null,
+     "patient_age": "80 years",
+     "special_population": [
+      "elderly"
+     ],
+     "existing_conditions": [
+      "bedridden"
+     ],
+     "vitals_reported": [],
+     "services_requested": [
+      "nursing care"
+     ],
+     "severity": null,
+     "detected_language": "hi"
+    },
+    "groups": 1,
+    "hit": 1,
+    "leak": 0,
+    "neg_total": 0,
+    "extra": 0,
+    "redflag_kept": null,
+    "age_ok": true,
+    "lang_ok": true,
+    "id": "D10",
+    "valid": true,
+    "latency": 0.97
+   }
+  ]
+ }
+}

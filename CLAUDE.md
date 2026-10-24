@@ -24,14 +24,14 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 | Stage | Model | Where it runs | Why |
 |---|---|---|---|
 | Speech → text | Sarvam **Saaras v4**: `transcribe` (original words) + `translate` (English) | Sarvam API | ~0.5 s each; voice needs no LLM for translation. Sarvam text translation (Mayura) rejected: mistranslated typed "seene mein dard" |
-| Text → structured English + next follow-up question | **Gemini 3.5 Flash-Lite** with enforced JSON schema (fallback: Gemma 4 26B-A4B) | Gemini API | Fastest with best schema adherence in `eval/bench_intake.py`; Gemma 4 ~3.4s, Sarvam-105b ~10s, MedGemma hallucinated symptoms |
-| Triage (care type + urgency) | Red-flag rules → **Gemma 4 26B-A4B** (provisional; optional Flash-Lite second opinion, more urgent wins) | Gemini API | Untrained: 29/30 care, 11/11 emergencies. MedGemma 4B untrained: 5/11 emergencies. Final pick on organiser validation split (also try fine-tuned MuRIL/XLM-R, MedGemma LoRA) |
+| Structurer + conversation voice (facts JSON, follow-up phrasing, explanation) | **Qwen 3.8 27B** (open weights; fallback Gemini 3.5 Flash-Lite) | Cerebras API | `eval/bench_v2.py`: all facts 30/30, 11/11 red flags, 0 denial leaks, 0.45 s; follow-ups right script 17/17 at 0.38 s with explicit target language |
+| Triage classifier (facts only → status/care/urgency/missing_info) | Red-flag rules → **MedGemma 4B** (local, LoRA to come) **+ Qwen 3.8 27B second opinion, more urgent wins** | Ollama + Cerebras | Pair: 11/11 emergencies, 0 under-triaged, 0 false emergencies, macro-F1 0.93/0.88. MedGemma on raw text was 5/11 — it must never see raw language |
 | Caregiver matching | Weighted scoring in Python | Local CPU | Deterministic, explainable |
-| Plain-language explanation | Gemini 3.5 Flash-Lite (fallback Gemma 4 26B-A4B) | Google AI Studio | Replies in the user's language |
+| Plain-language explanation | Qwen 3.8 27B (same as conversation) | Cerebras API | Replies in the detected language, passed explicitly |
 | Text → speech | Sarvam **Bulbul v3** | Sarvam API | Natural Indian voices, handles Hinglish |
-| Fallback LLM | Gemma 4 26B-A4B (API), then MedGemma 4B (local, offline last resort) | Gemini API / Ollama | If Flash-Lite fails or times out |
+| Fallbacks | Flash-Lite (conversation); Qwen alone (classifier, if MedGemma output invalid) | Gemini / Cerebras | Different provider |
 
-Model rationale + benchmark numbers: `eval/results/*.json`, `python eval/bench_pipeline.py <part>`. Free-tier limits: gemini-3.8-flash 20 RPD; Flash-Lite hits per-minute 429s under parallel load.
+Model rationale + benchmark numbers: `eval/results/*.json`, `python eval/bench_pipeline.py <part>`. Rationale doc (shareable): https://claude.ai/artifact/JY6yW4KHZ4K37TVbZKzBUZ
 
 Saaras is speech-to-TEXT. Bulbul is text-to-SPEECH. MedGemma is under Google's Health AI Developer Foundations terms.
 
@@ -81,11 +81,11 @@ Response:
 
 ## Pipeline logic
 
-1. **Intake (`intake.py`)**: ONE Flash-Lite call with a Pydantic `response_schema` (symptoms in English, negated symptoms separate, follow-up in user's language/script) returns JSON: `{symptoms[], duration, patient_age, severity, missing_slots[], follow_up_question_in_user_language | null, detected_language}`. Structured output. Hard cap of 4 follow-up questions.
+1. **Structurer (`intake.py`)**: Qwen 3.8 27B → `CaseFacts` JSON (symptoms_present/denied, onset, duration, age, special_population, existing_conditions, vitals_reported, services_requested, severity, detected_language). Records facts only: no decisions, no questions. Re-reads the whole `conversation_history` each turn (stateless API).
 2. **Red flags (`redflags.py`)**: run on BOTH raw transcript and structured symptoms. Any hit → emergency path immediately, skip matching. Starter list: chest pain / seene mein dard · difficulty breathing / saans lene mein taklif / saans nahi aa rahi · unconscious / behosh · seizure / daura / jhatke · stroke signs (muh tedha, haath-pair sunn, bolne mein dikkat) · heavy bleeding / bahut khoon · severe head injury · poisoning / zeher · face or throat swelling · blue lips · sudden confusion · fever in infant < 3 months · bleeding in pregnancy · suicidal thoughts.
-3. **Triage (`triage.py`)**: MedGemma classifies care type + urgency. Safety bias: if output invalid/uncertain, or rules and model disagree, pick the MORE urgent option.
+3. **Classifier (`triage.py`)**: MedGemma + Qwen in parallel on CaseFacts only → `{status: final|need_more_info, care_type, urgency, red_flags, missing_info (≤2 plain questions), reasoning}`. Either says emergency → emergency; else higher urgency wins; invalid output → the other decides. Emergencies never ask. Then Qwen phrases `missing_info` into one question in the detected language (pass it explicitly; Hinglish returns romanised for screen + Devanagari for Bulbul). Hard cap 4 follow-ups.
 4. **Matching (`matching.py`)**: filter by skill and availability within urgency window; score = weighted sum of distance (haversine), language match, rating, soonest slot (0.35/0.25/0.2/0.2). Reasons from templates, not the LLM.
-5. **Explain (`explain.py`)**: Flash-Lite → 1–2 plain sentences in user's language. For speech, Hinglish in Devanagari; romanised on screen.
+5. **Explain (`explain.py`)**: Qwen → 1–2 plain sentences in the detected language. Hinglish: Devanagari copy for Bulbul, romanised on screen. Emergency audio pre-generated at startup.
 6. **Emergency (`emergency_text.py`)**: NEVER generated. Pre-written EN/HI/Hinglish with "Call 112" and "Call 108" plus 2–3 simple steps.
 
 ## Clinical scope rules
