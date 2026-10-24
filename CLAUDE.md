@@ -23,15 +23,15 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 
 | Stage | Model | Where it runs | Why |
 |---|---|---|---|
-| Speech → text | Sarvam **Saarika** (auto language detect) | Sarvam API | Best at Hindi/English/Hinglish code-mixing; keeps original wording so red-flag phrases aren't lost |
-| Text → structured English + next follow-up question | **Gemma 3 27B** | Google AI Studio (Gemini API) | Strong Hindi; too big for 6 GB so hosted. Backup: Sarvam-M |
-| Triage (care type + urgency) | Red-flag rules → **MedGemma 4B**, LoRA fine-tuned, Q4 GGUF | Local, via Ollama | Fast, trained on organisers' labels, open source |
+| Speech → text | Sarvam **Saaras v4** (auto language detect; Saarika is retired) | Sarvam API | Best at Hindi/English/Hinglish code-mixing; keeps original wording so red-flag phrases aren't lost |
+| Text → structured English + next follow-up question | **Gemma 4 26B-A4B** (alt: Gemma 4 31B) | Google AI Studio (Gemini API) | Gemma 3 no longer served there; MoE keeps latency low. Backup: Sarvam-M |
+| Triage (care type + urgency) | Red-flag rules → **MedGemma 4B** (`unsloth/medgemma-4b-it-GGUF`), LoRA fine-tuned, Q4 GGUF | Local, via Ollama | Fast, trained on organisers' labels, open source |
 | Caregiver matching | Weighted scoring in Python | Local CPU | Deterministic, explainable |
-| Plain-language explanation | Gemma 3 27B | Google AI Studio | Replies in the user's language |
-| Text → speech | Sarvam **Bulbul** | Sarvam API | Natural Indian voices, handles Hinglish |
+| Plain-language explanation | Gemma 4 26B-A4B | Google AI Studio | Replies in the user's language |
+| Text → speech | Sarvam **Bulbul v3** | Sarvam API | Natural Indian voices, handles Hinglish |
 | Local fallback LLM | Gemma 3 4B Q4 | Local, via Ollama | If the API is rate-limited during the demo |
 
-Saarika is speech-to-TEXT. Bulbul is text-to-SPEECH.
+Saaras is speech-to-TEXT. Bulbul is text-to-SPEECH. MedGemma is under Google's Health AI Developer Foundations terms.
 
 All model names / endpoints / labels / weights live in `config.yaml`.
 
@@ -79,7 +79,7 @@ Response:
 
 ## Pipeline logic
 
-1. **Intake (`intake.py`)**: ONE Gemma call returns JSON: `{symptoms[], duration, patient_age, severity, missing_slots[], follow_up_question_in_user_language | null, detected_language}`. Structured output. Hard cap of 4 follow-up questions.
+1. **Intake (`intake.py`)**: ONE Gemma 4 call returns JSON: `{symptoms[], duration, patient_age, severity, missing_slots[], follow_up_question_in_user_language | null, detected_language}`. Structured output. Hard cap of 4 follow-up questions.
 2. **Red flags (`redflags.py`)**: run on BOTH raw transcript and structured symptoms. Any hit → emergency path immediately, skip matching. Starter list: chest pain / seene mein dard · difficulty breathing / saans lene mein taklif / saans nahi aa rahi · unconscious / behosh · seizure / daura / jhatke · stroke signs (muh tedha, haath-pair sunn, bolne mein dikkat) · heavy bleeding / bahut khoon · severe head injury · poisoning / zeher · face or throat swelling · blue lips · sudden confusion · fever in infant < 3 months · bleeding in pregnancy · suicidal thoughts.
 3. **Triage (`triage.py`)**: MedGemma classifies care type + urgency. Safety bias: if output invalid/uncertain, or rules and model disagree, pick the MORE urgent option.
 4. **Matching (`matching.py`)**: filter by skill and availability within urgency window; score = weighted sum of distance (haversine), language match, rating, soonest slot (0.35/0.25/0.2/0.2). Reasons from templates, not the LLM.
@@ -113,4 +113,4 @@ Response:
 
 ## Open items
 - Dataset, caregiver profiles, care taxonomy and final schema not released yet. Build against indicative schema; labels in `config.yaml`.
-- **VERIFY**: Sarvam SDK params, Saarika/Bulbul versions; Gemma 3 27B id and free-tier limits; MedGemma GGUF repo.
+- Verified 2026-10-24: sarvamai 0.1.37 (STT `saaras:v3|v4`, TTS `bulbul:v2|v3|v4-flash`), Gemini API Gemma ids `gemma-4-31b-it`, `gemma-4-26b-a4b-it`. **VERIFY**: Gemma free-tier rate limits; whether Gemma accepts JSON mode (smoke test falls back).

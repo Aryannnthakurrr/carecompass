@@ -3,22 +3,26 @@
 models:
   stt:
     provider: sarvam
-    model: saarika:v2.5          # VERIFY latest Saarika version
+    model: saaras:v4             # Saarika is retired; Saaras v4 is Sarvam's current STT
+    mode: transcribe             # alt: codemix (English words in Latin, Hindi in Devanagari)
+    language_code: unknown       # auto-detect
   tts:
     provider: sarvam
-    model: bulbul:v2             # VERIFY latest Bulbul version
-    speaker: anushka             # VERIFY available speakers
+    model: bulbul:v3             # stable; v4-flash has persona voices e.g. simran_enhi_customer
+    speaker: ritu
+    language_code: hi-IN
   intake:
     provider: gemini
-    model: gemma-3-27b-it        # VERIFY id in AI Studio
+    model: gemma-4-26b-a4b-it    # Gemma 3 no longer listed on Gemini API; MoE = low latency
+    alt: gemma-4-31b-it
     fallback: sarvam-m
   explain:
     provider: gemini
-    model: gemma-3-27b-it
+    model: gemma-4-26b-a4b-it
   triage:
     provider: ollama
     base_url: http://localhost:11434/v1
-    model: medgemma-4b           # replace with fine-tuned model name after LoRA
+    model: hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M   # baseline; replace with fine-tuned model after LoRA
   local_fallback:
     provider: ollama
     base_url: http://localhost:11434/v1

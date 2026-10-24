@@ -25,10 +25,10 @@ ollama pull gemma3:4b
 
 | Stage | Model | Provider |
 |---|---|---|
-| Speech → text | Sarvam Saarika | Sarvam API |
-| Intake + explanation | Gemma 3 27B | Google AI Studio |
+| Speech → text | Sarvam Saaras v4 | Sarvam API |
+| Intake + explanation | Gemma 4 26B-A4B | Google AI Studio |
 | Triage | MedGemma 4B (LoRA, Q4 GGUF) + rule-based red flags | Local (Ollama) |
-| Text → speech | Sarvam Bulbul | Sarvam API |
+| Text → speech | Sarvam Bulbul v3 | Sarvam API |
 | Fallback LLM | Gemma 3 4B | Local (Ollama) |
 
 ## Status
