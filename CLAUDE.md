@@ -119,4 +119,4 @@ Response:
 
 ## Cost (per 3-turn conversation, Oct 2026 prices)
 
-Voice ~Rs1.72 (Qwen Rs0.57, MedGemma local Rs0, Saaras transcribe Rs0.25, Bulbul Rs0.90); text-only ~Rs0.57. Details in the rationale doc.
+Pilot (API): voice ~Rs2.02 (Qwen Rs0.57, MedGemma on per-second L4 ~Rs0.30, Saaras transcribe Rs0.25, Bulbul Rs0.90); text ~Rs0.87. Self-host Qwen+MedGemma on 2x L40S (E2E, Rs102/h) above ~2 lakh conv/month -> LLM ~Rs0.17-0.22/conv. Details in the rationale doc.
