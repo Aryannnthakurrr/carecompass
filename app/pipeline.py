@@ -31,6 +31,7 @@ SMART_CARE_LABEL = {"hospital_visit": "a hospital visit", "clinic_visit": "a doc
                     "diagnostic_test": "a test or scan", "lab_test_home": "a home sample collection", "home_nursing": "nursing at home",
                     "paramedic_home_visit": "a home check-up", "teleconsultation": "a video consultation"}
 GATE_STOP = {"off_topic", "nonsense", "abusive"}
+HOME_NURSING_TAGS = {"injection", "iv_drip", "wound_dressing", "nebulization", "catheter_care"}
 FORCED = "Decided with the information given (further questions were not answered); the care team will check the rest."
 SUPPRESSIBLE = {"chest_pain", "breathlessness"}  # red flags that are also everyday figures of speech
 MAX_REDIRECTS = 3  # junk / abuse / off-topic messages steered back this many times; the next one ends the conversation
@@ -351,6 +352,11 @@ def _run_smart(req, facts, user_turns, asked_qs, asked, lang, t0, scr, safety_no
         return _ask(q, lang, "smart", "medical", decision.reasoning, safety_note, seriousness=decision.seriousness)
     if decision.status == "need_more_info":
         decision = decision.model_copy(update={"status": "final", "reasoning": decision.reasoning if service_only else FORCED})
+    nursing = {t for t in lexicon.map_free_text(facts.services_requested) if t in HOME_NURSING_TAGS}
+    if service_only and nursing and decision.care_type in ("paramedic_home_visit", "clinic_visit"):
+        home = facts.setting_requested == "home_visit" or "home" in facts.preferences or decision.care_type == "paramedic_home_visit"
+        if home:  # an injection / dressing / drip at home is a nursing job, not a doctor's check-up
+            decision = decision.model_copy(update={"care_type": "home_nursing", "specialty": "none"})
     if _basic_gaps(facts) and safety_note is None:
         safety_note = explain.SAFETY_LINE[lang]  # decided with basics missing: say how to get help if it gets worse
 
@@ -366,7 +372,7 @@ def _run_smart(req, facts, user_turns, asked_qs, asked, lang, t0, scr, safety_no
     urgency = SMART_URGENCY[decision.seriousness]
     if "soon" in facts.preferences and urgency == "scheduled":
         urgency = "same_day"  # "aaj shaam tak": the user's own timing
-    show_spec = need.specialty and decision.care_type not in ("home_nursing", "lab_test_home")
+    show_spec = need.specialty and decision.care_type not in ("home_nursing", "lab_test_home") and decision.specialty != "none"
     top = providers[0] if providers else None
     resp = TriageResponse(
         care_type=decision.care_type, urgency=urgency, red_flags=[], reasoning=decision.reasoning,

@@ -1,0 +1,26 @@
+{
+ "session": "qa_injection_home_smart__v2",
+ "mode": "smart",
+ "turns": [
+  {
+   "user": "ghar pe injection lagwana hai, doctor ne likha hai, sasta wala chahiye",
+   "voice": false,
+   "reply": {
+    "care_type": "paramedic_home_visit",
+    "urgency": "scheduled",
+    "seriousness": "soon",
+    "specialty": "General physician",
+    "reasoning": "Home injection requires knowing the medical reason to ensure it is safe to administer without a prior doctor's visit.",
+    "explanation": "Aapko agle 2-3 din mein ghar par ek check-up karwana chahiye, kyunki aapko low cost home injection ki zaroorat hai. General physician aapki madad karega. Pehla sujhav: Dr. Reddy's Clinic, 6.7 km door, yahan General physician hain.",
+    "match_summary": "Home visit by providers whose service area covers you: distance, price and rating decide among 4. You asked about price, so it counted for more.",
+    "matched": [
+     "Dr. Reddy's Clinic (Clinic · General physician, 6.7 km)",
+     "Dr. Kohli's Clinic (Clinic · General physician, 11.6 km)",
+     "Dr. Khanna's Clinic (Clinic · General physician, 6.3 km)"
+    ],
+    "language": "hinglish",
+    "seconds": 2.1
+   }
+  }
+ ]
+}
