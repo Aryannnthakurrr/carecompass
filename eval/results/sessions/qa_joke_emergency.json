@@ -1,0 +1,32 @@
+{
+ "session": "qa_joke_emergency",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "mera dil toot gaya yaar, girlfriend ne chhod diya, main toh mar jaunga lol 😂💔",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Main sirf health se judi madad kar sakta hoon. Kaun beemar hai, aur kya ho raha hai?",
+    "follow_up_kind": "redirect",
+    "reasoning": "No health concern described; steering back to the health problem.",
+    "language": "hinglish",
+    "seconds": 1.2
+   }
+  },
+  {
+   "user": "arre mazaak tha. waise sach mein kal raat se seene mein thoda bhaari bhaari lag raha hai, 45 saal ka hoon",
+   "voice": false,
+   "reply": {
+    "care_type": "emergency_112",
+    "urgency": "emergency",
+    "red_flags": [
+     "chest_pain"
+    ],
+    "reasoning": "Red-flag symptoms detected (chest_pain); routed to emergency services, not home care.",
+    "explanation": "In lakshanon mein ghar par care nahi, emergency madad chahiye. Kripya abhi 112 ya 108 par call karein.",
+    "language": "hinglish",
+    "seconds": 1.1
+   }
+  }
+ ]
+}

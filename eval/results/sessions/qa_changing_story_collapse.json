@@ -1,0 +1,32 @@
+{
+ "session": "qa_changing_story_collapse",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "दादाजी को दो दिन से भूख नहीं लग रही, 82 साल के हैं",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "क्या दादी साहब पानी पी रही हैं और जागृत हैं, या उन्हें उठने में दिक्कत हो रही है?",
+    "follow_up_kind": "medical",
+    "reasoning": "Elderly patient with loss of appetite for 2 days requires a home visit, but we must first rule out red flags like confusion or inability to drink.",
+    "language": "hi",
+    "seconds": 10.5
+   }
+  },
+  {
+   "user": "दादाजी हैं, दादी नहीं। पानी पी रहे थे... अरे रुको, वो अभी बाथरूम में गिर गए और आवाज़ देने पर जवाब नहीं दे रहे",
+   "voice": false,
+   "reply": {
+    "care_type": "emergency_112",
+    "urgency": "emergency",
+    "red_flags": [
+     "unconsciousness"
+    ],
+    "reasoning": "Red-flag symptoms detected (unconsciousness); routed to emergency services, not home care.",
+    "explanation": "इन लक्षणों में घर पर देखभाल नहीं, आपातकालीन मदद चाहिए। कृपया अभी 112 या 108 पर कॉल करें।",
+    "language": "hi",
+    "seconds": 1.1
+   }
+  }
+ ]
+}

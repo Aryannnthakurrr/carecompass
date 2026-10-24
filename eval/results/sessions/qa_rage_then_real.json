@@ -1,0 +1,34 @@
+{
+ "session": "qa_rage_then_real",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "you useless stupid bot, all you apps are garbage, kuch kaam ka nahi hai tu",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Main madad ke liye hoon. Bataiye kaun beemar hai aur kya ho raha hai, main sahi madad dhoondhunga.",
+    "follow_up_kind": "redirect",
+    "reasoning": "No health concern described; steering back to the health problem.",
+    "language": "hinglish",
+    "seconds": 0.9
+   }
+  },
+  {
+   "user": "accha theek hai, meri maa ka ghutna 3 mahine se dukh raha hai, chal nahi paati theek se, 65 saal ki hai",
+   "voice": false,
+   "reply": {
+    "care_type": "paramedic_home_visit",
+    "urgency": "same_day",
+    "reasoning": "Chronic knee pain and mobility issues in an elderly patient require a physical assessment at home.",
+    "explanation": "Aapki maa ke ghutno ke dard aur chalne mein takleef ko theek karne ke liye, humne unke ghar par ek Medic ka visit arrange kiya hai. Yeh unki physical condition ko check karega taaki unki mobility behtar ho sake.",
+    "matched": [
+     "Sunita Chauhan (Medic · GNM Nursing, 1.6 km)",
+     "Naveen Sharma (Medic · GNM Nursing, 3.0 km)",
+     "Pooja Das (Medic · B.Sc Nursing, 1.0 km)"
+    ],
+    "language": "hinglish",
+    "seconds": 14.1
+   }
+  }
+ ]
+}

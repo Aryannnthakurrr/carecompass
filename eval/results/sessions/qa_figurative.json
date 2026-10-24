@@ -1,0 +1,27 @@
+{
+ "session": "qa_figurative",
+ "mode": "smart",
+ "turns": [
+  {
+   "user": "this Delhi traffic is going to give me a heart attack lol. anyway I need a full body checkup, something cheap near Saket",
+   "voice": false,
+   "reply": {
+    "safety_note": "If this is happening right now or getting worse, call 112 (ambulance 108) immediately.",
+    "care_type": "clinic_visit",
+    "urgency": "scheduled",
+    "seriousness": "soon",
+    "specialty": "General physician",
+    "reasoning": "Routine full body checkup requested with a preference for home lab testing.",
+    "explanation": "Please see a general physician in the next 2-3 days for a full body checkup, as Shanti Super Speciality Hospital is the closest affordable option near Saket. Your doctor may also recommend blood tests to complete your assessment.",
+    "match_summary": "General physician consultation from 34 doctors in reach; distance, rating and a shared language decide. Providers who don't speak your language were ranked down, because this visit needs conversation. You asked about price and distance, so they counted for more.",
+    "matched": [
+     "Shanti Super Speciality Hospital (Hospital · General physician, 0.3 km)",
+     "Kalpataru Polyclinic (Polyclinic · General physician, 2.2 km)",
+     "CarePoint Multispeciality Hospital (Hospital · General physician, 3.5 km)"
+    ],
+    "language": "en",
+    "seconds": 9.8
+   }
+  }
+ ]
+}

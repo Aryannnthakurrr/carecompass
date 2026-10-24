@@ -1,0 +1,21 @@
+{
+ "session": "qa_bleeding_en",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "my husband cut his leg on broken glass and it's bleeding a lot, soaked through two towels already",
+   "voice": false,
+   "reply": {
+    "care_type": "emergency_112",
+    "urgency": "emergency",
+    "red_flags": [
+     "severe_bleeding"
+    ],
+    "reasoning": "Red-flag symptoms detected (severe_bleeding); routed to emergency services, not home care.",
+    "explanation": "These signs need emergency care, not a home visit. Please call 112 or 108 now.",
+    "language": "en",
+    "seconds": 1.0
+   }
+  }
+ ]
+}

@@ -42,7 +42,8 @@ def main():
     history = []
     for t in state["turns"]:
         history += [Turn(role="user", content=t["user"]),
-                    Turn(role="assistant", content=t["reply"].get("follow_up_question") or t["reply"].get("explanation") or "")]
+                    Turn(role="assistant", content=t["reply"].get("follow_up_question") or t["reply"].get("explanation") or "",
+                         kind=t["reply"].get("follow_up_kind"))]
     t0 = time.time()
     r = pipeline.run(TriageRequest(user_input=msg, conversation_history=history, mode=mode, input_mode="voice" if voice else "text",
                                    location={"lat": 28.54, "lng": 77.27}))

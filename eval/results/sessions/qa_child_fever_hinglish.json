@@ -1,0 +1,45 @@
+{
+ "session": "qa_child_fever_hinglish",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "mere bete ko kal raat se bukhar hai",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Bataiye, aapke bete ki umar kitni hai?",
+    "follow_up_kind": "medical",
+    "reasoning": "Need how old the patient is before routing safely.",
+    "language": "hinglish",
+    "seconds": 2.1
+   }
+  },
+  {
+   "user": "6 saal ka hai",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Kya aapke bete ko peene mein takleef ho rahi hai ya peshab kam ho raha hai? Kya unhe saans lene mein takleef, rash, ya stiff neck mehsoos ho raha hai?",
+    "follow_up_kind": "medical",
+    "reasoning": "Fever in a 6-year-old requires checking for dehydration and specific danger signs to determine if a home visit is needed.",
+    "language": "hinglish",
+    "seconds": 9.2
+   }
+  },
+  {
+   "user": "nahi aisa kuch nahi, paani pee raha hai, bas khana kam kha raha hai",
+   "voice": false,
+   "reply": {
+    "care_type": "paramedic_home_visit",
+    "urgency": "same_day",
+    "reasoning": "Fever in a 6-year-old since last night without red flags requires temperature details to determine urgency.",
+    "explanation": "Aapke bete ki raat bhar se bukhhar aur khana kam khane ki wajah se, humne ek Medic bheja hai jo ghar par aakar unki health check karega. Agar zaroorat ho, toh doctor video call par turant unki madad karenge.",
+    "matched": [
+     "Sunita Chauhan (Medic · GNM Nursing, 1.6 km)",
+     "Naveen Sharma (Medic · GNM Nursing, 3.0 km)",
+     "Pooja Das (Medic · B.Sc Nursing, 1.0 km)"
+    ],
+    "language": "hinglish",
+    "seconds": 9.7
+   }
+  }
+ ]
+}

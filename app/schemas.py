@@ -1,9 +1,18 @@
 """API contract (organiser schema + optional extras) and the internal JSON shapes the models exchange."""
-from typing import Literal, Optional
+import json
+from typing import Literal, Optional, get_args, get_origin
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
+from pydantic_core import PydanticUndefined
 
 from app.llm import CFG
+
+
+def _literal_values(ann) -> set:
+    """The allowed values of a Literal, Optional[Literal] or list[Literal] annotation; empty if it is not one."""
+    if get_origin(ann) is Literal:
+        return set(get_args(ann))
+    return set().union(*(_literal_values(a) for a in get_args(ann))) if get_args(ann) else set()
 
 LABELS = CFG["labels"]
 SMART_CARE = ("hospital_visit", "clinic_visit", "specialist_visit", "diagnostic_test")  # smart mode only
@@ -24,6 +33,7 @@ class Location(BaseModel):
 class Turn(BaseModel):
     role: Literal["user", "assistant"]
     content: str = Field(max_length=2000)
+    kind: Optional[str] = None  # assistant turns: echo the reply's follow_up_kind back (budgets count medical questions only)
 
 
 class TriageRequest(BaseModel):
@@ -115,6 +125,32 @@ class CaseFacts(BaseModel):
                                    description="Alarming words NOT meant literally or denied (figure of speech, joke, past event), e.g. 'heart attack (figure of speech)'")
     user_wants: Optional[str] = Field(None, description="What the user is asking for, in a few English words")
     no_more_questions: bool = Field(False, description="True if the user refuses further questions or says just give me a doctor")
+    asks_medicine_or_diagnosis: bool = Field(False, description="True if the user asks which medicine/dose to take or what disease it is")
+
+    @model_validator(mode="before")
+    @classmethod
+    def _lenient(cls, data):
+        """One unexpected value (a preference the list doesn't have, a reading given as an object) must not void the whole
+        reading of a perfectly clear message: unknown list items are dropped, odd types coerced, bad enums cleared."""
+        if not isinstance(data, dict):
+            return data
+        d = dict(data)
+        for name, field in cls.model_fields.items():
+            if name not in d or d[name] is None:
+                continue
+            v, ann = d[name], field.annotation
+            allowed = _literal_values(ann)
+            if getattr(ann, "__origin__", None) is list or str(ann).startswith("list"):
+                items = v if isinstance(v, list) else [v]
+                items = [json.dumps(i, ensure_ascii=False) if isinstance(i, (dict, list)) else str(i) for i in items]
+                d[name] = [i for i in items if not allowed or i in allowed]
+            elif allowed and v not in allowed:
+                d[name] = field.default if field.default is not PydanticUndefined else None
+            elif ann is bool and not isinstance(v, bool):
+                d[name] = str(v).lower() in ("true", "yes", "1")
+            elif isinstance(v, (dict, list)) and "str" in str(ann):
+                d[name] = json.dumps(v, ensure_ascii=False)
+        return d
 
 
 class Decision(BaseModel):

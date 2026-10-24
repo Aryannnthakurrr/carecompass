@@ -1,0 +1,18 @@
+{
+ "session": "qa_elderly_drowsy_hinglish",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "nanaji aaj subah se bahut sust hain, baar baar so jaate hain aur hume pehchaan nahi rahe theek se, 78 saal ke hain",
+   "voice": false,
+   "reply": {
+    "care_type": "emergency_112",
+    "urgency": "emergency",
+    "reasoning": "Sudden confusion and lethargy in an elderly patient are red-flag signs requiring immediate emergency assessment.",
+    "explanation": "In lakshanon mein ghar par care nahi, emergency madad chahiye. Kripya abhi 112 ya 108 par call karein.",
+    "language": "hinglish",
+    "seconds": 1.5
+   }
+  }
+ ]
+}

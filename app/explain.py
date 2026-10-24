@@ -10,7 +10,8 @@ REPLY_LANG = {"en": "English", "hi": "Hindi in Devanagari script", "hinglish": "
 
 ASK_SYS = """You are the voice of a home-healthcare app talking to a patient or family member.
 Write ONE short, kind follow-up question (max 25 words) that asks for the missing facts in plain everyday words.
-Write it in the reply language you are given, exactly. No diagnosis, no advice, no medicine. Output only the question text."""
+Write it in the reply language you are given, exactly. No diagnosis, no advice, no medicine. Refer to the patient exactly as
+in "Patient" (same relation and gender, e.g. grandfather stays grandfather). Output only the question text."""
 
 CLARIFY_SYS = """You are the voice of a home-healthcare app. The user's message was confusing for the reason given.
 Write ONE short, calm question (max 25 words) that clears up exactly that confusion and keeps the user on their health
@@ -21,15 +22,21 @@ SAFETY_SYS = """You are the voice of a home-healthcare app. A possible danger si
 ONE short, calm question (max 20 words) for the family, in the reply language you are given, exactly. Plain words, no
 medical terms, no diagnosis. Output only the question text."""
 
-EXPLAIN_SYS = """You are the voice of a home-healthcare app. In 1-2 short, warm sentences tell the user what care was arranged
-and why, in plain words a non-medical person understands. Write in the reply language you are given, exactly.
-Never name a disease, never suggest medicine. Output only the sentences."""
+EXPLAIN_SYS = """You are the voice of a home-healthcare app. In 1-2 short, warm sentences say what care we RECOMMEND and why,
+in plain words a non-medical person understands. Nothing is booked yet: never say it is booked, sent or arranged. Do not
+promise results, do not add details that are not given, do not name diseases, medicines or vitamins. Write in the reply
+language you are given, exactly. Output only the sentences."""
 
 CARE_PLAIN = {
-    "paramedic_home_visit": "a Medic visits at home to check the patient (a doctor can join by video)",
-    "home_nursing": "a trained Medic comes home to do the nursing procedure",
-    "lab_test_home": "a sample collector comes home for the test",
-    "teleconsultation": "a doctor speaks with you on a video call",
+    "paramedic_home_visit": "a Medic can visit at home to check the patient (a doctor can join by video)",
+    "home_nursing": "a trained Medic can come home to do the nursing procedure",
+    "lab_test_home": "a sample collector can come home for the test",
+    "teleconsultation": "a doctor can speak with you on a video call",
+}
+INTAKE_FAIL = {
+    "en": "Sorry, I couldn't process that. Could you say it again in a few words: who is unwell and what is happening?",
+    "hi": "माफ़ कीजिए, मैं यह समझ नहीं पाया। कृपया कुछ शब्दों में फिर से बताइए: कौन बीमार है और क्या हो रहा है?",
+    "hinglish": "Sorry, main yeh samajh nahi paaya. Kripya kuch shabdon mein phir se bataiye: kaun beemar hai aur kya ho raha hai?",
 }
 FALLBACK_ASK = {
     "en": "Happy to help. Who is this for, and what is the main concern or service you need?",
@@ -75,7 +82,27 @@ DISEASE = re.compile(r"\b(dengue|malaria|typhoid|covid|corona|influenza|pneumoni
                      r"viral fever|bacterial|cancer|asthma|uti|chikungunya|jaundice|hepatitis|hypertension|appendicitis|gastritis|"
                      r"sinusitis|bronchitis|anemia|anaemia|heart attack|stroke)\b", re.I)
 MEDICINE = re.compile(r"\b(paracetamol|crocin|dolo|calpol|ibuprofen|combiflam|aspirin|antibiotics?|antivirals?|amoxicillin|"
-                      r"azithromycin|cetirizine|antacids?|\d+\s?mg)\b", re.I)
+                      r"azithromycin|cetirizine|antacids?|b12|vitamin [a-z0-9]+|\d+\s?mg)\b", re.I)
+
+
+NO_MEDS = {  # pre-written: asked for a medicine, a dose or a diagnosis
+    "en": "I can't name illnesses or suggest medicines or doses; a doctor can. Here's how I can help:",
+    "hi": "मैं बीमारी का नाम या दवा/खुराक नहीं बता सकता; यह डॉक्टर बताएँगे। मैं ऐसे मदद कर सकता हूँ:",
+    "hinglish": "Main bimari ka naam ya dawai/dose nahi bata sakta; yeh doctor batayenge. Main aise madad kar sakta hoon:",
+}
+
+
+def kind_of(text: str) -> str:
+    """Infer what an assistant turn was from our own fixed texts (for clients that don't echo follow_up_kind back)."""
+    if text in GATE_TEXTS:
+        return "redirect"
+    if text in FALLBACK_ASK.values() or text in INTAKE_FAIL.values():
+        return "fallback"
+    if any(text.startswith(t.split("{t}")[0]) for t in MISHEARD.values()):
+        return "misheard"
+    if any(line in text for line in SAFETY_LINE.values()):
+        return "safety_check"
+    return "medical"
 
 
 def scrub(text: str | None, fallback: str | None = None) -> str | None:
@@ -156,27 +183,47 @@ def explanation(care_type: str, reasoning: str, context: str, lang: str) -> str:
         return FALLBACK_EXPLAIN[care_type][lang]
 
 
-SMART_SYS = """You are the voice of a care-navigation app. In at most 2 short, warm sentences tell the user what kind of care to get,
-how soon, and why the first suggested place fits them. If tests are listed, say a doctor may ask for them (do not insist).
-Plain words, in the reply language you are given, exactly. Never name a disease, never suggest medicine. Output only the sentences."""
+SMART_SYS = """You are the voice of a care-navigation app. In 1-2 short, warm sentences tell the user what kind of care we recommend,
+how soon, and why. If tests are listed, say a doctor may ask for them (do not insist). Do not mention any place, distance,
+doctor's name or specialty availability (a separate line covers the place). Do not promise results, do not add details that
+are not given, do not name diseases or medicines. Plain words, in the reply language you are given, exactly. Output only the sentences."""
 SOON_WORDS = {"urgent": "today", "soon": "in the next 2-3 days", "routine": "at a convenient time"}
 SMART_FALLBACK = {
-    "en": "Please visit {place} {when}.",
-    "hi": "कृपया {when_hi} {place} जाएँ।",
-    "hinglish": "Kripya {when_hl} {place} jaayein.",
+    "en": "We recommend {care} {when}.",
+    "hi": "हम {when_hi} {care} की सलाह देते हैं।",
+    "hinglish": "Hum {when_hl} {care} ki salah dete hain.",
+}
+PLACE = {  # built from the provider record, never written by a model
+    "en": {"near": "Suggested first: {name}, {km} km away{spec}.", "online": "Suggested first: {name}, by video{spec}.",
+           "spec": ", with a {s}", "none": "No suitable place was found nearby yet; widen the area or try again later."},
+    "hi": {"near": "पहला सुझाव: {name}, {km} किमी दूर{spec}।", "online": "पहला सुझाव: {name}, वीडियो पर{spec}।",
+           "spec": ", यहाँ {s} उपलब्ध हैं", "none": "अभी पास में कोई उपयुक्त जगह नहीं मिली; दायरा बढ़ाएँ या बाद में कोशिश करें।"},
+    "hinglish": {"near": "Pehla sujhav: {name}, {km} km door{spec}.", "online": "Pehla sujhav: {name}, video par{spec}.",
+                 "spec": ", yahan {s} hain", "none": "Abhi paas mein koi suitable jagah nahi mili; area badhayein ya baad mein try karein."},
 }
 
 
-def smart_explanation(care: str, seriousness: str, specialty: str | None, tests: list[str], top_name: str | None, top_reason: str | None,
-                      context: str, lang: str) -> str:
-    when = SOON_WORDS.get(seriousness, "soon")
+def place_line(top, specialty: str | None, online: bool, lang: str) -> str:
+    t = PLACE[lang]
+    if top is None:
+        return t["none"]
+    has_spec = bool(specialty) and specialty.lower() in (top.role or "").lower()
+    spec = t["spec"].format(s=specialty) if has_spec else ""
+    if online or top.distance_km is None:
+        return t["online"].format(name=top.name, spec=spec)
+    return t["near"].format(name=top.name, km=f"{top.distance_km:.1f}", spec=spec)
+
+
+def smart_explanation(care: str, seriousness: str, specialty: str | None, tests: list[str], top, online: bool,
+                      context: str, lang: str, soon: bool = False) -> str:
+    when = "today, as you asked" if soon else SOON_WORDS.get(seriousness, "soon")
     try:
         doctor = f"; doctor: {specialty}" if specialty else ""
         prompt = (f"Reply language: {REPLY_LANG[lang]}\nWhat we know: {context}\nCare: {care}, {when}{doctor}\n"
-                  f"Tests a doctor may ask for: {', '.join(tests) or 'none'}\n"
-                  f"First suggested place: {top_name or 'none found'} ({top_reason or ''})")
-        return _say(SMART_SYS, prompt)
+                  f"Tests a doctor may ask for: {', '.join(tests) or 'none'}")
+        care_line = _say(SMART_SYS, prompt)
     except Exception:  # noqa: BLE001
-        return SMART_FALLBACK[lang].format(place=top_name or "a nearby clinic", when=when,
-                                           when_hi={"today": "आज ही", "in the next 2-3 days": "अगले 2-3 दिनों में"}.get(when, "जल्द"),
-                                           when_hl={"today": "aaj hi", "in the next 2-3 days": "agle 2-3 dinon mein"}.get(when, "jaldi"))
+        care_line = SMART_FALLBACK[lang].format(care=care, when=when,
+                                                when_hi={"today": "आज ही", "in the next 2-3 days": "अगले 2-3 दिनों में"}.get(when, "जल्द"),
+                                                when_hl={"today": "aaj hi", "in the next 2-3 days": "agle 2-3 dinon mein"}.get(when, "jaldi"))
+    return f"{care_line} {place_line(top, specialty, online, lang)}"

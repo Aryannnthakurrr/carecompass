@@ -1,0 +1,50 @@
+{
+ "session": "qa_gibberish_repeat",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "asdf qwerty lkjh",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "I can only help with health needs. Who is unwell, and what is happening?",
+    "follow_up_kind": "redirect",
+    "reasoning": "No health concern described; steering back to the health problem.",
+    "language": "en",
+    "seconds": 1.0
+   }
+  },
+  {
+   "user": "asdf qwerty lkjh",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Please tell me about the health problem, for example: “my father has had fever for 2 days”. Who is unwell?",
+    "follow_up_kind": "redirect",
+    "reasoning": "No health concern described; steering back to the health problem.",
+    "language": "en",
+    "seconds": 1.1
+   }
+  },
+  {
+   "user": "asdf qwerty lkjh",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "I'm a health assistant, so I can only help with a health problem. Type or say what is wrong and for whom.",
+    "follow_up_kind": "redirect",
+    "reasoning": "No health concern described; steering back to the health problem.",
+    "language": "en",
+    "seconds": 1.1
+   }
+  },
+  {
+   "user": "asdf qwerty lkjh",
+   "voice": false,
+   "reply": {
+    "reasoning": "No health concern after 3 redirects; conversation closed.",
+    "explanation": "I'm not able to help further in this conversation. If someone is unwell, please start a new chat and tell me who it is and what is happening. In an emergency, call 112 (ambulance 108).",
+    "conversation_ended": true,
+    "language": "en",
+    "seconds": 1.1
+   }
+  }
+ ]
+}

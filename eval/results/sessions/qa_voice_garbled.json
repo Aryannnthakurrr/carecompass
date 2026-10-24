@@ -1,0 +1,21 @@
+{
+ "session": "qa_voice_garbled",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "hello haan wo mera bhai ko na saas nahi aa raha sahi se uska hoth bhi neela neela ho raha",
+   "voice": true,
+   "reply": {
+    "care_type": "emergency_112",
+    "urgency": "emergency",
+    "red_flags": [
+     "breathlessness"
+    ],
+    "reasoning": "Red-flag symptoms detected (breathlessness); routed to emergency services, not home care.",
+    "explanation": "In lakshanon mein ghar par care nahi, emergency madad chahiye. Kripya abhi 112 ya 108 par call karein.",
+    "language": "hinglish",
+    "seconds": 1.0
+   }
+  }
+ ]
+}

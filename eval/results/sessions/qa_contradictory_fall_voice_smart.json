@@ -1,0 +1,33 @@
+{
+ "session": "qa_contradictory_fall_voice_smart",
+ "mode": "smart",
+ "turns": [
+  {
+   "user": "haan wo meri mummy kal seedhi se gir gayi ghutne mein chot hai sujan hai lekin dard bilkul nahi hai aur chalne mein bahut dard ho raha hai",
+   "voice": true,
+   "reply": {
+    "follow_up_question": "Kya aapki maa us pair par weight daal sakti hain ya knee move kar sakti hain? Kya fall ke dauran unka sar kisi se takraya tha?",
+    "follow_up_kind": "medical",
+    "seriousness": "urgent",
+    "reasoning": "Knee injury with swelling after a fall needs an orthopedic check and X-ray, but we must rule out a fracture or head injury first.",
+    "language": "hinglish",
+    "seconds": 11.3
+   }
+  },
+  {
+   "user": "sar nahi takraya thoda thoda chal leti hai sahara leke 58 saal ki hai aur haan x-ray ghar pe ho sakta hai kya sasta wala paas mein",
+   "voice": true,
+   "reply": {
+    "care_type": "clinic_visit",
+    "urgency": "same_day",
+    "seriousness": "urgent",
+    "specialty": "Orthopaedic",
+    "reasoning": "Knee injury with swelling after a fall requires an X-ray today to rule out a fracture.",
+    "explanation": "Aaj hi apni maa ko kisi Orthopaedic doctor ke paas le jaayein, kyunki unki ghutni mein swelling aur dard hai. Doctor shayad X-ray karwa kar aage ki dekhbhaal ke liye guide karein.",
+    "match_summary": "No provider in range offers this yet; try a video consultation or widen the area.",
+    "language": "hinglish",
+    "seconds": 11.1
+   }
+  }
+ ]
+}

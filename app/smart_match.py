@@ -258,8 +258,19 @@ def match(decision, hints: Hints, facts, location, lang: str, now: Optional[date
     if not cands and need.required:  # nobody offers everything: keep whoever offers the most, the user's own asks first
         relaxed = True
         cands = [(p, d) for p, d in pool if eligible(p, d, None) and set(need.explicit or need.required) & p.services]
+    if not cands and need.setting == "home":  # nobody does it at home: the nearest places that do it in person
+        need.setting = "in_person"
+        cands = [(p, d) for p, d in pool if eligible(p, d, set(need.required) or None)]
+    if need.consult and need.specialty and need.specialty != "general_medicine":
+        spec = [(p, d) for p, d in cands if need.specialty in p.specialties]
+        if spec:  # the right specialist exists in range: a general physician is not a match for this
+            cands = spec
+    if "female" in prefs:
+        fem = [(p, d) for p, d in cands if p.female_doctor]
+        if fem:  # asked for a lady doctor and one is available
+            cands = fem
     if not cands:
-        return [], "No provider in range offers this yet; try a video consultation or widen the area.", need
+        return [], "No provider in range offers this yet; widen the area or try again later.", need
 
     fees = [p.fee for p, _ in cands if p.fee]
     fmin, fmax = (min(fees), max(fees)) if fees else (0, 1)

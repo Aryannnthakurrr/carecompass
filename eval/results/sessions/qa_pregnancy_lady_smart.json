@@ -1,0 +1,38 @@
+{
+ "session": "qa_pregnancy_lady_smart",
+ "mode": "smart",
+ "turns": [
+  {
+   "user": "meri wife 7 mahine pregnant hai, uske pairon mein soojan hai 2 din se. lady doctor chahiye paas mein",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Kya bleeding, tez sar dard ya dhundhla dikhna ho raha hai? Kya dono pair phole hain aur baby normal move kar raha hai?",
+    "follow_up_kind": "medical",
+    "seriousness": "urgent",
+    "reasoning": "Foot swelling in late pregnancy requires a check for danger signs to rule out complications.",
+    "language": "hinglish",
+    "seconds": 11.3
+   }
+  },
+  {
+   "user": "nahi bleeding nahi hai, sar dard nahi. dono pair phoole hain, baby move kar raha hai",
+   "voice": false,
+   "reply": {
+    "care_type": "clinic_visit",
+    "urgency": "same_day",
+    "seriousness": "urgent",
+    "specialty": "Gynaecologist",
+    "reasoning": "Swelling in both feet in the third trimester requires a same-day check by a gynecologist to rule out complications, even without bleeding or severe headache.",
+    "explanation": "Aapki wife ko aaj hi Shanti Super Speciality Hospital mein gynaecologist se milna chahiye, kyunki yeh jagah aapke ghar se 5.9 km paas hai aur 7 mahine ki pregnancy mein pairon ki sujan ko jaldi check karna zaroori hai. Doctor shayad aapki wife se blood aur urine test karwaye.",
+    "match_summary": "Gynaecologist consultation from 54 doctors in reach; distance, rating and a shared language decide. You asked about a female doctor and distance, so they counted for more.",
+    "matched": [
+     "Shanti Super Speciality Hospital (Hospital, 0.3 km)",
+     "Healwell Super Speciality Hospital (Hospital · Gynaecologist, 6.3 km)",
+     "Lotus Multispeciality Hospital (Hospital, 3.1 km)"
+    ],
+    "language": "hinglish",
+    "seconds": 11.0
+   }
+  }
+ ]
+}

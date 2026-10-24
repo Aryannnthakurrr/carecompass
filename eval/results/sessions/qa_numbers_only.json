@@ -1,0 +1,61 @@
+{
+ "session": "qa_numbers_only",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "102",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Is 102 your current temperature, or is it a different number?",
+    "follow_up_kind": "clarify",
+    "reasoning": "The message was unclear; confirming before going further.",
+    "language": "en",
+    "seconds": 2.0
+   }
+  },
+  {
+   "user": "3",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Are you asking about a temperature of 102 degrees, or is that a different number?",
+    "follow_up_kind": "clarify",
+    "reasoning": "The message was unclear; confirming before going further.",
+    "language": "en",
+    "seconds": 1.4
+   }
+  },
+  {
+   "user": "38",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Are you feeling unwell? Please tell me who is sick and what symptoms they are experiencing right now.",
+    "follow_up_kind": "clarify",
+    "reasoning": "The message was unclear; confirming before going further.",
+    "language": "en",
+    "seconds": 1.4
+   }
+  },
+  {
+   "user": "5 6 7",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "I can only help with health needs. Who is unwell, and what is happening?",
+    "follow_up_kind": "redirect",
+    "reasoning": "No health concern described; steering back to the health problem.",
+    "language": "en",
+    "seconds": 0.9
+   }
+  },
+  {
+   "user": "98.6",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Please tell me about the health problem, for example: “my father has had fever for 2 days”. Who is unwell?",
+    "follow_up_kind": "redirect",
+    "reasoning": "No health concern described; steering back to the health problem.",
+    "language": "en",
+    "seconds": 1.0
+   }
+  }
+ ]
+}

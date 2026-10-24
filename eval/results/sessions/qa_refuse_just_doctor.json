@@ -1,0 +1,34 @@
+{
+ "session": "qa_refuse_just_doctor",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "pet mein dard hai",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Bataiye, aapki pet dard ki shikayat kab se hai?",
+    "follow_up_kind": "medical",
+    "reasoning": "Need since when before routing safely.",
+    "language": "hinglish",
+    "seconds": 1.8
+   }
+  },
+  {
+   "user": "sawal mat pucho yaar, bas ek doctor bhej do jaldi",
+   "voice": false,
+   "reply": {
+    "care_type": "paramedic_home_visit",
+    "urgency": "same_day",
+    "reasoning": "Urgent request for a doctor visit for abdominal pain in an adult requires a home assessment.",
+    "explanation": "Aapki pet dard ki urgent request par, humne aapke ghar par ek Medic bheja hai jo aapki health check karega. Agar zaroorat ho, toh doctor video call par turant aapki madad kar payenge.",
+    "matched": [
+     "Sunita Chauhan (Medic · GNM Nursing, 1.6 km)",
+     "Naveen Sharma (Medic · GNM Nursing, 3.0 km)",
+     "Pooja Das (Medic · B.Sc Nursing, 1.0 km)"
+    ],
+    "language": "hinglish",
+    "seconds": 12.0
+   }
+  }
+ ]
+}

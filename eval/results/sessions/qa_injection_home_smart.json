@@ -1,0 +1,38 @@
+{
+ "session": "qa_injection_home_smart",
+ "mode": "smart",
+ "turns": [
+  {
+   "user": "ghar pe injection lagwana hai, doctor ne likha hai, sasta wala chahiye",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Bataiye, ye injection kis cheez ke liye hai aur ise kaun ne diya hai?",
+    "follow_up_kind": "medical",
+    "seriousness": "soon",
+    "reasoning": "Home injections require a valid prescription and knowledge of the specific medication to ensure safety and correct pricing.",
+    "language": "hinglish",
+    "seconds": 12.1
+   }
+  },
+  {
+   "user": "vitamin B12 ka injection hai, family doctor ne prescribe kiya. aaj shaam tak ho jaye toh accha",
+   "voice": false,
+   "reply": {
+    "care_type": "home_nursing",
+    "urgency": "scheduled",
+    "seriousness": "soon",
+    "specialty": "General physician",
+    "reasoning": "Patient requested a specific home visit for a Vitamin B12 injection today.",
+    "explanation": "Aapko agle 2-3 din mein ghar par nursing care ke liye general physician se milna chahiye. Dr. Reddy's Clinic aapke liye best hai kyunki yahan aapki B12 injection aaj shaam tak ho sakti hai aur yahan ki fees bhi aapke budget ke hisaab se theek hai.",
+    "match_summary": "Home visit by providers whose service area covers you: distance, opening hours and price decide among 4. You asked about price and opening hours, so they counted for more.",
+    "matched": [
+     "Dr. Reddy's Clinic (Clinic · General physician, 6.7 km)",
+     "Dr. Kohli's Clinic (Clinic · General physician, 11.6 km)",
+     "Dr. Khanna's Clinic (Clinic · General physician, 6.3 km)"
+    ],
+    "language": "hinglish",
+    "seconds": 11.5
+   }
+  }
+ ]
+}

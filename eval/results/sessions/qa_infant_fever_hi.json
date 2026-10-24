@@ -1,0 +1,21 @@
+{
+ "session": "qa_infant_fever_hi",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "मेरी 2 महीने की बच्ची को बुखार है, 100.8 है",
+   "voice": false,
+   "reply": {
+    "care_type": "emergency_112",
+    "urgency": "emergency",
+    "red_flags": [
+     "high_fever_infant"
+    ],
+    "reasoning": "Red-flag symptoms detected (high_fever_infant); routed to emergency services, not home care.",
+    "explanation": "इन लक्षणों में घर पर देखभाल नहीं, आपातकालीन मदद चाहिए। कृपया अभी 112 या 108 पर कॉल करें।",
+    "language": "hi",
+    "seconds": 1.1
+   }
+  }
+ ]
+}

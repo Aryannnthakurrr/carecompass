@@ -1,0 +1,26 @@
+{
+ "session": "qa_teleconsult_reports_smart",
+ "mode": "smart",
+ "turns": [
+  {
+   "user": "मेरी माँ की थायराइड और लिवर की रिपोर्ट आई है, किसी डॉक्टर से दूसरी राय चाहिए। ऑनलाइन चाहिए लेकिन डॉक्टर घर आकर भी देखें, और सस्ता हो",
+   "voice": false,
+   "reply": {
+    "care_type": "teleconsultation",
+    "urgency": "scheduled",
+    "seriousness": "soon",
+    "specialty": "Endocrinologist",
+    "reasoning": "Request for a low-cost online second opinion on existing thyroid and liver reports.",
+    "explanation": "अगले 2-3 दिनों में एक एंडोक्रिनोलॉजिस्ट से वीडियो कॉल पर सलाह लें, ताकि आपकी माँ की रिपोर्ट्स की जांच हो सके। लोटस मल्टीस्पेशियलिटी हॉस्पिटल आपके लिए उपयुक्त है क्योंकि यह ऑनलाइन सेवा प्रदान करता है और इसकी लागत कम है।",
+    "match_summary": "Video consultation, so distance doesn't count: rating, a shared language and price decide among 62 doctors. Providers who don't speak your language were ranked down, because this visit needs conversation. You asked about price, so it counted for more.",
+    "matched": [
+     "Lotus Multispeciality Hospital (Hospital · Endocrinologist, None km)",
+     "Kalpataru Polyclinic (Polyclinic · Endocrinologist, None km)",
+     "Dr. Pawan Singh (Video doctor · General physician, None km)"
+    ],
+    "language": "hi",
+    "seconds": 10.7
+   }
+  }
+ ]
+}

@@ -1,0 +1,56 @@
+{
+ "session": "qa_offtopic_cab",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "book me an uber to Connaught Place please",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "I can only help with health needs. Who is unwell, and what is happening?",
+    "follow_up_kind": "redirect",
+    "reasoning": "No health concern described; steering back to the health problem.",
+    "language": "en",
+    "seconds": 1.0
+   }
+  },
+  {
+   "user": "ok fine then what is 245 times 17? also write me a python function to reverse a list",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Please tell me about the health problem, for example: “my father has had fever for 2 days”. Who is unwell?",
+    "follow_up_kind": "redirect",
+    "reasoning": "No health concern described; steering back to the health problem.",
+    "language": "en",
+    "seconds": 1.0
+   }
+  },
+  {
+   "user": "bro just tell me the weather in delhi tomorrow",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "I'm a health assistant, so I can only help with a health problem. Type or say what is wrong and for whom.",
+    "follow_up_kind": "redirect",
+    "reasoning": "No health concern described; steering back to the health problem.",
+    "language": "en",
+    "seconds": 1.0
+   }
+  },
+  {
+   "user": "haha ok fine, actually I have had a headache since this morning",
+   "voice": false,
+   "reply": {
+    "care_type": "teleconsultation",
+    "urgency": "same_day",
+    "reasoning": "Headache in an adult requires screening for red flags to determine if it is an emergency or suitable for a virtual doctor.",
+    "explanation": "We’ve arranged a quick video call with a doctor to check on your headache and make sure everything is okay. This helps us quickly determine if you need any further support.",
+    "matched": [
+     "Pawan Singh (Doctor (video) · MBBS, None km)",
+     "Rekha Gupta (Doctor (video) · MBBS, None km)",
+     "Meena Saini (Doctor (video) · MBBS, None km)"
+    ],
+    "language": "en",
+    "seconds": 9.5
+   }
+  }
+ ]
+}

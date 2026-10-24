@@ -1,0 +1,32 @@
+{
+ "session": "qa_child_dehydration",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "my 3 year old has had loose motions since yesterday",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Is your child keeping water down and passing urine normally? Also, have you noticed any blood in the stool or unusual sleepiness?",
+    "follow_up_kind": "medical",
+    "reasoning": "Loose motions in a 3-year-old require checking for dehydration or danger signs to decide between home care and emergency.",
+    "language": "en",
+    "seconds": 12.9
+   }
+  },
+  {
+   "user": "he throws up whatever he drinks, hasn't peed since morning and his mouth looks dry",
+   "voice": false,
+   "reply": {
+    "care_type": "emergency_112",
+    "urgency": "emergency",
+    "red_flags": [
+     "severe_dehydration"
+    ],
+    "reasoning": "Red-flag symptoms detected (severe_dehydration); routed to emergency services, not home care.",
+    "explanation": "These signs need emergency care, not a home visit. Please call 112 or 108 now.",
+    "language": "en",
+    "seconds": 1.0
+   }
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "session": "qa_fever_adult_en",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "I have had fever for 2 days and body ache",
+   "voice": false,
+   "reply": {
+    "care_type": "paramedic_home_visit",
+    "urgency": "same_day",
+    "reasoning": "Fever and body ache for 2 days in an adult requires a home assessment by a paramedic.",
+    "explanation": "A Medic will visit your home to check on you, as your fever and body ache have lasted for two days. A doctor can also join the visit by video if needed.",
+    "matched": [
+     "Sunita Chauhan (Medic · GNM Nursing, 1.6 km)",
+     "Naveen Sharma (Medic · GNM Nursing, 3.0 km)",
+     "Pooja Das (Medic · B.Sc Nursing, 1.0 km)"
+    ],
+    "language": "en",
+    "seconds": 9.2
+   }
+  }
+ ]
+}

@@ -40,7 +40,8 @@ SYSTEM = """You are an experienced emergency triage nurse in India. Grade the ca
 - routine: can be planned.
 When unsure between emergency_now and see_doctor_today for a child under 5, a very old or a pregnant patient, or anyone
 showing dehydration (cannot keep water down, not passing urine), choose emergency_now.
-Judge only what is reported. Do not diagnose. For emergency_now, check_question asks the family about that reported sign.
+Judge only what is reported. Do not diagnose. Keep reasoning under 15 words. For emergency_now, check_question asks the
+family about that reported sign.
 
 Examples:
 Case: Patient: self, 30 years. Presenting with: fever. Duration: since yesterday. Reported readings: temperature 101F.
@@ -63,6 +64,10 @@ Case: Patient: wife. Presenting with: heavy menstrual bleeding; dizziness; pale 
 -> {"danger_signs":["heavy bleeding with dizziness and paleness"],"reasoning":"Heavy bleeding with dizziness can mean dangerous blood loss.","level":"emergency_now","check_question":"Is she dizzy or faint right now?"}
 Case: Patient: father, 68 years (elderly). Presenting with: breathless when climbing stairs. Onset: gradual. Duration: 4 months.
 -> {"danger_signs":[],"reasoning":"Slowly worsening breathlessness on exertion over months needs a doctor soon, not an ambulance.","level":"see_doctor_today","check_question":""}
+Case: Patient: father, 60 years. Presenting with: high blood sugar. Reported readings: fasting sugar 280; BP 165/100.
+-> {"danger_signs":[],"reasoning":"High readings without symptoms need a doctor soon, not an ambulance.","level":"see_doctor_today","check_question":""}
+Case: Patient: not stated (age not stated). Presenting with: stomach pain.
+-> {"danger_signs":[],"reasoning":"Age not stated: do not assume an infant or a very old patient.","level":"see_doctor_today","check_question":""}
 Case: Patient: self. Presenting with: mild acidity. Duration: since morning.
 -> {"danger_signs":[],"reasoning":"Mild, stable complaint.","level":"routine","check_question":""}"""
 
@@ -71,7 +76,8 @@ def note(facts: CaseFacts) -> str:
     """The structured facts as a short clinical note (MedGemma reads medical prose better than JSON keys)."""
     f = facts
     pop = ", ".join(f.special_population)
-    parts = [f"Patient: {f.patient or 'not stated'}{f' ({pop})' if pop else ''}."]
+    age = "" if (f.age_group or pop or any(ch.isdigit() for ch in (f.patient or ""))) else " (age not stated)"
+    parts = [f"Patient: {f.patient or 'not stated'}{f' ({pop})' if pop else age}."]
     if f.symptoms_present:
         parts.append("Presenting with: " + "; ".join(f.symptoms_present) + ".")
     for value, label in ((f.onset, "Onset"), (f.duration, "Duration"), (f.severity, "Severity as described")):

@@ -1,0 +1,23 @@
+{
+ "session": "qa_long_ramble_mixed",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "Namaste ji, actually baat yeh hai ki meri mummy jo 70 saal ki hain unka last month hip ka operation hua tha Max mein, toh unko catheter laga hua hai abhi bhi aur woh ghar pe hain, aur ab unke operation wale jagah pe dressing bhi change karni hai, पिछली बार जो nurse आई थी वो बहुत late आई थी, toh mujhe koi aisa chahiye jo time pe aaye, aur haan unko thoda sa itching bhi ho rahi hai wahan pe, bukhar nahi hai, khana theek kha rahi hain, bas catheter bhi kal tak badalna hai shayad, doctor ne bola tha 2 hafte mein badalna",
+   "voice": false,
+   "reply": {
+    "care_type": "home_nursing",
+    "urgency": "same_day",
+    "reasoning": "Specific nursing procedures (wound dressing and catheter change) are requested for a post-surgical patient at home.",
+    "explanation": "आपकी माँ के घाव की देखभाल और कैथेटर बदलने के लिए एक प्रशिक्षित नर्स आपके घर आएगी। यह सुनिश्चित करने के लिए है कि उनकी जगह पर खुजली न हो और सफाई समय पर हो।",
+    "matched": [
+     "Pooja Das (Medic · B.Sc Nursing, 1.0 km)",
+     "Deepak Mishra (Medic · GNM Nursing, 7.6 km)",
+     "Naveen Sharma (Medic · GNM Nursing, 3.0 km)"
+    ],
+    "language": "hi",
+    "seconds": 9.5
+   }
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "session": "qa_seizure_hi",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "मेरे भाई को अभी झटके आ रहे हैं, मुंह से झाग निकल रहा है",
+   "voice": false,
+   "reply": {
+    "care_type": "emergency_112",
+    "urgency": "emergency",
+    "red_flags": [
+     "seizure"
+    ],
+    "reasoning": "Red-flag symptoms detected (seizure); routed to emergency services, not home care.",
+    "explanation": "इन लक्षणों में घर पर देखभाल नहीं, आपातकालीन मदद चाहिए। कृपया अभी 112 या 108 पर कॉल करें।",
+    "language": "hi",
+    "seconds": 1.0
+   }
+  }
+ ]
+}

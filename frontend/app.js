@@ -322,7 +322,7 @@ function handle(res) {
 
   if (res.follow_up_question) {
     const q = res.follow_up_question;
-    state.history.push({ role: 'assistant', content: q });
+    state.history.push({ role: 'assistant', content: q, kind: res.follow_up_kind }); // the server counts medical questions only
     state.questions++;
     setStep(1);
     const chips = addQuestion(q, { safetyNote: res.safety_note });

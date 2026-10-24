@@ -1,0 +1,21 @@
+{
+ "session": "qa_stroke_hinglish",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "meri dadi ka muh achanak se ek taraf tedha ho gaya hai aur woh theek se bol nahi pa rahi",
+   "voice": false,
+   "reply": {
+    "care_type": "emergency_112",
+    "urgency": "emergency",
+    "red_flags": [
+     "stroke_symptoms"
+    ],
+    "reasoning": "Red-flag symptoms detected (stroke_symptoms); routed to emergency services, not home care.",
+    "explanation": "In lakshanon mein ghar par care nahi, emergency madad chahiye. Kripya abhi 112 ya 108 par call karein.",
+    "language": "hinglish",
+    "seconds": 1.0
+   }
+  }
+ ]
+}

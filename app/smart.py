@@ -91,9 +91,9 @@ def _safe(fn):
 def classify(facts, hints: Hints, asked: list[str] = ()) -> tuple[Optional[SmartDecision], dict]:
     user = _payload(facts, hints, asked)
     with ThreadPoolExecutor(max_workers=2) as ex:
-        f_med = ex.submit(llm.medgemma, SYSTEM, user, SmartDecision)
+        f_med = ex.submit(llm.medgemma, SYSTEM, user, SmartDecision) if llm.CFG["smart"].get("medgemma_brain", True) else None
         f_qwen = ex.submit(lambda: _safe(lambda: llm.chat(SYSTEM, user, SmartDecision)))
-        med, qwen = f_med.result(), f_qwen.result()
+        med, qwen = (f_med.result() if f_med else None), f_qwen.result()
     votes = {"medgemma": med, "qwen": qwen}
     ds = [d for d in (med, qwen) if d]
     if not ds:

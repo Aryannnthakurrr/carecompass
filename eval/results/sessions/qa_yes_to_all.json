@@ -1,0 +1,72 @@
+{
+ "session": "qa_yes_to_all",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "my mother is not feeling well",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Happy to help. Who is this for, and what is the main concern or service you need?",
+    "follow_up_kind": "medical",
+    "reasoning": "No health concern described yet; asking what it is.",
+    "language": "en",
+    "seconds": 0.9
+   }
+  },
+  {
+   "user": "yes",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Happy to help. Who is this for, and what is the main concern or service you need?",
+    "follow_up_kind": "medical",
+    "reasoning": "No health concern described yet; asking what it is.",
+    "language": "en",
+    "seconds": 1.0
+   }
+  },
+  {
+   "user": "yes",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "What specific symptoms is your mother experiencing right now, and what kind of care do you need?",
+    "follow_up_kind": "clarify",
+    "reasoning": "The message was unclear; confirming before going further.",
+    "language": "en",
+    "seconds": 1.5
+   }
+  },
+  {
+   "user": "yes",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "What specific symptoms is your mother experiencing right now, such as fever, pain, or difficulty breathing?",
+    "follow_up_kind": "clarify",
+    "reasoning": "The message was unclear; confirming before going further.",
+    "language": "en",
+    "seconds": 1.5
+   }
+  },
+  {
+   "user": "yes",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Happy to help. Who is this for, and what is the main concern or service you need?",
+    "follow_up_kind": "medical",
+    "reasoning": "No health concern described yet; asking what it is.",
+    "language": "en",
+    "seconds": 1.1
+   }
+  },
+  {
+   "user": "yes",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Happy to help. Who is this for, and what is the main concern or service you need?",
+    "follow_up_kind": "medical",
+    "reasoning": "No health concern described yet; asking what it is.",
+    "language": "en",
+    "seconds": 0.9
+   }
+  }
+ ]
+}

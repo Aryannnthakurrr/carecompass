@@ -43,7 +43,9 @@ models:
                                  # queued behind the screener on the one GPU; MedGemma's job here is the emergency screen
     screener:                    # MedGemma emergency screen (app/screen.py): a "yes" asks to confirm first, then escalates
       enabled: true
-      num_predict: 500           # room for danger signs + reasoning + check question
+      num_predict: 300           # danger signs + a short reason + check question
+      retrieval: true            # show the 4 most similar graded training cases (app/retrieval.py)
+      retrieve_k: 4
 
 # Organiser taxonomy (training/README.md, Sanocare dataset v1).
 labels:
@@ -83,6 +85,8 @@ smart:
   # The problem statement forbids diagnosing. The analyser still notes possible causes internally; keep this false
   # unless the organisers allow showing them (then they appear labelled "not a diagnosis").
   show_possible_causes: false
+  medgemma_brain: false          # MedGemma's smart-mode vote queued behind its emergency screen on the one GPU (+5 s a turn);
+                                 # in smart mode MedGemma's job is the screen, Qwen gives specialty and tests
 
 matching:
   caregivers_csv: training/caregivers.csv

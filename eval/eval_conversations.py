@@ -101,7 +101,7 @@ def run_case(mode: str, case):
             if r.follow_up_question in asks:
                 problems.append("repeated a question")
             asks.append(r.follow_up_question)
-        hist += [Turn(role="user", content=msg), Turn(role="assistant", content=r.follow_up_question or r.explanation or "")]
+        hist += [Turn(role="user", content=msg), Turn(role="assistant", content=r.follow_up_question or r.explanation or "", kind=r.follow_up_kind)]
         if out in ("emergency", "ended"):
             break
     got = outcome(r)

@@ -45,6 +45,10 @@ def main():
     data = ROOT / "training/sft/labelled.jsonl"
     if data.exists():  # coverage on the panel-labelled dataset, raw words + structured symptoms as in the pipeline
         rows = [json.loads(line) for line in data.read_text(encoding="utf-8").splitlines() if line.strip()]
+        review = ROOT / "training/sft/manual_review.jsonl"  # the recall-first manual review overrides panel labels
+        if review.exists():
+            final = {json.loads(l)["id"]: json.loads(l)["target"] for l in review.read_text(encoding="utf-8").splitlines() if l.strip()}
+            rows = [{**r, "target": final.get(r["id"], r["target"])} for r in rows]
         def hit(r):
             return any(redflags.detect(*(r["turns"] + json.loads(r["facts_json"]).get("symptoms_present", []))))
         em = [r for r in rows if r["target"] == "emergency_112"]

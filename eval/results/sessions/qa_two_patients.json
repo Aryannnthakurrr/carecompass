@@ -1,0 +1,56 @@
+{
+ "session": "qa_two_patients",
+ "mode": "dataset",
+ "turns": [
+  {
+   "user": "mere papa ko 3 din se khansi hai aur meri behen ka haath kat gaya sabzi kaatte hue, khoon ruk gaya hai",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Bataiye, aap abhi apne papa ke khaansi ya apni behen ke haath ki chot ke liye madad chahte hain?",
+    "follow_up_kind": "clarify",
+    "reasoning": "Clarifying first: Two different patients (father and sister) with unrelated symptoms (cough and hand injury) are mentioned in the same request..",
+    "language": "hinglish",
+    "seconds": 1.6
+   }
+  },
+  {
+   "user": "dono ke liye chahiye, pehle papa",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Bataiye, abhi aapke papa ki khansi ya behen ke haath ki chot ke liye madad chahiye?",
+    "follow_up_kind": "clarify",
+    "reasoning": "Clarifying first: Two different patients (father and sister) with different conditions (cough and hand injury) are mentioned in a single request..",
+    "language": "hinglish",
+    "seconds": 1.6
+   }
+  },
+  {
+   "user": "papa ki khansi",
+   "voice": false,
+   "reply": {
+    "follow_up_question": "Kya hum sirf aapke papa ke 3 din se chalu ho rahe khansi ke baare mein baat karein?",
+    "follow_up_kind": "clarify",
+    "reasoning": "Clarifying first: User initially described symptoms for two different patients (father and sister).; User later narrowed the request to only the father's cough, but the initial context included the sister's injury..",
+    "language": "hinglish",
+    "seconds": 1.4
+   }
+  },
+  {
+   "user": "haan sirf papa ki, behen theek hai. papa 60 ke hain, bukhar nahi hai",
+   "voice": false,
+   "reply": {
+    "care_type": "paramedic_home_visit",
+    "urgency": "same_day",
+    "reasoning": "Elderly patient with a 3-day cough requires a check for breathing difficulty to rule out emergency signs before scheduling a home visit.",
+    "explanation": "Aapke papa ke liye ek Medic ghar par aayega taaki unki saans lene ki halat ko dhyan se check kiya ja sake. Isse hum confirm kar paayenge ki koi urgent masla nahi hai, aur phir aage ka care plan set kiya jaayega.",
+    "matched": [
+     "Sunita Chauhan (Medic · GNM Nursing, 1.6 km)",
+     "Naveen Sharma (Medic · GNM Nursing, 3.0 km)",
+     "Pooja Das (Medic · B.Sc Nursing, 1.0 km)"
+    ],
+    "language": "hinglish",
+    "seconds": 12.8
+   }
+  }
+ ]
+}
