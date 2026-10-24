@@ -25,13 +25,13 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 |---|---|---|---|
 | Speech → text | Sarvam **Saaras v4** `transcribe` only (original words) | Sarvam API | ~0.4 s, Rs0.49/min. `translate` dropped: Qwen reads Devanagari/Hinglish directly. Sarvam text translation (Mayura) rejected: mistranslated typed "seene mein dard" |
 | Structurer + conversation voice (facts JSON, follow-up phrasing, explanation) | **Qwen 3.8 27B** (open weights; fallback Gemini 3.5 Flash-Lite) | Cerebras API | `eval/bench_v2.py`: all facts 30/30, 11/11 red flags, 0 denial leaks, 0.45 s; follow-ups right script 17/17 at 0.38 s with explicit target language |
-| Triage classifier (facts only → status/care/urgency/missing_info) | Red-flag rules → **MedGemma 4B** (local, LoRA to come) **+ Qwen 3.8 27B second opinion, more urgent wins** | Ollama + Cerebras | Pair: 11/11 emergencies, 0 under-triaged, 0 false emergencies, macro-F1 0.93/0.88. MedGemma on raw text was 5/11 — it must never see raw language |
+| Triage classifier (facts only → status/care/urgency/missing_info) | Red-flag rules → **MedGemma 4B** (local, recall-first LoRA training) **+ Qwen 3.8 27B second opinion, more urgent wins** | Ollama + Cerebras | 30-case pair: 11/11 emergencies. Held-out (254 cases): base MedGemma 37/73, Qwen 56/73, rules+Qwen 66/73, MedGemma adds none. As an emergency screener on a clinical note, base MedGemma 73/77. MedGemma on raw text was 5/11 — it must never see raw language |
 | Caregiver matching | Weighted scoring in Python | Local CPU | Deterministic, explainable |
 | Plain-language explanation | Qwen 3.8 27B (same as conversation) | Cerebras API | Replies in the detected language, passed explicitly |
 | Text → speech | Sarvam **Bulbul v3** | Sarvam API | Natural Indian voices, handles Hinglish |
 | Fallbacks | Flash-Lite (conversation); Qwen alone (classifier, if MedGemma output invalid) | Gemini / Cerebras | Different provider |
 
-Model rationale + benchmark numbers: `eval/results/*.json`, `python eval/bench_pipeline.py <part>`. Rationale doc (shareable): https://claude.ai/artifact/JY6yW4KHZ4K37TVbZKzBUZ · Architecture doc: https://claude.ai/artifact/RFsg9cCKFkiCwLHZejuSYd
+Model rationale + benchmark numbers: `eval/results/*.json`, `python eval/bench_pipeline.py <part>`. Rationale doc (shareable): https://claude.ai/artifact/JY6yW4KHZ4K37TVbZKzBUZ · Architecture doc: https://claude.ai/artifact/RFsg9cCKFkiCwLHZejuSYd · MedGemma dataset & training doc: https://claude.ai/artifact/9YcKrftBNp5bK3UqyfAayN
 
 Saaras is speech-to-TEXT. Bulbul is text-to-SPEECH. MedGemma is under Google's Health AI Developer Foundations terms.
 
@@ -82,7 +82,7 @@ Response:
 ## Pipeline logic
 
 1. **Structurer (`intake.py`)**: Qwen 3.8 27B → `CaseFacts` JSON (symptoms_present/denied, onset, duration, age, special_population, existing_conditions, vitals_reported, services_requested, severity, detected_language). Records facts only: no decisions, no questions. Re-reads the whole `conversation_history` each turn (stateless API).
-2. **Red flags (`redflags.py`)**: run on BOTH raw transcript and structured symptoms. Any hit → emergency path immediately, skip matching. Starter list: chest pain / seene mein dard · difficulty breathing / saans lene mein taklif / saans nahi aa rahi · unconscious / behosh · seizure / daura / jhatke · stroke signs (muh tedha, haath-pair sunn, bolne mein dikkat) · heavy bleeding / bahut khoon · severe head injury · poisoning / zeher · face or throat swelling · blue lips · sudden confusion · fever in infant < 3 months · bleeding in pregnancy · suicidal thoughts.
+2. **Red flags (`redflags.py`)**: run on BOTH raw transcript and structured symptoms. Any hit → emergency path immediately, skip matching. Denials scope over their clause (negated lists, EN + HI), past history is excluded, each symptom phrase is checked on its own. `python eval/test_redflags.py` (54 offline checks + dataset coverage, 441/542) must pass after any change. Starter list: chest pain / seene mein dard · difficulty breathing / saans lene mein taklif / saans nahi aa rahi · unconscious / behosh · seizure / daura / jhatke · stroke signs (muh tedha, haath-pair sunn, bolne mein dikkat) · heavy bleeding / bahut khoon · severe head injury · poisoning / zeher · face or throat swelling · blue lips · sudden confusion · fever in infant < 3 months · bleeding in pregnancy · suicidal thoughts.
 3. **Classifier (`triage.py`)**: MedGemma + Qwen in parallel on CaseFacts only → `{status: final|need_more_info, care_type, urgency, red_flags, missing_info (≤2 plain questions), reasoning}`. Either says emergency → emergency; else higher urgency wins; invalid output → the other decides. Emergencies never ask. Then Qwen phrases `missing_info` into one question in the detected language (pass it explicitly; Hinglish returns romanised for screen + Devanagari for Bulbul). Hard cap 4 follow-ups.
 4. **Matching (`matching.py`)**: filter by skill and availability within urgency window; score = weighted sum of distance (haversine), language match, rating, soonest slot (0.35/0.25/0.2/0.2). Reasons from templates, not the LLM.
 5. **Explain (`explain.py`)**: Qwen → 1–2 plain sentences in the detected language. Hinglish: Devanagari copy for Bulbul, romanised on screen. Emergency audio pre-generated at startup.
@@ -103,15 +103,17 @@ Response:
 - Only synthetic data and cited public datasets. No real patient data.
 - Declare every model and API used in the write-up.
 
-## Training (MedGemma 4B LoRA) — Kaggle/Colab
-- Unsloth QLoRA on free T4/P100. Input: structured symptom JSON. Output: `{"care_type", "urgency"}`.
-- 20% held out. Report macro-F1 (care type, urgency) + emergency recall.
-- Export merged Q4_K_M GGUF → `models/` → Ollama Modelfile → update `config.yaml`.
-- Notebook: `training/medgemma_lora.ipynb`.
+## Training (MedGemma 4B LoRA) — Kaggle
+- Runbook: `training/FINETUNE_PLAN.md`. Goal: miss as few emergencies as possible (over-triage OK), MedGemma the star.
+- Task = production call: `CaseFacts` JSON in → `Decision` JSON out, system prompt `triage.RULES` (`config.yaml classifier.prompt: rules_only` for the fine-tune).
+- Data: `training/build_sft.py` (generate → facts → panel label → export), recall-first relabels in `training/manual_review.py`, follow-ups in `training/manual_followups.py`. Splits in `training/sft/` are a stable hash of the generation batch.
+- Bulk API jobs: `build_sft.py` halts on 402/quota, caps requests per provider, meters OpenAI spend; set `CEREBRAS_TRAINING_API_KEY` so the app's key is never drained. Ask before any large API job.
+- Train: `python training/kaggle_run.py all` (private dataset, T4, phone-verified account; Gemma 3 trains in float32). Notebook is generated by `training/make_notebook.py`. One Kaggle notebook per round (`TAG`).
+- Score: `training/eval_finetune.py`; format experiments: `training/medgemma_probe.py`.
 
 ## Evaluation (scoring: Routing 30, Safety 20, Matching 20, UX 20, Explainability 10)
 - Macro-F1 on care type and urgency.
-- Recall on emergency/red-flag cases; under-triage penalised heavily. Track on EVERY change.
+- Recall on emergency/red-flag cases; under-triage penalised heavily. Track on EVERY change (`eval/test_redflags.py` offline; `training/eval_finetune.py` for the classifier on `training/sft/test.jsonl`).
 - Tie-breaks: fewest follow-ups, response time, ease of API integration.
 
 ## Deliverables checklist
