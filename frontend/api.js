@@ -77,6 +77,40 @@ export async function stt(blob) {
   return r ? ((await r.json()).transcript || '').trim() || null : null;
 }
 
+// ---- sign-in and per-user history (session is an HttpOnly cookie set by the API)
+//   GET  /auth/config  -> { google_client_id, phone: "sms" | "dev" | null }
+//   GET  /auth/me, POST /auth/logout, POST /auth/google {credential}
+//   POST /auth/otp/send {phone} -> { phone, resend_in, dev_code? },  POST /auth/otp/verify {phone, code}
+//   GET  /me/chats, GET|PUT /me/chats/{uuid} {title, messages, outcome}, GET|POST /me/bookings
+
+async function call(path, { method = 'GET', body } = {}) {
+  const r = await fetch(`${API_BASE}${path}`, {
+    method,
+    credentials: 'include',
+    headers: body ? { 'Content-Type': 'application/json' } : undefined,
+    body: body && JSON.stringify(body),
+    signal: AbortSignal.timeout(15000),
+  });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(typeof data.detail === 'string' ? data.detail : `HTTP ${r.status}`), { status: r.status });
+  return data;
+}
+
+const post = (path, body) => call(path, { method: 'POST', body });
+export const account = {
+  config: () => call('/auth/config'),
+  me: () => call('/auth/me'),
+  google: credential => post('/auth/google', { credential }),
+  sendOtp: phone => post('/auth/otp/send', { phone }),
+  verifyOtp: (phone, code) => post('/auth/otp/verify', { phone, code }),
+  logout: () => post('/auth/logout'),
+  chats: () => call('/me/chats'),
+  chat: id => call(`/me/chats/${id}`),
+  saveChat: (id, chat) => call(`/me/chats/${id}`, { method: 'PUT', body: chat }),
+  bookings: () => call('/me/bookings'),
+  book: booking => post('/me/bookings', booking),
+};
+
 export async function tts(text, language) {
   const r = await optional('/tts', {
     method: 'POST',

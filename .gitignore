@@ -23,3 +23,6 @@ Thumbs.db
 .vscode/
 .idea/
 eval/results/audio/
+
+# Local app database (users, sessions, chats, bookings)
+data/*.db

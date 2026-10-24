@@ -10,3 +10,5 @@ sarvamai
 pandas
 scikit-learn
 rapidfuzz
+google-auth
+requests

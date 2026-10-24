@@ -23,7 +23,8 @@
         </div>
       </div>
       <div class="top-actions">
-        <button class="icon-btn" id="restartBtn" data-i18n-aria="restart" hidden><i data-icon="restart"></i></button>
+        <button class="icon-btn" id="homeBtn" data-i18n-aria="home" hidden><i data-icon="home"></i></button>
+        <button class="icon-btn account-btn" id="accountBtn" aria-haspopup="dialog" hidden></button>
         <a class="sos" href="tel:112" data-i18n-aria="sos"><i data-icon="phone"></i>112</a>
       </div>
     </header>
@@ -39,6 +40,7 @@
 
     <main class="thread" id="thread" aria-live="polite">
       <section class="welcome" id="welcome">
+        <p class="hello" id="hello" hidden></p>
         <h1 class="welcome-title" data-i18n="greeting"></h1>
         <p class="welcome-sub" data-i18n="greetingSub"></p>
         <button class="hero-mic" id="heroMic" data-i18n-aria="tapToSpeak">
@@ -48,6 +50,7 @@
         <p class="hero-label" data-i18n="tapToSpeak"></p>
         <p class="examples-title" data-i18n="tryOne"></p>
         <div class="examples" id="examples"></div>
+        <div class="home-account" id="homeAccount"></div>
       </section>
     </main>
 

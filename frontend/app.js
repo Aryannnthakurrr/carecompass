@@ -28,6 +28,13 @@ const state = {
   booked: false,
   usedVoice: false,
   convo: 0,           // bumps on restart so late responses from an old conversation are dropped
+  chatId: null,       // uuid for saving this conversation to the signed-in user's history
+  outcome: null,      // the final /triage response (plan or emergency)
+  auth: null,         // /auth/config when sign-in is available, else null
+  user: null,
+  chats: [],
+  bookings: [],
+  pendingBooking: null, // a guest's booking, saved if they sign in
 };
 const T = (key, vars) => t(state.lang, key, vars);
 
@@ -73,6 +80,8 @@ function applyLang() {
   renderLocation();
   renderEmergencySteps();
   setVoiceState(voiceEl.dataset.state);
+  renderAccountBtn();
+  renderHomeAccount();
 }
 
 function renderSteps() {
@@ -194,13 +203,14 @@ function setBusy(b) {
 
 function hideWelcome() {
   if (welcome.isConnected) welcome.remove();
-  $('#restartBtn').hidden = false;
+  $('#homeBtn').hidden = false;
 }
 
 async function submit(text, { echo = true } = {}) {
   text = text.trim();
   if (!text || state.busy) return;
   const convo = state.convo;
+  state.chatId ||= crypto.randomUUID();
   hideWelcome();
   freezeChips();
   if (echo) addUser(text);
@@ -231,25 +241,39 @@ async function submit(text, { echo = true } = {}) {
   handle(res);
 }
 
+const isEmergency = res => res.care_type === 'emergency' || res.red_flags?.length > 0;
+
+function addQuestion(q, { live = true } = {}) {
+  const chips = live ? chipsFor(q) : [];
+  addBot(
+    h('p', { class: 'q-label' }, T('qCount', { n: state.questions })),
+    h('div', { class: 'bubble' }, q),
+    chips.length && chipRow(chips, submit),
+    h('div', { class: 'bubble-actions' }, listenBtn(q)),
+  );
+  return chips;
+}
+
 function handle(res) {
-  if (res.care_type === 'emergency' || res.red_flags?.length) return showEmergency(res);
+  if (isEmergency(res)) {
+    state.outcome = res;
+    saveChat();
+    return showEmergency(res);
+  }
 
   if (res.follow_up_question) {
     const q = res.follow_up_question;
     state.history.push({ role: 'assistant', content: q });
     state.questions++;
     setStep(1);
-    const chips = chipsFor(q);
-    addBot(
-      h('p', { class: 'q-label' }, T('qCount', { n: state.questions })),
-      h('div', { class: 'bubble' }, q),
-      chips.length && chipRow(chips, submit),
-      h('div', { class: 'bubble-actions' }, listenBtn(q)),
-    );
+    const chips = addQuestion(q);
+    saveChat();
     if (voice.open) voiceAsk(q, chips);
     return;
   }
 
+  state.outcome = res;
+  saveChat();
   setStep(2);
   renderPlan(res);
   if (voice.open) {
@@ -308,7 +332,7 @@ function caregiverCard(cg, i, careType) {
   ].filter(Boolean).map(([ic, txt]) => h('span', { class: 'meta-item' }, ic, txt));
 
   const btn = h('button', { class: 'book-btn', onclick: () => book(cg, card, btn, careType) }, T('book'));
-  const card = h('article', { class: 'cg' + (i === 0 ? ' best' : ''), style: `--d:${i * 90}ms` },
+  const card = h('article', { class: 'cg' + (i === 0 ? ' best' : ''), style: `--d:${i * 90}ms`, 'data-cg': cg.caregiver_id },
     i === 0 && h('span', { class: 'best-tag' }, icon('award'), T('bestMatch')),
     h('div', { class: 'cg-head' },
       h('div', { class: 'cg-avatar', style: `--hue:${hue(name)}` }, initials(name)),
@@ -327,22 +351,57 @@ function caregiverCard(cg, i, careType) {
   return card;
 }
 
-// ponytail: booking is mocked client-side (no booking endpoint in the contract yet).
+function markBooked(caregiverId) {
+  state.booked = true;
+  for (const card of thread.querySelectorAll('.cg')) {
+    const btn = card.querySelector('.book-btn');
+    btn.disabled = true;
+    if (card.dataset.cg === caregiverId) {
+      btn.replaceChildren(icon('check'), T('booked'));
+      card.classList.add('is-booked');
+    }
+  }
+}
+
+// Saved to the user's history when signed in; there is no caregiver-side scheduling yet.
 async function book(cg, card, btn, careType) {
   if (state.booked) return;
   state.booked = true;
   btn.disabled = true;
   btn.classList.add('loading');
-  await sleep(700);
+  const payload = {
+    chat_id: state.chatId,
+    caregiver: cg,
+    care_type: careType,
+    urgency: state.outcome?.urgency ?? null,
+    slot: cg.next_slot ?? null,
+    location: state.location && { lat: state.location.lat, lng: state.location.lng, name: state.location.name ?? null },
+  };
+  let ref = null, saveNote = null;
+  if (state.user) {
+    try {
+      const saved = await api.account.book(payload);
+      ref = saved.id;
+      state.bookings.unshift(saved);
+    } catch (e) {
+      console.warn('booking not saved', e);
+      saveNote = h('p', { class: 'sheet-note warn' }, T('notSaved'));
+    }
+  } else {
+    await sleep(600);
+    if (state.auth) {
+      state.pendingBooking = payload;
+      saveNote = h('div', { class: 'save-nudge' }, h('span', {}, T('saveNudge')),
+        h('button', { class: 'text-btn inline', onclick: openSignIn }, T('signIn')));
+    }
+  }
+  ref ||= 'CC-' + Math.random().toString(36).slice(2, 8).toUpperCase();
   btn.classList.remove('loading');
-  btn.replaceChildren(icon('check'), T('booked'));
-  card.classList.add('is-booked');
-  thread.querySelectorAll('.book-btn').forEach(b => { if (b !== btn) b.disabled = true; });
+  markBooked(cg.caregiver_id);
   setStep(3);
 
   const name = cg.name || cg.caregiver_id;
   const video = careType === 'gp_teleconsult';
-  const ref = 'CC-' + Math.random().toString(36).slice(2, 7).toUpperCase();
   const row = (k, v) => [h('dt', {}, k), h('dd', {}, v)];
   openSheet(h('div', { class: 'booked' },
     h('div', { class: 'check-anim', 'aria-hidden': 'true' }, icon('check')),
@@ -354,6 +413,7 @@ async function book(cg, card, btn, careType) {
       row(T('rowWhen'), cg.next_slot ? slotText(cg.next_slot) : T('toBeConfirmed')),
       row(T('rowWhere'), video ? T('videoNote') : locationText()),
       row(T('rowRef'), ref)),
+    saveNote,
     h('button', { class: 'primary-btn', onclick: closeSheet }, T('done')),
     h('button', { class: 'text-btn', onclick: () => { closeSheet(); restart(); } }, T('newRequest')),
   ));
@@ -368,14 +428,10 @@ function renderEmergencySteps() {
   $('#emSteps').replaceChildren(...T('emSteps').map(s => h('li', {}, s)));
 }
 
-function showEmergency(res) {
+// A permanent card in the thread so the call-for-help path survives closing the takeover.
+function emergencyCard(res) {
   const flags = res.red_flags || [];
-  closeVoice();
-  $('#emFlags').replaceChildren(...(flags.length
-    ? [h('p', { class: 'em-flags-title' }, T('emNoticed')), h('div', { class: 'em-flag-list' }, flags.map(f => h('span', { class: 'em-flag' }, f)))]
-    : []));
-  // A permanent card in the thread so the call-for-help path survives closing the takeover.
-  addWide(h('article', { class: 'card em-card' },
+  return h('article', { class: 'card em-card' },
     h('div', { class: 'em-card-head' }, icon('alert'), h('h3', {}, T('emTitle'))),
     flags.length && h('div', { class: 'em-flag-list' }, flags.map(f => h('span', { class: 'em-flag' }, f))),
     res.reasoning && h('p', { class: 'em-card-why' }, res.reasoning),
@@ -383,7 +439,16 @@ function showEmergency(res) {
       h('a', { class: 'em-mini primary', href: 'tel:112' }, icon('phone'), T('call112')),
       h('a', { class: 'em-mini', href: 'tel:108' }, icon('phone'), T('call108'))),
     h('button', { class: 'text-btn danger', onclick: openEmergency }, T('emShow')),
-  ));
+  );
+}
+
+function showEmergency(res) {
+  const flags = res.red_flags || [];
+  closeVoice();
+  $('#emFlags').replaceChildren(...(flags.length
+    ? [h('p', { class: 'em-flags-title' }, T('emNoticed')), h('div', { class: 'em-flag-list' }, flags.map(f => h('span', { class: 'em-flag' }, f)))]
+    : []));
+  addWide(emergencyCard(res));
   openEmergency();
   if (state.usedVoice) speak([T('emTitle'), T('emSub'), T('call112'), ...T('emSteps')].join(' '), state.lang, api.tts);
 }
@@ -517,6 +582,292 @@ $('#vDone').addEventListener('click', finishListening);
 $('#vClose').addEventListener('click', closeVoice);
 $('#vType').addEventListener('click', () => { closeVoice(); input.focus({ preventScroll: true }); });
 
+// ---------------------------------------------------------------- account: sign-in, saved history, home page
+
+const locale = () => (state.lang === 'hi' ? 'hi-IN' : 'en-IN');
+function fmtDate(v) {
+  const d = new Date(typeof v === 'number' ? v * 1000 : v);
+  if (isNaN(d)) return '';
+  return `${d.toLocaleDateString(locale(), { day: 'numeric', month: 'short' })}, ${d.toLocaleTimeString(locale(), { hour: 'numeric', minute: '2-digit' })}`;
+}
+
+async function initAccount() {
+  try {
+    const cfg = await api.account.config();
+    state.auth = cfg.google_client_id || cfg.phone ? cfg : null;
+  } catch {
+    state.auth = null; // no API, or one without sign-in: the app works as a guest
+  }
+  if (state.auth) {
+    try { state.user = (await api.account.me()).user; } catch { state.user = null; }
+    if (state.user) await loadHistory();
+  }
+  renderAccountBtn();
+  renderHomeAccount();
+}
+
+async function loadHistory() {
+  try {
+    [state.chats, state.bookings] = await Promise.all([api.account.chats(), api.account.bookings()]);
+  } catch (e) {
+    if (e.status === 401) {
+      Object.assign(state, { user: null, chats: [], bookings: [] });
+      renderAccountBtn();
+    }
+  }
+}
+
+function saveChat() {
+  if (!state.user || !state.chatId || !state.history.length) return;
+  const first = state.history.find(m => m.role === 'user')?.content || '…';
+  api.account.saveChat(state.chatId, {
+    title: first.slice(0, 120),
+    messages: state.history.map(m => ({ role: m.role, content: m.content.slice(0, 2000) })),
+    outcome: state.outcome,
+  }).catch(e => console.warn('chat not saved', e));
+}
+
+function avatarFor(u) {
+  if (u.picture) return h('img', { src: u.picture, alt: '', referrerpolicy: 'no-referrer' });
+  return u.name ? h('span', { class: 'initials' }, initials(u.name)) : icon('user');
+}
+
+function renderAccountBtn() {
+  const b = $('#accountBtn');
+  b.hidden = !state.auth;
+  b.classList.toggle('signed-in', !!state.user);
+  b.setAttribute('aria-label', T(state.user ? 'account' : 'signIn'));
+  b.replaceChildren(state.user ? avatarFor(state.user) : icon('user'));
+}
+
+function renderHomeAccount() {
+  const hello = $('#hello');
+  hello.hidden = !state.user;
+  if (state.user) hello.textContent = state.user.name ? T('hello', { name: state.user.name.split(' ')[0] }) : T('helloAnon');
+
+  const box = $('#homeAccount');
+  welcome.classList.remove('has-history');
+  if (!state.auth) return box.replaceChildren();
+  if (!state.user) {
+    return box.replaceChildren(h('div', { class: 'keep-card' },
+      h('span', { class: 'keep-icon' }, icon('shield')),
+      h('div', { class: 'keep-text' }, h('p', { class: 'keep-title' }, T('keepTitle')), h('p', { class: 'keep-sub' }, T('keepSub'))),
+      h('button', { class: 'pill-btn', onclick: openSignIn }, T('signIn'))));
+  }
+
+  const now = Date.now();
+  const bookings = state.bookings.slice(0, 5).map(b => {
+    const upcoming = !b.slot || new Date(b.slot).getTime() > now;
+    return h('button', { class: 'hist-row', onclick: () => b.chat_id && openPastChat(b.chat_id) },
+      h('span', { class: 'hist-icon' }, icon(CARE_ICON[b.care_type] || 'calendar')),
+      h('span', { class: 'hist-main' },
+        h('span', { class: 'hist-title' }, b.caregiver.name || b.caregiver.caregiver_id),
+        h('span', { class: 'hist-sub' }, [b.slot && slotText(b.slot), careText(state.lang, b.care_type).label, b.id].filter(Boolean).join(' · '))),
+      h('span', { class: `status ${upcoming ? 'up' : 'done'}` }, T(upcoming ? 'upcoming' : 'completed')));
+  });
+  const chats = state.chats.slice(0, 8).map(c => h('button', { class: 'hist-row', onclick: () => openPastChat(c.id) },
+    h('span', { class: 'hist-icon' + (c.care_type === 'emergency' ? ' em' : '') }, icon(CARE_ICON[c.care_type] || 'chat')),
+    h('span', { class: 'hist-main' },
+      h('span', { class: 'hist-title' }, c.title),
+      h('span', { class: 'hist-sub' }, `${fmtDate(c.updated_at)} · ${c.care_type ? careText(state.lang, c.care_type).label : T('inProgress')}`)),
+    icon('chevronRight', 'chev')));
+
+  const section = (iconName, title, rows) => rows.length && h('section', { class: 'home-section' },
+    h('h2', { class: 'home-h' }, icon(iconName), title), h('div', { class: 'hist-list' }, rows));
+  welcome.classList.toggle('has-history', bookings.length + chats.length > 0); // history above the examples
+  box.replaceChildren(...[section('calendar', T('yourBookings'), bookings), section('chat', T('recentChats'), chats)].filter(Boolean));
+}
+
+async function openPastChat(id) {
+  let chat;
+  try { chat = await api.account.chat(id); } catch (e) { console.warn('chat not loaded', e); return; }
+  resetConversation();
+  hideWelcome();
+  Object.assign(state, { chatId: chat.id, history: chat.messages, outcome: chat.outcome });
+  thread.append(h('p', { class: 'past-banner' }, icon('clock'), T('pastChat', { date: fmtDate(chat.updated_at) })));
+  const o = chat.outcome;
+  chat.messages.forEach((m, i) => {
+    if (m.role === 'user') return addUser(m.content);
+    state.questions++;
+    addQuestion(m.content, { live: !o && i === chat.messages.length - 1 }); // an unfinished chat can be picked up again
+  });
+  if (o && isEmergency(o)) addWide(emergencyCard(o));
+  else if (o) renderPlan(o);
+  const booking = state.bookings.find(b => b.chat_id === id);
+  if (booking) markBooked(booking.caregiver.caregiver_id);
+  setStep(booking ? 3 : o ? 2 : state.questions ? 1 : 0);
+}
+
+// ---- sign-in sheet: Google button + phone OTP
+
+let signInError = null;
+function authMessage(e, kind) {
+  if (e.status === 422) return T(kind === 'phone' ? 'errPhone' : 'errCode');
+  if (e.status === 400) return T('errCode');
+  if (e.status === 429) return T('errTooMany');
+  return T('errSignIn');
+}
+
+function openSignIn() {
+  if (!state.auth) return;
+  const err = signInError = h('p', { class: 'form-error', role: 'alert' });
+  const gslot = state.auth.google_client_id && h('div', { class: 'gsi-slot' });
+  const phone = state.auth.phone && phoneForm(err);
+  openSheet(h('div', { class: 'signin' },
+    h('h2', { class: 'sheet-title' }, T('signInTitle')),
+    h('p', { class: 'sheet-note' }, T('signInSub')),
+    gslot,
+    gslot && phone && h('p', { class: 'divider' }, h('span', {}, T('orPhone'))),
+    phone,
+    err));
+  if (gslot) renderGoogleButton(gslot);
+}
+
+let gsi = null;
+function loadGsi() {
+  return (gsi ||= new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://accounts.google.com/gsi/client';
+    s.async = true;
+    s.onload = () => {
+      google.accounts.id.initialize({ client_id: state.auth.google_client_id, callback: onGoogleCredential });
+      resolve();
+    };
+    s.onerror = () => { gsi = null; reject(new Error('Google sign-in script failed to load')); };
+    document.head.append(s);
+  }));
+}
+
+async function renderGoogleButton(slot) {
+  try {
+    await loadGsi();
+    google.accounts.id.renderButton(slot, {
+      theme: 'outline', size: 'large', shape: 'pill', text: 'continue_with',
+      width: Math.min(340, slot.clientWidth || 320), locale: state.lang === 'hi' ? 'hi' : 'en',
+    });
+  } catch {
+    slot.replaceWith(h('p', { class: 'form-error' }, T('errSignIn')));
+  }
+}
+
+async function onGoogleCredential({ credential }) {
+  try {
+    onSignedIn((await api.account.google(credential)).user);
+  } catch (e) {
+    if (signInError) signInError.textContent = authMessage(e);
+  }
+}
+
+function phoneForm(err) {
+  const wrap = h('div', { class: 'phone-form' });
+  let timer = 0;
+  const busy = (btn, on) => { btn.disabled = on; btn.classList.toggle('loading', on); };
+
+  function askNumber(prefill = '') {
+    clearTimeout(timer);
+    const num = h('input', {
+      class: 'text-input', id: 'otpPhone', type: 'tel', inputmode: 'numeric', autocomplete: 'tel-national',
+      maxlength: '14', placeholder: '98765 43210', value: prefill,
+    });
+    const send = h('button', { class: 'primary-btn', type: 'submit' }, T('sendCode'));
+    wrap.replaceChildren(h('form', {
+      class: 'otp-form',
+      onsubmit: async e => {
+        e.preventDefault();
+        if (send.disabled) return;
+        err.textContent = '';
+        busy(send, true);
+        try { askCode(await api.account.sendOtp(num.value)); }
+        catch (x) { err.textContent = authMessage(x, 'phone'); busy(send, false); }
+      },
+    },
+      h('label', { class: 'field-label', for: 'otpPhone' }, T('phoneLabel')),
+      h('div', { class: 'phone-input' }, h('span', { class: 'prefix' }, '+91'), num),
+      send));
+    setTimeout(() => num.focus({ preventScroll: true }), 120);
+  }
+
+  function askCode(sent) {
+    const code = h('input', {
+      class: 'text-input code-input', id: 'otpCode', type: 'text', inputmode: 'numeric',
+      autocomplete: 'one-time-code', maxlength: '6', placeholder: '••••••',
+    });
+    const verify = h('button', { class: 'primary-btn', type: 'submit' }, T('verify'));
+    const resend = h('button', { class: 'text-btn inline', type: 'button' });
+    let left = sent.resend_in ?? 30;
+    const tick = () => {
+      resend.disabled = left > 0;
+      resend.textContent = left > 0 ? T('resendIn', { n: left }) : T('resend');
+      if (left-- > 0) timer = setTimeout(tick, 1000);
+    };
+    resend.onclick = async () => {
+      err.textContent = '';
+      try { askCode(await api.account.sendOtp(sent.phone)); } catch (x) { err.textContent = authMessage(x, 'phone'); }
+    };
+    const form = h('form', {
+      class: 'otp-form',
+      onsubmit: async e => {
+        e.preventDefault();
+        if (verify.disabled) return;
+        err.textContent = '';
+        busy(verify, true);
+        try { onSignedIn((await api.account.verifyOtp(sent.phone, code.value)).user); }
+        catch (x) { err.textContent = authMessage(x, 'code'); busy(verify, false); code.select(); }
+      },
+    },
+      h('label', { class: 'field-label', for: 'otpCode' }, T('codeSentTo', { phone: sent.phone.replace(/^\+91/, '+91 ') })),
+      sent.dev_code && h('p', { class: 'dev-code' }, T('demoCode', { code: sent.dev_code })),
+      code,
+      verify,
+      h('div', { class: 'otp-links' },
+        h('button', { class: 'text-btn inline', type: 'button', onclick: () => askNumber(sent.phone.slice(3)) }, T('changeNumber')),
+        resend));
+    code.addEventListener('input', () => {
+      code.value = code.value.replace(/\D/g, '');
+      if (code.value.length === 6) form.requestSubmit();
+    });
+    wrap.replaceChildren(form);
+    clearTimeout(timer);
+    tick();
+    setTimeout(() => code.focus({ preventScroll: true }), 120);
+  }
+
+  askNumber();
+  return wrap;
+}
+
+async function onSignedIn(user) {
+  state.user = user;
+  renderAccountBtn();
+  closeSheet();
+  saveChat(); // a guest's conversation in progress joins their history
+  if (state.pendingBooking) {
+    try { state.bookings.unshift(await api.account.book(state.pendingBooking)); } catch (e) { console.warn('booking not saved', e); }
+    state.pendingBooking = null;
+  }
+  await loadHistory();
+  renderHomeAccount();
+}
+
+function openAccountSheet() {
+  const u = state.user;
+  const title = u.name || u.phone || u.email;
+  openSheet(h('div', { class: 'account-sheet' },
+    h('div', { class: 'acct-head' },
+      h('span', { class: 'acct-avatar' }, avatarFor(u)),
+      h('div', {},
+        h('p', { class: 'acct-name' }, title),
+        h('p', { class: 'acct-sub' }, [u.email, u.phone].filter(x => x && x !== title).join(' · ')))),
+    h('button', { class: 'ghost-btn wide', onclick: signOut }, icon('logout'), T('signOut'))));
+}
+
+async function signOut() {
+  try { await api.account.logout(); } catch { /* session may already be gone */ }
+  Object.assign(state, { user: null, chats: [], bookings: [] });
+  renderAccountBtn();
+  restart();
+}
+
 // ---------------------------------------------------------------- composer + misc wiring
 
 function autosize() {
@@ -539,7 +890,8 @@ $('#composer').addEventListener('submit', e => {
 $('#micBtn').addEventListener('click', openVoice);
 $('#heroMic').addEventListener('click', openVoice);
 $('#locBtn').addEventListener('click', openLocationSheet);
-$('#restartBtn').addEventListener('click', restart);
+$('#homeBtn').addEventListener('click', restart);
+$('#accountBtn').addEventListener('click', () => (state.user ? openAccountSheet() : openSignIn()));
 $('#emBack').addEventListener('click', closeEmergency);
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
@@ -548,19 +900,27 @@ document.addEventListener('keydown', e => {
   else if (!emergencyEl.hidden) closeEmergency();
 });
 
-function restart() {
+function resetConversation() {
   state.convo++;
   closeVoice();
   closeSheet();
   closeEmergency();
   stopSpeaking();
-  Object.assign(state, { history: [], questions: 0, booked: false, usedVoice: false });
+  Object.assign(state, { history: [], questions: 0, booked: false, usedVoice: false, chatId: null, outcome: null, pendingBooking: null });
   setBusy(false);
-  thread.replaceChildren(welcome);
-  $('#restartBtn').hidden = true;
+  thread.replaceChildren();
   input.value = '';
   autosize();
   setStep(0);
+}
+
+// Back to the home page (welcome + the user's bookings and chats).
+function restart() {
+  resetConversation();
+  thread.append(welcome);
+  $('#homeBtn').hidden = true;
+  renderHomeAccount();
+  if (state.user) loadHistory().then(renderHomeAccount);
   requestAnimationFrame(() => thread.scrollTo({ top: 0, behavior: 'instant' })); // cancels any smooth scroll in flight
 }
 
@@ -580,3 +940,4 @@ $('#examples').append(...EXAMPLES.map(ex => h('button', {
 applyLang();
 setVoiceState('idle');
 locateMe().then(ok => { if (!ok) setLocation({ ...LOCALITIES[0], source: 'default' }); });
+initAccount();
