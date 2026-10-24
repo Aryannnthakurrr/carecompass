@@ -44,8 +44,8 @@ def run(req: TriageRequest) -> TriageResponse:
     plain = "Routed from the symptoms you described."
     return r.model_copy(update={
         "reasoning": explain.scrub(r.reasoning, plain), "explanation": explain.scrub(r.explanation, r.explanation and plain),
-        "match_summary": explain.scrub(r.match_summary), "follow_up_question": explain.scrub(r.follow_up_question, r.follow_up_question
-                                                                                       and explain.FALLBACK_ASK[r.language or "en"]),
+        "match_summary": explain.scrub(r.match_summary), "follow_up_question": explain.scrub(r.follow_up_question, r.follow_up_question and explain.redirect(
+            [t.content for t in req.conversation_history if t.role == "assistant"], req.user_input, r.language or "en")),
     })
 
 

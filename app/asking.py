@@ -13,8 +13,9 @@ import re
 AGE_KNOWN = re.compile(r"\d|infant|baby|newborn|child|kid|toddler|teen|adult|elderly|old", re.I)
 IMPATIENT = re.compile(r"just (give|show|book|find|tell)|give me (a |the )?doctor|no more questions|stop asking|enough questions|"
                        r"\bbas\b.{0,25}(doctor|batao|bata do)|seedha (doctor|batao)|doctor (do|dikhao|bhejo|bata)", re.I)
-MAX_TURNS = 8
+MAX_TURNS = 14     # replies from us, off-topic ones included; slot questions stop on their own through the cost term
 CLASSIFIER_W = 0.45
+WORTH_ASKING = 0.1  # floor: the classifier's own questions die out after ~3 replies even when no slot was asked
 
 
 def _has(facts, pat: str) -> bool:
@@ -62,7 +63,7 @@ def choose(facts, missing: list[str], asked: list[str], user_input: str) -> tupl
     cost = 0.25 * A + 0.3 * D
     cands = [(SLOTS[n][0] * 0.6 ** times[n], ("slot", n)) for n in unknown]
     other = sum(not any(re.search(s[3], q, re.I) for s in SLOTS.values()) for q in asked)  # replies that weren't slot questions
-    cands += [(CLASSIFIER_W * 0.6 ** other, ("classifier", m)) for m in missing
+    cands += [(CLASSIFIER_W * 0.6 ** other, ("classifier", m)) for m in missing if CLASSIFIER_W * 0.6 ** other > WORTH_ASKING
               if not any(re.search(s[3], m, re.I) for s in SLOTS.values())]  # the table already owns age/duration/...
     best = max(cands, default=None, key=lambda c: c[0])
     return (best[1][0], best[1][1], times.get(best[1][1], 0)) if best and best[0] > cost else None
@@ -86,6 +87,10 @@ if __name__ == "__main__":  # the walkthroughs the weights were set from
     assert choose(F(patient="self, 28 years"), [], ["How old?"], "28") == ("slot", "duration")
     assert choose(F(patient="self, 28", duration="2 days"), ["joint swelling?"], ["How old?", "Since when?"], "2 days") is None
     assert choose(F(), [], [], "just give me a doctor") is None
+    seven = ["Is anyone unwell?"] * 7  # the real F1 chat: 7 off-topic replies, then fever, then a dodge
+    assert choose(F(duration="today"), [], seven + ["How old is the patient?"], "since today") == ("slot", "age")
+    assert choose(CaseFacts(symptoms_present=["cough"], symptoms_denied=[], duration="2 days", detected_language="en"),
+                  ["any phlegm?"], seven, "cough") is None  # the classifier's extras don't outlast the junk
     pain = CaseFacts(symptoms_present=["pain"], symptoms_denied=[], detected_language="en")
     assert choose(pain, [], [], "i have pain") == ("slot", "where")
     assert choose(CaseFacts(symptoms_present=[], symptoms_denied=[], services_requested=["injection"], detected_language="en"),

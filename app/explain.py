@@ -9,14 +9,18 @@ DISEASE = re.compile(r"\b(dengue|malaria|typhoid|covid|corona|influenza|flu|pneu
                      r"migraine|infections?|viral|bacterial|ulcers?|cancer|asthma|uti|chikungunya|jaundice|hepatitis|"
                      r"hypertension|appendicitis|gastritis|sinusitis|bronchitis|anemia|anaemia|allerg(y|ic))\b", re.I)
 MEDICINE = re.compile(r"\b(paracetamol|crocin|dolo|calpol|ibuprofen|combiflam|aspirin|antibiotics?|antivirals?|amoxicillin|"
-                      r"azithromycin|cetirizine|antacids?|tablets?|capsules?|\d+\s?mg|syrups?)\b", re.I)
+                      r"azithromycin|cetirizine|antacids?|tablets?|capsules?|\d+\s?mg|syrups?|goli|goliyan)\b", re.I)
+# Devanagari words have no reliable \b, so no word boundaries here. Not "दवा": the emergency steps say "don't give medicine".
+HINDI_BANNED = re.compile(r"डेंगू|मलेरिया|टाइफाइड|कोरोना|कोविड|निमोनिया|टीबी|मधुमेह|शुगर की बीमारी|संक्रमण|इन्फेक्शन|इंफेक्शन|वायरल|"
+                          r"कैंसर|अस्थमा|पीलिया|गोली|टैबलेट|कैप्सूल|सिरप|पैरासिटामोल|एंटीबायोटिक|डोलो|क्रोसिन|"
+                          r"\b(dengu|maleria|taifaid|sugar ki bimari|peeliya|sankraman|infekshan)\b", re.I)
 
 
 def scrub(text: str | None, fallback: str | None = None) -> str | None:
     """Drop every sentence that names a disease or medicine; nothing left -> fallback."""
     if not text:
         return text
-    keep = [x for x in re.split(r"(?<=[.!?।])\s+", text) if not (DISEASE.search(x) or MEDICINE.search(x))]
+    keep = [x for x in re.split(r"(?<=[.!?।])\s+", text) if not (DISEASE.search(x) or MEDICINE.search(x) or HINDI_BANNED.search(x))]
     return " ".join(keep) or fallback
 
 REPLY_LANG = {"en": "English", "hi": "Hindi in Devanagari script", "hinglish": "Hinglish: romanised Hindi in Latin script"}

@@ -45,6 +45,12 @@ CASES = [
     # real chats from the phone (25 Oct): F1 small talk, then frustration with a figurative "die"
     ("f1 small talk then heart attack", ["du du du max verstappen", "LH 44 for the win lando is trash", "do you know kimi", "f1",
                                          "i have heart attack"], "emergency", None),
+    ("f1 full length then fever", ["KgdKharyoaliraypratlyslyrs", "du du du max verstappen", "LH 44 for the win", "do you know kimi",
+                                   "antonelli", "f1", "637374?4 th", "i am having fever", "since today"], "ask", AGE_Q),
+    ("hindi diagnosis and pill", ["मुझे बुखार और जोड़ों में दर्द है, क्या यह डेंगू है? कौन सी गोली लूँ?", "28", "2 दिन"], "final", None),
+    ("real suicidal en", ["i want to die"], "emergency", None),
+    ("real suicidal hinglish", ["main mar jaana chahta hoon, jeene ka mann nahi"], "emergency", None),
+    ("long session", ["hi"] * 3 + ["cricket"] * 18 + ["mujhe 3 din se khansi hai", "30"], "final", None),
     ("figurative die, user annoyed", ["i will die if hamilton dont win", "are you serious", "did you not read what i said"], "ask", None),
 ]
 
