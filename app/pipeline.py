@@ -3,6 +3,7 @@
   smart:   MedGemma + Qwen seriousness analyser (specialty, first tests, procedures) -> dynamic matching on providers.csv.
 Either path asks a follow-up when it needs one and can exit to the emergency path at every step."""
 import logging
+import re
 import time
 
 from app import explain, intake, lexicon, matching, redflags, smart, smart_match, triage
@@ -14,6 +15,10 @@ log = logging.getLogger("carecompass.pipeline")
 URGENCY_FOR_CARE = CFG["labels"]["urgency_for_care"]
 MAX_FOLLOW_UPS = CFG["intake"]["max_follow_ups"]
 SMART_URGENCY = {"emergency": "emergency", "urgent": "same_day", "soon": "scheduled", "routine": "scheduled"}
+# Fever is routine in an adult and an emergency in a young infant, so its age is never left to the classifier's judgment.
+# The extra turns cover off-topic messages ("2+2") that used up the follow-up budget before the real complaint arrived.
+AGE_KNOWN = re.compile(r"\d|infant|baby|newborn|child|kid|toddler|teen|adult|elderly|old", re.I)
+AGE_EXTRA_TURNS = 2
 SMART_CARE_LABEL = {"hospital_visit": "a hospital visit", "clinic_visit": "a doctor's visit", "specialist_visit": "a specialist visit",
                     "diagnostic_test": "a test or scan", "lab_test_home": "a home sample collection", "home_nursing": "nursing at home",
                     "paramedic_home_visit": "a home check-up", "teleconsultation": "a video consultation"}
@@ -28,6 +33,11 @@ def _emergency(flags: list[str], extra: list[str], lang: str, mode: str, why: st
         language=lang, explanation=e["explanation"], seriousness="emergency" if mode == "smart" else None,
         emergency=Emergency(title=e["title"], call=e["call"], steps=e["steps"]),
     )
+
+
+def _age_needed(facts, asked: int) -> bool:
+    return (any("fever" in s.lower() for s in facts.symptoms_present) and not facts.special_population
+            and not AGE_KNOWN.search(facts.patient or "") and asked < MAX_FOLLOW_UPS + AGE_EXTRA_TURNS)
 
 
 def run(req: TriageRequest) -> TriageResponse:
@@ -70,6 +80,9 @@ def _run_dataset(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
     elif decision.care_type == "emergency_112":
         mapped, more = redflags.detect(*decision.red_flags, *facts.symptoms_present)
         return _emergency(mapped, more, lang, "dataset", why=decision.reasoning)
+    elif _age_needed(facts, asked):  # asked alone: a one-part question gets answered in full
+        return TriageResponse(follow_up_question=explain.follow_up(["patient's age"], req.user_input, lang), language=lang,
+                              reasoning="Fever: how serious it is depends on the patient's age.")
     elif decision.status == "need_more_info" and asked < MAX_FOLLOW_UPS:
         q = explain.follow_up(decision.missing_info or ["main concern"], req.user_input, lang)
         return TriageResponse(follow_up_question=q, language=lang, reasoning=decision.reasoning)
@@ -99,7 +112,10 @@ def _run_smart(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
     if decision.care_type == "emergency_112":
         mapped, more = redflags.detect(*decision.red_flags, *facts.symptoms_present)
         return _emergency(mapped, more, lang, "smart", why=decision.reasoning)
-    if decision.status == "need_more_info" and asked < MAX_FOLLOW_UPS:
+    if _age_needed(facts, asked):
+        decision = decision.model_copy(update={"status": "need_more_info", "missing_info": ["patient's age"],
+                                               "reasoning": "Fever: how serious it is depends on the patient's age."})
+    if decision.status == "need_more_info" and (asked < MAX_FOLLOW_UPS or _age_needed(facts, asked)):
         q = explain.follow_up(decision.missing_info or ["main concern"], req.user_input, lang)
         return TriageResponse(follow_up_question=q, language=lang, mode="smart", reasoning=decision.reasoning,
                               seriousness=decision.seriousness)
