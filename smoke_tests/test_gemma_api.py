@@ -8,7 +8,8 @@ from google.genai import types
 from _common import CFG, require_env
 
 client = genai.Client(api_key=require_env("GEMINI_API_KEY"))
-model = CFG["models"]["intake"]["model"]
+m = CFG["models"]["intake"]
+model = m["model"]
 
 gemma = sorted(m.name.removeprefix("models/") for m in client.models.list() if "gemma" in m.name)
 print("Gemma models available:", ", ".join(gemma) or "none")
@@ -24,7 +25,11 @@ try:
     r = client.models.generate_content(
         model=model,
         contents=PROMPT,
-        config=types.GenerateContentConfig(temperature=0, response_mime_type="application/json"),
+        config=types.GenerateContentConfig(
+            temperature=0,
+            response_mime_type="application/json",
+            thinking_config=types.ThinkingConfig(thinking_level=m["thinking_level"]),
+        ),
     )
     json_mode = True
 except Exception as e:  # some Gemma endpoints reject JSON mode; retry as plain text

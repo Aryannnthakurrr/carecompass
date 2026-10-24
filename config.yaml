@@ -14,11 +14,13 @@ models:
   intake:
     provider: gemini
     model: gemma-4-26b-a4b-it    # Gemma 3 no longer listed on Gemini API; MoE = low latency
-    alt: gemma-4-31b-it
+    thinking_level: minimal      # ~1.7s vs ~8s with default thinking
+    alt: gemma-4-31b-it          # slow (60s+) and often 503 on free tier; avoid
     fallback: sarvam-m
   explain:
     provider: gemini
     model: gemma-4-26b-a4b-it
+    thinking_level: minimal
   triage:
     provider: ollama
     base_url: http://localhost:11434/v1
@@ -26,7 +28,7 @@ models:
   local_fallback:
     provider: ollama
     base_url: http://localhost:11434/v1
-    model: gemma3:4b
+    model: hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M   # same model as triage: no GPU swap; API backup is Sarvam-M
 
 # Replace with organiser label strings once the taxonomy is released.
 labels:
