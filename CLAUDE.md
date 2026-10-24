@@ -31,7 +31,7 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 | Text → speech | Sarvam **Bulbul v3** | Sarvam API | Natural Indian voices, handles Hinglish |
 | Fallbacks | Flash-Lite (conversation); Qwen alone (classifier, if MedGemma output invalid) | Gemini / Cerebras | Different provider |
 
-Model rationale + benchmark numbers: `eval/results/*.json`, `python eval/bench_pipeline.py <part>`. Rationale doc (shareable): https://claude.ai/artifact/JY6yW4KHZ4K37TVbZKzBUZ
+Model rationale + benchmark numbers: `eval/results/*.json`, `python eval/bench_pipeline.py <part>`. Rationale doc (shareable): https://claude.ai/artifact/JY6yW4KHZ4K37TVbZKzBUZ · Architecture doc: https://claude.ai/artifact/RFsg9cCKFkiCwLHZejuSYd
 
 Saaras is speech-to-TEXT. Bulbul is text-to-SPEECH. MedGemma is under Google's Health AI Developer Foundations terms.
 
