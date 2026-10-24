@@ -42,6 +42,10 @@ CASES = [
     ("contradictory age", ["i am 25", "fever since today", "actually i am 70"], "final", None),
     ("numbers only", ["103", "2", "yes"], "ask_or_emergency", None),  # "2" after "how old?" may be 2 months: erring urgent is right
     ("empty-ish", ["...", "?", "hmm"], "ask", None),
+    # real chats from the phone (25 Oct): F1 small talk, then frustration with a figurative "die"
+    ("f1 small talk then heart attack", ["du du du max verstappen", "LH 44 for the win lando is trash", "do you know kimi", "f1",
+                                         "i have heart attack"], "emergency", None),
+    ("figurative die, user annoyed", ["i will die if hamilton dont win", "are you serious", "did you not read what i said"], "ask", None),
 ]
 
 def shown(r: dict) -> list[str]:
@@ -70,6 +74,8 @@ def run_case(base: str, mode: str, case) -> tuple[bool, list[str], list[str]]:
         hist += [{"role": "user", "content": msg}, {"role": "assistant", "content": q or r.get("explanation") or ""}]
         if r.get("care_type") == "emergency_112":
             break  # the conversation ends at an emergency
+    if any(a == b for a, b in zip(asks, asks[1:])):
+        problems.append("gave the same reply twice in a row")
     age_asks = sum(bool(re.search(AGE_Q, a, re.I)) for a in asks)
     if age_asks > 2:
         problems.append(f"asked the age {age_asks} times")

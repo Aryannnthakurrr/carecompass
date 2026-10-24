@@ -48,6 +48,22 @@ FALLBACK_EXPLAIN = {
 }
 
 
+CHAT_SYS = """You are the voice of a care-navigation app. The user's latest message has no health concern in it yet (small talk,
+jokes, sport, gibberish, complaints about you). Reply in at most 2 short sentences: first respond to what they actually said so
+they know you read it, then ask whether anyone needs medical help or a caregiver. If they mention dying, killing or hurting
+themselves, even as a figure of speech, add one gentle line checking they are okay. Never repeat or closely reword one of your
+earlier replies. No diagnosis, no advice. Write in the reply language you are given, exactly. Output only the reply."""
+
+
+def redirect(earlier: list[str], user_text: str, lang: str) -> str:
+    """Off-topic turn -> a natural reply that steers back; the template only if every model is down."""
+    try:
+        return llm.chat(CHAT_SYS, f"Reply language: {REPLY_LANG[lang]}\nUser's message: {user_text}\n"
+                                  f"Your earlier replies: {earlier[-4:]}").strip().strip('"')
+    except Exception:  # noqa: BLE001
+        return FALLBACK_ASK[lang]
+
+
 def follow_up(missing: list[str], user_text: str, lang: str) -> str:
     try:
         q = llm.chat(ASK_SYS, f"Reply language: {REPLY_LANG[lang]}\nUser's message: {user_text}\nMissing facts: {missing}")

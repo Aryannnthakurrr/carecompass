@@ -71,7 +71,7 @@ labels:
     lab_test_home: scheduled
 
 intake:
-  max_follow_ups: 4
+  max_follow_ups: 4   # unused: app/asking.py decides when to stop asking (MAX_TURNS hard cap)
 
 smart:
   providers_csv: data/providers.csv
