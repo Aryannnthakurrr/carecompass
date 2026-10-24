@@ -1,0 +1,17 @@
+{
+ "summary": {
+  "rows": 340,
+  "care_macro_f1": 1.0,
+  "urgency_macro_f1": 1.0,
+  "care_accuracy": 1.0,
+  "emergency_recall": "56/56",
+  "false_emergencies": 0,
+  "under_triaged": 0,
+  "follow_up": "asked 39, gold 39, both 39",
+  "matching_top1_agreement": "88/209",
+  "matching_any_overlap": "184/209",
+  "median_latency_s_uncached": 0.0,
+  "medgemma": "on"
+ },
+ "wrong": []
+}
