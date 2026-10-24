@@ -394,6 +394,7 @@ def _summary(need: Need, n_cands: int, relaxed: bool, prefs: list, scored: list,
     labels = [label(r) for r in need.required]
     names = " and ".join([", ".join(labels[:-1]), labels[-1]]) if len(labels) > 1 else "".join(labels)
     is_ = "are" if len(labels) > 1 else "is"
+    cheap = "budget" in prefs
     if relaxed:
         return f"No single provider in range offers all of {names}; these offer the most of them."
     if need.profile == "online":
@@ -402,13 +403,13 @@ def _summary(need: Need, n_cands: int, relaxed: bool, prefs: list, scored: list,
         s = f"Home visit by providers whose service area covers you ({n_cands} available)."
     elif need.profile == "rare":
         k = round(max(coverage().get(r, 0) for r in need.required if coverage().get(r, 1) < RARE_BELOW) * total)
-        s = f"{names} {is_} offered by only about {k} of {total} providers, so having it decides; {n_cands} are in reach, ranked by rating and distance."
+        s = f"{names} {is_} offered by only about {k} of {total} providers, so having it decides; {n_cands} are in reach, ranked by {"price, " if cheap else ""}rating and distance."
     elif need.profile == "test":
-        s = f"{names} {is_} widely available ({n_cands} places nearby), so rating and distance decide."
+        s = f"{names} {is_} widely available ({n_cands} places nearby), so {"price, " if cheap else ""}rating and distance decide."
     elif need.profile == "procedure":
         common = min(coverage().get(r, 0) for r in need.required) >= 0.3
-        s = (f"{names} {is_} available almost everywhere ({n_cands} places nearby), so the nearest open place that speaks your language wins."
-             if common else f"{names} {is_} offered by {n_cands} places in reach; the nearest open one wins.")
+        s = (f"{names} {is_} available almost everywhere ({n_cands} places nearby), so {"price and " if cheap else ""}distance decide among open places that speak your language."
+             if common else f"{names} {is_} offered by {n_cands} places in reach; {"price and distance decide" if cheap else "the nearest open one wins"}.")
     else:
         who = label(need.specialty) if need.specialty else "General physician"
         s = f"{who} consultation from {n_cands} doctors in reach"

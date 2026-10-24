@@ -86,6 +86,17 @@ check("Consult-only: tests become information, not a ranking factor", not need2.
 
 check("Every pick carries factor chips and a reason", all(m.factors and m.reason for m in out + cons))
 
+# Hindi inflections and spellings (sasta/sasti/सस्ती, नजदीक/नज़दीक) and Devanagari safety phrasing
+from app.redflags import detect  # noqa: E402
+prefs = {t: lexicon.analyse(t).preferences for t in ["कोई सस्ती वाली जगह बताओ", "sasti jagah", "नजदीक क्लिनिक", "लेडी डॉक्टर चाहिए", "फोन पर डॉक्टर"]}
+check("Preferences detected across Hindi inflections and spellings",
+      prefs == {"कोई सस्ती वाली जगह बताओ": ["budget"], "sasti jagah": ["budget"], "नजदीक क्लिनिक": ["nearby"],
+                "लेडी डॉक्टर चाहिए": ["female"], "फोन पर डॉक्टर": ["online"]}, str(prefs))
+check("Hindi denial is not an emergency: 'सीने में दर्द नहीं है'", detect("सीने में दर्द नहीं है, बस खांसी है") == ([], []))
+check("Hindi infant age is an emergency: 'दो महीने के बच्चे को बुखार है'", detect("दो महीने के बच्चे को बुखार है")[0] == ["high_fever_infant"])
+cheap, summ, _, cp = run("कोई सस्ती वाली जगह बताओ अल्ट्रासाउंड के लिए", decide("diagnostic_test", tests=["ultrasound"], specialty="none"), lang="hi")
+check("'सस्ती' puts price in the headline", "price" in summ, summ)
+
 # ---------------------------------------------------------------- Part B
 if "--e2e" in sys.argv:
     from app.pipeline import run as triage
