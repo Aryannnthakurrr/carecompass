@@ -1,0 +1,80 @@
+{
+ "train": {
+  "rows": 1249,
+  "by_target": {
+   "paramedic_home_visit": 276,
+   "emergency_112": 393,
+   "lab_test_home": 153,
+   "home_nursing": 228,
+   "teleconsultation": 194,
+   "need_more_info": 5
+  },
+  "by_lang": {
+   "hinglish": 417,
+   "en": 466,
+   "hi": 366
+  },
+  "organiser": 32
+ },
+ "val": {
+  "rows": 188,
+  "by_target": {
+   "teleconsultation": 32,
+   "emergency_112": 76,
+   "home_nursing": 21,
+   "paramedic_home_visit": 32,
+   "lab_test_home": 24,
+   "need_more_info": 3
+  },
+  "by_lang": {
+   "hinglish": 56,
+   "en": 88,
+   "hi": 44
+  },
+  "organiser": 3
+ },
+ "test": {
+  "rows": 227,
+  "by_target": {
+   "home_nursing": 41,
+   "emergency_112": 71,
+   "paramedic_home_visit": 49,
+   "teleconsultation": 38,
+   "lab_test_home": 28
+  },
+  "by_lang": {
+   "hinglish": 87,
+   "hi": 73,
+   "en": 67
+  },
+  "organiser": 6
+ },
+ "review": {
+  "rows": 349,
+  "why": {
+   "raw-text rules fire on a non-emergency": 36,
+   "red-flag rules fire on the facts": 9,
+   "adjudicator overruled an emergency vote": 17,
+   "fewer than two teachers answered": 285,
+   "split vote and no adjudicator available": 2
+  }
+ },
+ "how": {
+  "unanimous": 1483,
+  "adjudicated by gpt-5.4": 136,
+  "adjudicated by gpt-oss-120b-high": 45
+ },
+ "changed_from_written_for": 343,
+ "agreement_with_final": {
+  "adjudicator": "181/181",
+  "gpt-5.4-mini": "1619/1664",
+  "gpt-oss-120b": "1521/1654",
+  "qwen": "1556/1663"
+ },
+ "by_generator": {
+  "synthetic": 1431,
+  "organiser": 41,
+  "qwen": 192
+ },
+ "emergency_rows_rules_missed": 293
+}
