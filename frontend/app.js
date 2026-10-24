@@ -18,12 +18,14 @@ const EXAMPLES = [
 ];
 const CARE_ICON = {
   paramedic_home_visit: 'homePlus', home_nursing: 'syringe', lab_test_home: 'flask', teleconsultation: 'video', emergency_112: 'alert',
+  hospital_visit: 'hospital', clinic_visit: 'stethoscope', specialist_visit: 'stethoscope', diagnostic_test: 'scan', // smart mode
   nurse: 'syringe', gp_teleconsult: 'video', specialist: 'stethoscope', emergency: 'alert', // offline mock's labels
 };
 const VIDEO_CARE = new Set(['teleconsultation', 'gp_teleconsult']);
 
 const state = {
   lang: LANGS.some(l => l.code === store.get('cc.lang')) ? store.get('cc.lang') : 'en',
+  mode: store.get('cc.mode') === 'smart' ? 'smart' : 'dataset', // dataset: organiser roster; smart: full provider directory
   location: null,     // {lat, lng, name?, source: 'gps' | 'manual' | 'default'}
   history: [],        // [{role, content}] sent as conversation_history
   questions: 0,
@@ -74,12 +76,22 @@ function renderLangSwitch() {
   }, l.label)));
 }
 
+// Dataset mode reproduces the organiser's roster and reference matching; smart mode matches honestly on providers.csv.
+function renderModeSwitch() {
+  $('#modeSwitch').replaceChildren(...['dataset', 'smart'].map(m => h('button', {
+    role: 'radio', 'aria-checked': String(m === state.mode), class: m === state.mode ? 'on' : '',
+    onclick: () => { state.mode = m; store.set('cc.mode', m); renderModeSwitch(); },
+  }, T(m === 'smart' ? 'modeSmart' : 'modeDataset'))));
+  $('#modeHint').textContent = T(state.mode === 'smart' ? 'modeHintSmart' : 'modeHintDataset');
+}
+
 function applyLang() {
   document.documentElement.lang = state.lang === 'hi' ? 'hi' : 'en';
   for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = T(el.dataset.i18n);
   for (const el of document.querySelectorAll('[data-i18n-ph]')) el.placeholder = T(el.dataset.i18nPh);
   for (const el of document.querySelectorAll('[data-i18n-aria]')) el.setAttribute('aria-label', T(el.dataset.i18nAria));
   renderLangSwitch();
+  renderModeSwitch();
   renderSteps();
   renderLocation();
   renderEmergencySteps();
@@ -266,6 +278,7 @@ async function submit(text, { echo = true } = {}) {
       language: 'auto',
       location: state.location && { lat: state.location.lat, lng: state.location.lng },
       conversation_history: state.history,
+      mode: state.mode,
     });
   } catch (err) {
     console.error(err);
@@ -340,8 +353,9 @@ function renderPlan(res) {
         h('h3', { class: 'plan-title' }, care.label),
         care.desc && h('p', { class: 'plan-desc' }, care.desc))),
     h('div', { class: `urgency u-${res.urgency}` },
-      h('span', { class: 'u-dot' }), h('span', { class: 'u-key' }, T('urgency')), h('strong', {}, urgencyText(state.lang, res.urgency))),
+      h('span', { class: 'u-dot' }), h('span', { class: 'u-key' }, T('urgency')), h('strong', {}, (res.mode === 'smart' && T('ser')[res.seriousness]) || urgencyText(state.lang, res.urgency))),
     res.explanation && h('p', { class: 'explain' }, res.explanation),
+    res.mode === 'smart' && smartDetails(res),
     res.reasoning && h('div', { class: 'why' }, h('p', { class: 'eyebrow' }, T('why')), h('p', {}, res.reasoning)),
     h('div', { class: 'bubble-actions' }, listenBtn(planSpeech(res))),
   );
@@ -350,9 +364,21 @@ function renderPlan(res) {
   const place = state.location?.name;
   const matches = h('section', { class: 'matches' },
     h('h4', { class: 'section-title' }, place ? T('matchesTitle', { place }) : T('matchesTitleAny')),
+    res.match_summary && h('p', { class: 'match-summary' }, icon('compass'), h('span', {}, h('b', {}, T('howChosen')), ' ', res.match_summary)),
     cgs.length ? cgs.map((cg, i) => caregiverCard(cg, i, res.care_type)) : h('p', { class: 'empty' }, T('noMatches')),
   );
   addWide(plan, matches);
+}
+
+// Smart mode: which doctor, what they will likely do, which tests a doctor may ask for.
+function smartDetails(res) {
+  const rows = [
+    res.specialty && [T('seeDoctor'), res.specialty],
+    res.services_needed?.length && [T('needs'), res.services_needed.join(', ')],
+    res.recommended_tests?.length && [T('mayAsk'), res.recommended_tests.join(', ')],
+    res.possible_causes?.length && [T('notDiagnosis'), res.possible_causes.join(', ')],
+  ].filter(Boolean);
+  return rows.length > 0 && h('dl', { class: 'smart-list' }, rows.map(([k, v]) => [h('dt', {}, k), h('dd', {}, v)]));
 }
 
 function slotText(s) {
@@ -367,11 +393,14 @@ function caregiverCard(cg, i, careType) {
   const name = cg.name || cg.caregiver_id;
   const pct = Math.round(Math.max(0, Math.min(1, cg.score ?? 0)) * 100);
   const video = VIDEO_CARE.has(careType);
+  const smart = cg.factors?.length > 0; // smart mode: factor chips already carry distance, language, rating and hours
   const meta = [
-    video ? [icon('video'), T('videoCall')] : cg.distance_km != null && [icon('pin'), T('km', { n: (+cg.distance_km).toFixed(1) })],
+    !smart && (video ? [icon('video'), T('videoCall')] : cg.distance_km != null && [icon('pin'), T('km', { n: (+cg.distance_km).toFixed(1) })]),
     cg.next_slot && [icon('clock'), slotText(cg.next_slot)],
-    cg.languages?.length && [icon('languages'), cg.languages.join(', ')],
+    !smart && cg.languages?.length && [icon('languages'), cg.languages.join(', ')],
   ].filter(Boolean).map(([ic, txt]) => h('span', { class: 'meta-item' }, ic, txt));
+  const factors = smart && h('div', { class: 'cg-factors' }, cg.factors.map(f =>
+    h('span', { class: 'factor' + (/^(Has|Does|Also does)\b/.test(f) ? ' need' : /only$/.test(f) ? ' warn' : '') }, f)));
 
   const btn = h('button', { class: 'book-btn', onclick: () => book(cg, card, btn, careType) }, T('book'));
   const card = h('article', { class: 'cg' + (i === 0 ? ' best' : ''), style: `--d:${i * 90}ms`, 'data-cg': cg.caregiver_id },
@@ -383,6 +412,7 @@ function caregiverCard(cg, i, careType) {
         h('p', {}, [cg.role, cg.name && cg.caregiver_id].filter(Boolean).join(' · '))),
       cg.rating != null && h('span', { class: 'rating', 'aria-label': `${cg.rating} / 5` }, icon('star'), (+cg.rating).toFixed(1))),
     cg.reason && h('p', { class: 'cg-reason' }, icon('check'), h('span', {}, cg.reason)),
+    factors,
     meta.length && h('div', { class: 'cg-meta' }, meta),
     h('div', { class: 'cg-foot' },
       h('div', { class: 'score', title: T('match', { n: pct }) },

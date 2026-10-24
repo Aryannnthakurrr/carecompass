@@ -59,6 +59,33 @@ Pipeline: red-flag rules on the raw words → Qwen 3.8 27B structures the conver
 and Qwen classify the facts in parallel (more urgent answer wins) → caregiver matching on `training/caregivers.csv`
 → explanation in the user's language.
 
+## Two matching modes
+
+`POST /triage` takes an optional `"mode"`. Without it the API stays in **dataset** mode, so the organiser contract and
+auto-scoring are untouched. The UI has a Dataset / Smart toggle.
+
+| | Dataset mode | Smart mode |
+|---|---|---|
+| Providers | `training/caregivers.csv` (organiser roster, 60) | `data/providers.csv` (186: the roster plus hospitals, clinics, specialists, diagnostic centres, labs) |
+| Classifier output | organiser care type + urgency | seriousness, care setting, specialty, first tests a doctor would order, procedures needed |
+| Matching | organiser reference blend, tuned to their labels | dynamic: hard filters on what was asked for, weights that shift with the kind of need and the user's own words |
+| Explanation | template reason | factor chips per provider, "why this over the next one", and how the shortlist was chosen |
+
+Smart matching in short (`app/smart_match.py`, vocabulary in `app/lexicon.py`):
+- Named tests and procedures are hard requirements (an MRI request only matches places with MRI).
+- A rare capability (offered by under 12% of providers) leaves few candidates, so rating and reach decide among them; a common
+  test lets rating and distance decide; a quick procedure (tetanus shot, dressing) goes to the nearest open place.
+- A consultation weighs a shared language heavily; for a quick procedure a language mismatch costs little, and the
+  trade-off is spelled out ("fine for a quick tetanus shot; the nearest Hindi-speaking clinic is 2.4 km away").
+- Symptom-led cases favour one-stop places that can also run the tests a doctor may ask for; "just a consultation"
+  turns those tests into information instead.
+- Words like "best", "nearby", "cheap", "today" and "lady doctor" raise the matching weight.
+- Unclear severity (for example "I am bleeding") gets a follow-up about source, amount and cause; uncontrolled bleeding
+  and other red flags still go straight to 112 at any step.
+
+Regenerate the provider directory with `python data/build_providers.py`. Check smart-mode behaviour with
+`python eval/eval_smart.py` (add `--e2e` to include full conversations through the models).
+
 ## Evaluation
 
 ```powershell

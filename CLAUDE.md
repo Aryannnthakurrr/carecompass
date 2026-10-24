@@ -88,6 +88,15 @@ Response:
 5. **Explain (`explain.py`)**: Qwen → 1–2 plain sentences in the detected language. Hinglish: Devanagari copy for Bulbul, romanised on screen. Emergency audio pre-generated at startup.
 6. **Emergency (`emergency_text.py`)**: NEVER generated. Pre-written EN/HI/Hinglish with "Call 112" and "Call 108" plus 2–3 simple steps.
 
+## Smart mode (request `"mode": "smart"`; default stays `dataset`)
+- `app/lexicon.py`: service/test/specialty/symptom/preference vocabulary (EN/Hinglish/Devanagari regexes).
+- `data/build_providers.py` -> `data/providers.csv` (186 providers, Hindi/English only, realistic capability rarity).
+- `app/smart.py`: MedGemma + Qwen seriousness analyser on CaseFacts + keyword hints -> SmartDecision (asks about severity when unclear).
+- `app/smart_match.py`: hard filters on named services, profile weights (rare / test / procedure / consult / home / online),
+  preference boosts, language multiplier (strict for consults, lenient for quick procedures), factor chips + reasons.
+- `eval/eval_smart.py`: behaviour checks (21/21 incl. --e2e).
+- Possible causes are produced internally but hidden (`smart.show_possible_causes: false`) because the brief forbids diagnosing.
+
 ## Clinical scope rules
 - Routing only. Never diagnose (no disease names), never prescribe.
 - Every emergency shows a clear call-for-help path.
