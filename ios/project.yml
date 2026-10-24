@@ -1,0 +1,42 @@
+# XcodeGen spec: `cd ios && xcodegen` regenerates CareCompass.xcodeproj (git-ignored).
+name: CareCompass
+options:
+  bundleIdPrefix: in.carecompass
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  CareCompass:
+    type: application
+    platform: iOS
+    sources: [CareCompass]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: anish.carecompass.app
+        DEVELOPMENT_TEAM: YRTAZ9C9X3   # Anish's personal team; change both for another Apple ID
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: CareCompass
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_UIUserInterfaceStyle: Light   # light-only palette: in dark mode default text turned white on white
+        INFOPLIST_KEY_UIUserInterfaceStyle: Light   # the palette is light-only; dark mode made default text white on white
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: CareCompass listens when you tap the mic so you can describe symptoms by voice.
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Your location is used to find caregivers near you and to send an ambulance to the right place.
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    info:
+      path: CareCompass/Info.plist
+      properties:
+        # the API runs on a laptop during the hackathon: plain HTTP to localhost / the LAN is allowed
+        # iOS asks before an app talks to devices on the wifi (the laptop running the API)
+        NSLocalNetworkUsageDescription: CareCompass connects to the CareCompass server on your wifi network.
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+          NSAllowsArbitraryLoads: true
