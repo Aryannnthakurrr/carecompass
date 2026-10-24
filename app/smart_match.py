@@ -129,6 +129,7 @@ def rating_score(p: Provider) -> float:
 @dataclass
 class Need:
     required: list = field(default_factory=list)   # hard: provider must offer every one
+    explicit: list = field(default_factory=list)   # the part of `required` the user named themselves
     soft_tests: list = field(default_factory=list)  # favoured: one-stop places
     info_tests: list = field(default_factory=list)  # shown to the user, not used for matching (consult-only)
     specialty: Optional[str] = None
@@ -146,6 +147,7 @@ def build_need(decision, hints: Hints, facts) -> Need:
     tests = list(dict.fromkeys(decision.recommended_tests + hints.suggested_tests))
     procs = list(dict.fromkeys(decision.services_needed + hints.suggested_services))
     n = Need()
+    n.explicit = list(explicit)
     n.required = list(dict.fromkeys(explicit + [p for p in procs if p not in explicit]))
     if "injection" in n.required and any(SERVICES[r][1] == "vaccine" for r in n.required):
         n.required.remove("injection")  # "tetanus injection" is the tetanus shot
@@ -159,7 +161,8 @@ def build_need(decision, hints: Hints, facts) -> Need:
     # a named procedure (tetanus shot, dressing) needs a place that does it, not a consultation, unless one was asked for
     n.consult = wants_consult or consult_only or decision.care_type in ("specialist_visit", "teleconsultation") or not n.required
     # setting
-    if "online" in hints.preferences or (decision.care_type == "teleconsultation" and "nearby" not in hints.preferences):
+    # video only when the user's own words ask for it (video, online, phone); "doctor ko dikhana hai" means in person
+    if "online" in hints.preferences:
         n.setting = "online"
     elif decision.care_type in ("home_nursing", "paramedic_home_visit", "lab_test_home") or "home" in hints.preferences:
         n.setting = "home"
@@ -203,7 +206,7 @@ def _weights(need: Need, prefs: list, seriousness: str):
         w["distance"] *= 2.2
         scale *= 0.6
     if "budget" in prefs:
-        w["cost"] = 0.20
+        w["cost"] = 0.30
     if "soon" in prefs:
         w["availability"] *= 2.0
     total = sum(w.values())
@@ -223,7 +226,7 @@ def match(decision, hints: Hints, facts, location, lang: str, now: Optional[date
     w, scale, max_km = _weights(need, prefs, decision.seriousness)
     want = USER_LANGS.get(lang, {"Hindi", "English"})
 
-    def eligible(p: Provider, d: float, strict_required=True) -> bool:
+    def eligible(p: Provider, d: float, required) -> bool:
         if need.setting == "online":
             if not p.teleconsult or "consultation" not in p.services:
                 return False
@@ -235,7 +238,7 @@ def match(decision, hints: Hints, facts, location, lang: str, now: Optional[date
                 return False
             if need.setting == "hospital" and p.type != "hospital":
                 return False
-        if strict_required and not set(need.required) <= p.services:
+        if required is not None and not required <= p.services:
             return False
         if need.consult:
             if "consultation" not in p.services:
@@ -245,11 +248,16 @@ def match(decision, hints: Hints, facts, location, lang: str, now: Optional[date
         return True
 
     pool = [(p, haversine(here, (p.lat, p.lng))) for p in providers()]
-    cands = [(p, d) for p, d in pool if eligible(p, d)]
+    cands = [(p, d) for p, d in pool if eligible(p, d, set(need.required))]
+    if not cands and need.explicit and set(need.explicit) != set(need.required):
+        # drop the brain's extra suggestions before anything the user asked for by name
+        cands = [(p, d) for p, d in pool if eligible(p, d, set(need.explicit))]
+        if cands:
+            need.required = list(need.explicit)
     relaxed = False
-    if not cands and need.required:  # nobody offers everything: keep whoever offers the most
+    if not cands and need.required:  # nobody offers everything: keep whoever offers the most, the user's own asks first
         relaxed = True
-        cands = [(p, d) for p, d in pool if eligible(p, d, strict_required=False) and set(need.required) & p.services]
+        cands = [(p, d) for p, d in pool if eligible(p, d, None) and set(need.explicit or need.required) & p.services]
     if not cands:
         return [], "No provider in range offers this yet; try a video consultation or widen the area.", need
 
@@ -263,7 +271,7 @@ def match(decision, hints: Hints, facts, location, lang: str, now: Optional[date
             "rating": rating_score(p),
             "language": 1.0 if p.languages & want else 0.0,
             "availability": av,
-            "cost": 1.0 - ((p.fee or fmax) - fmin) / max(1, fmax - fmin),
+            "cost": fmin / (p.fee or fmax) if fmin else 1.0,  # cheapest = 1, twice the price = 0.5
             "coverage": (sum(t in p.services for t in need.soft_tests) / len(need.soft_tests)) if need.soft_tests else 0.0,
         }
         mult = 1.0
@@ -277,11 +285,11 @@ def match(decision, hints: Hints, facts, location, lang: str, now: Optional[date
         if relaxed:
             mult *= len(set(need.required) & p.services) / len(need.required)
         score = sum(w[k] * f[k] for k in w) * mult
-        scored.append(dict(p=p, d=d, f=f, score=score, av_text=av_text, slot=slot, spec_fit=spec_fit, contrib={k: w[k] * f[k] * mult for k in w}))
+        scored.append(dict(p=p, d=d, f=f, score=score, av_text=av_text, slot=slot, spec_fit=spec_fit, contrib={k: w[k] * f[k] for k in w}))
     scored.sort(key=lambda s: (-s["score"], s["d"]))
     top = scored[:top_k]
 
-    nearest_same_lang = min((s["d"] for s in scored if s["f"]["language"]), default=None)
+    nearest_same_lang = min(((s["d"], s["av_text"], s["f"]["availability"]) for s in scored if s["f"]["language"]), default=None)
     out = []
     for i, s in enumerate(top):
         p = s["p"]
@@ -290,7 +298,7 @@ def match(decision, hints: Hints, facts, location, lang: str, now: Optional[date
             name=p.name, role=_role(p, need), distance_km=None if need.setting == "online" else round(s["d"], 1),
             languages=sorted(p.languages), rating=p.rating, next_slot=s["slot"], factors=_factors(s, need, prefs), fee_inr=p.fee,
             provider_type=p.type))
-    return out, _summary(need, len(cands), relaxed, prefs, scored, want), need
+    return out, _summary(need, len(cands), relaxed, prefs, scored, w), need
 
 
 def _role(p: Provider, need: Need) -> str:
@@ -344,57 +352,95 @@ LOSS = {
 }
 
 
+def _edges(a: dict, b: dict, need: Need, prefs: list) -> tuple[list, list]:
+    """Differences the score multipliers capture (specialty, language, female doctor), as phrases for a vs b."""
+    gains, losses = [], []
+    spec = label(need.specialty).lower() if need.consult and need.specialty else None
+    if spec and a["spec_fit"] != b["spec_fit"]:
+        (gains if a["spec_fit"] else losses).append(f"has a {spec}" if a["spec_fit"] else f"only a general physician, no {spec}")
+    if a["f"]["language"] != b["f"]["language"]:
+        if a["f"]["language"]:
+            only = "English-only" if b["p"].languages == {"English"} else "Hindi-only"
+            closer = f", while {b['p'].name} is {a['d'] - b['d']:.1f} km closer but {only}" if b["d"] < a["d"] - 0.1 else ""
+            gains.append(f"speaks your language{closer}")
+        else:
+            losses.append("doesn't share your language")
+    if "female" in prefs and a["p"].female_doctor != b["p"].female_doctor:
+        (gains if a["p"].female_doctor else losses).append("has a female doctor" if a["p"].female_doctor else "no female doctor")
+    return gains, losses
+
+
 def _reason(s: dict, top: list, i: int, need: Need, prefs: list, nearest_same_lang) -> str:
     parts = []
     other = top[1] if i == 0 and len(top) > 1 else (top[0] if i > 0 else None)
     if other:
-        diff = {k: s["contrib"][k] - other["contrib"][k] for k in s["contrib"]}
+        cat_gain, cat_loss = _edges(s, other, need, prefs)
+        diff = {k: s["contrib"][k] - other["contrib"][k] for k in s["contrib"] if k != "language"}
         gain, loss = max(diff, key=diff.get), min(diff, key=diff.get)
-        if i == 0:
-            if diff[gain] > 0.005:
-                parts.append(f"Picked over {other['p'].name}: {GAIN[gain](s, other)}")
-        else:
-            g = GAIN[gain](s, other) if diff[gain] > 0.005 else None
-            lo = LOSS[loss](s, other) if diff[loss] < -0.005 else None
-            if g or lo:
-                parts.append(f"Compared with #1: {g}, but {lo}" if g and lo else f"Compared with #1: {g or lo}")
+        g = cat_gain[0] if cat_gain else (GAIN[gain](s, other) if diff[gain] > 0.005 else None)
+        lo = cat_loss[0] if cat_loss else (LOSS[loss](s, other) if diff[loss] < -0.005 else None)
+        if lo == "doesn't share your language" and not need.high_comm and nearest_same_lang is not None:
+            lo = None  # the trade-off note below says it, with the detail
+        if i == 0 and g:
+            parts.append(f"Picked over {other['p'].name}: {g}")
+        elif i > 0 and (g or lo):
+            parts.append(f"Compared with #1: {g}, but {lo}" if g and lo else f"Compared with #1: {g or lo}")
     if not s["f"]["language"] and nearest_same_lang is not None and not need.high_comm:
         task = " / ".join(label(r) for r in need.required).lower() or "this visit"
-        parts.append(f"doesn't share your language — fine for a quick {task}; the nearest provider who does is {_short_km(nearest_same_lang)} away")
+        d, av_text, av = nearest_same_lang
+        when = "" if av >= 1 else f" ({av_text[0].lower()}{av_text[1:]})"
+        parts.append(f"doesn't share your language — fine for a quick {task}; the nearest provider who does is {_short_km(d)} away{when}")
     if not parts:
         parts.append("Closest strong match for what you need")
     text = "; ".join(parts)
     return text[0].upper() + text[1:]
 
 
-def _summary(need: Need, n_cands: int, relaxed: bool, prefs: list, scored: list, want: set) -> str:
+FACTOR_WORDS = {"distance": "distance", "rating": "rating", "language": "a shared language", "availability": "opening hours",
+                "cost": "price", "coverage": "on-site tests"}
+
+
+def _and(items: list) -> str:
+    """["a"] -> "a"; ["a", "b"] -> "a and b"; ["a", "b", "c"] -> "a, b and c"."""
+    return items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]
+
+
+def _deciders(w: dict) -> str:
+    """The factors that actually carry the ranking (largest weights), with a verb that agrees: "price and distance decide"."""
+    top = [k for k, v in sorted(w.items(), key=lambda kv: -kv[1]) if v >= 0.12][:3]
+    return f"{_and([FACTOR_WORDS[k] for k in top])} {'decides' if len(top) == 1 else 'decide'}"
+
+
+def _summary(need: Need, n_cands: int, relaxed: bool, prefs: list, scored: list, w: dict) -> str:
     total = len(providers())
-    labels = [label(r) for r in need.required]
-    names = " and ".join([", ".join(labels[:-1]), labels[-1]]) if len(labels) > 1 else "".join(labels)
-    is_ = "are" if len(labels) > 1 else "is"
+    names = _and([label(r) for r in need.required]) if need.required else ""
+    is_ = "are" if len(need.required) > 1 else "is"
+    decide = _deciders(w)
     if relaxed:
         return f"No single provider in range offers all of {names}; these offer the most of them."
     if need.profile == "online":
-        s = f"Video consultation: distance doesn't matter, so a shared language and rating decide ({n_cands} doctors available)."
+        s = f"Video consultation, so distance doesn't count: {decide} among {n_cands} doctors."
     elif need.profile == "home":
-        s = f"Home visit by providers whose service area covers you ({n_cands} available)."
+        s = f"Home visit by providers whose service area covers you: {decide} among {n_cands}."
     elif need.profile == "rare":
         k = round(max(coverage().get(r, 0) for r in need.required if coverage().get(r, 1) < RARE_BELOW) * total)
-        s = f"{names} {is_} offered by only about {k} of {total} providers, so having it decides; {n_cands} are in reach, ranked by rating and distance."
+        s = f"{names} {is_} offered by only about {k} of {total} providers, so having it rules out most places; among the {n_cands} in reach, {decide}."
     elif need.profile == "test":
-        s = f"{names} {is_} widely available ({n_cands} places nearby), so rating and distance decide."
+        s = f"{names} {is_} widely available ({n_cands} places nearby), so {decide}."
     elif need.profile == "procedure":
         common = min(coverage().get(r, 0) for r in need.required) >= 0.3
-        s = (f"{names} {is_} available almost everywhere ({n_cands} places nearby), so the nearest open place that speaks your language wins."
-             if common else f"{names} {is_} offered by {n_cands} places in reach; the nearest open one wins.")
+        s = (f"{names} {is_} available almost everywhere ({n_cands} places nearby), so {decide}." if common
+             else f"{names} {is_} offered by {n_cands} places in reach; {decide}.")
     else:
         who = label(need.specialty) if need.specialty else "General physician"
-        s = f"{who} consultation from {n_cands} doctors in reach"
-        s += f", favouring places that can also run {', '.join(label(t) for t in need.soft_tests)} on site." if need.soft_tests else "."
+        s = f"{who} consultation from {n_cands} doctors in reach; {decide}"
+        s += f", favouring places that can also run {_and([label(t) for t in need.soft_tests])} on site." if need.soft_tests else "."
     if need.high_comm and any(not x["f"]["language"] for x in scored):
         s += " Providers who don't speak your language were ranked down, because this visit needs conversation."
+    elif not need.high_comm and any(not x["f"]["language"] for x in scored[:3]):  # only when it changed the shortlist
+        s += " A shared language counts for less on a quick visit like this, so a much closer provider can still come first."
     boosts = {"quality": "rating", "nearby": "distance", "budget": "price", "soon": "opening hours", "female": "a female doctor"}
     picked = [boosts[p] for p in prefs if p in boosts]
     if picked:
-        s += f" You asked about {', '.join(picked)}, so that counted for more."
+        s += f" You asked about {_and(picked)}, so {'it' if len(picked) == 1 else 'they'} counted for more."
     return s

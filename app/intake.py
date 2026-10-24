@@ -9,7 +9,9 @@ into facts for a triage system. Record only what the user said across ALL their 
 Translate everything to short English phrases. Symptoms the user denies ("bukhar nahi", "no vomiting") go ONLY in symptoms_denied.
 Care tasks (injection, dressing, catheter, blood test, BP/sugar check, report review) go in services_requested, not symptoms.
 setting_requested: home_visit if they want someone at home, video_consult if they want to talk to a doctor, lab_test if they want a
-test or sample collection, else unspecified. detected_language is the language of the user's LATEST message."""
+test or sample collection, else unspecified. preferences: only what the user explicitly asks for (cheap/sasti, nearby/paas,
+best/experienced, today/abhi, lady doctor, at home, video/phone, just a consultation, hospital); empty if none.
+detected_language is the language of the user's LATEST message."""
 
 
 def transcript(history: list[Turn], user_input: str) -> str:

@@ -23,7 +23,7 @@ SERVICES = {
     "holter": ("Holter monitoring", "cardiac", "low", [r"holter"]),
     "blood_test": ("Blood tests", "lab", "low", [r"blood (test|work|report)", r"\bcbc\b", r"complete blood count", r"lipid", r"\b[kl]ft\b",
                                                r"(kidney|liver|thyroid) (function|test|profile)", r"\btsh\b", r"hba1c", r"(sugar|glucose) test",
-                                               r"vitamin\s?(d|b12)", r"(dengue|malaria|typhoid) test", r"widal", r"khoo?n ki jaa?nch",
+                                               r"vitamin\s?(d|b12) (test|level|check)", r"(dengue|malaria|typhoid) test", r"widal", r"khoo?n ki jaa?nch",
                                                r"ब्लड टेस्ट", r"खून की जा(ँ|ं)च", r"full body check"]),
     "urine_test": ("Urine test", "lab", "low", [r"urine (test|routine|exam)", r"peshab (ki )?jaa?nch", r"पेशाब की जा(ँ|ं)च", r"urine r/?m"]),
     "urine_culture": ("Urine culture", "lab", "low", [r"urine culture", r"culture (test|report)"]),
@@ -112,19 +112,28 @@ SYMPTOM_HINTS = [
 ]
 
 # ---------------------------------------------------------------- preferences (shift the matcher's weights)
+# Hindi words inflect by gender and number (sasta / sasti / saste), and Devanagari has spelling variants
+# (नज़दीक / नजदीक, फ़ोन / फोन). Patterns cover the stem, not one form. No \b around Devanagari: vowel signs are not
+# word characters to the regex engine, so \b silently fails after them.
 PREFERENCES = {
-    "quality": [r"\bbest\b", r"\btop\b", r"top[- ]rated", r"highly rated", r"experienced", r"\bsenior\b", r"good doctor", r"ac?h?ch?a doctor",
-                r"badhiya", r"बढ़िया", r"अच्छा डॉक्टर", r"bad experience", r"(wasn'?t|was not|not) (good|helpful)", r"useless", r"previous doctor",
-                r"pichh?le doctor", r"kharab experience", r"reliable", r"trusted", r"awesome", r"excellent", r"specialist hi chahiye"],
-    "nearby": [r"near(by| me| my)", r"close (by|to)", r"nearest", r"\bpaa?s (me|mein|wala|ka|ki)\b", r"nazdeek", r"नज़दीक", r"\bपास\b",
-               r"walking distance", r"can'?t travel", r"cannot travel", r"door nahi", r"not far"],
-    "budget": [r"\bcheap", r"affordable", r"\bbudget\b", r"low cost", r"inexpensive", r"\bsasta\b", r"kam (paise|kharch|fee)", r"सस्ता", r"free clinic", r"government"],
-    "soon": [r"\btoday\b", r"tonight", r"right now", r"\basap\b", r"urgent", r"immediately", r"\baaj\b", r"\babhi\b", r"jaldi", r"turant", r"\bआज\b", r"\bअभी\b", r"जल्दी"],
-    "female": [r"lady doctor", r"female (doctor|gyn)", r"woman doctor", r"mahila doctor", r"महिला डॉक्टर"],
+    "quality": [r"\bbest\b", r"\btop\b", r"top[- ]rated", r"highly rated", r"experienced", r"\bsenior\b", r"good (doctor|hospital|clinic)",
+                r"\bac?h?ch?(a|i|e) (doctor|hospital|clinic|jagah|wala|wali)", r"sabse ac?h?ch?", r"badhiya", r"behtareen", r"bad experience",
+                r"(wasn'?t|was not|not) (good|helpful)", r"useless", r"previous doctor", r"pichh?l(a|e|i) doctor", r"kharab experience", r"reliable",
+                r"trusted", r"awesome", r"excellent", r"specialist hi chahiye",
+                r"सबसे अच्छ", r"अच्छ(ा|े|ी) (डॉक्टर|अस्पताल|क्लिनिक|जगह)", r"बढ़िया", r"बढिया", r"बेहतरीन", r"अनुभवी", r"पिछल(ा|े|ी) डॉक्टर", r"बेकार"],
+    "nearby": [r"near(by| me| my)", r"close (by|to)", r"nearest", r"\bpaa?s (me|mein|wala|wali|ka|ki)\b", r"ghar ke paa?s", r"naz?dee?k",
+               r"walking distance", r"can'?t travel", r"cannot travel", r"door nahi", r"not far",
+               r"न(ज़|ज)दीक", r"पास (में|मे|का|की|के|वाला|वाली)", r"घर के पास", r"दूर नहीं"],
+    "budget": [r"\bcheap", r"affordable", r"\bbudget\b", r"low (cost|price|fee)", r"inexpensive", r"economical", r"\bsast(a|i|e)\b",
+               r"kam (paise|paisa|kharch|fee|daam|dam)", r"kifayati", r"free clinic", r"government", r"sarkari",
+               r"सस्त(ा|ी|े)", r"कम (पैसे|पैसों|खर्च|दाम|फीस)", r"कि(फ़|फ)ायती", r"सरकारी", r"मुफ़?्त"],
+    "soon": [r"\btoday\b", r"tonight", r"right now", r"\basap\b", r"urgent", r"immediately", r"\baaj\b", r"\babhi\b(?!\s+(koi|kuch|test|nahi|nhi))",
+             r"jaldi", r"turant", r"आज", r"अभी(?!\s*(कोई|कुछ|टेस्ट|नहीं))", r"जल्दी", r"तुरंत"],
+    "female": [r"lady (doctor|gyn)", r"female (doctor|gyn)", r"woman doctor", r"mahila doctor", r"महिला (डॉक्टर|चिकित्सक)", r"लेडी डॉक्टर"],
     "home": [r"at home", r"home visit", r"\bghar (pe|par|aa)", r"घर (पर|पे|आ)"],
-    "online": [r"\bonline\b", r"video", r"teleconsult", r"phone (pe|par|call|consult)", r"ऑनलाइन", r"वीडियो"],
+    "online": [r"\bonline\b", r"video", r"teleconsult", r"phone (pe|par|call|consult)", r"ऑनलाइन", r"वीडियो", r"(फ़|फ)ोन (पर|पे)"],
     "consult_only": [r"just (a |need a |want a )?(consult|doctor|checkup)", r"only (a )?(consult|doctor)", r"sirf (doctor|consult|dikhana)",
-                     r"bas doctor (ko )?dikhana", r"no tests?", r"test nahi", r"without (any )?tests?", r"बस डॉक्टर"],
+                     r"bas doctor (ko )?dikhana", r"no tests?", r"test nahi", r"without (any )?tests?", r"बस डॉक्टर", r"सिर्फ़? डॉक्टर", r"टेस्ट नहीं"],
     "hospital": [r"hospital", r"अस्पताल", r"aspataa?l"],
 }
 

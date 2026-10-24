@@ -86,6 +86,79 @@ check("Consult-only: tests become information, not a ranking factor", not need2.
 
 check("Every pick carries factor chips and a reason", all(m.factors and m.reason for m in out + cons))
 
+# Hindi inflections and spellings (sasta/sasti/सस्ती, नजदीक/नज़दीक) and Devanagari safety phrasing
+from app.redflags import detect  # noqa: E402
+prefs = {t: lexicon.analyse(t).preferences for t in ["कोई सस्ती वाली जगह बताओ", "sasti jagah", "नजदीक क्लिनिक", "लेडी डॉक्टर चाहिए", "फोन पर डॉक्टर"]}
+check("Preferences detected across Hindi inflections and spellings",
+      prefs == {"कोई सस्ती वाली जगह बताओ": ["budget"], "sasti jagah": ["budget"], "नजदीक क्लिनिक": ["nearby"],
+                "लेडी डॉक्टर चाहिए": ["female"], "फोन पर डॉक्टर": ["online"]}, str(prefs))
+check("Hindi denial is not an emergency: 'सीने में दर्द नहीं है'", detect("सीने में दर्द नहीं है, बस खांसी है") == ([], []))
+check("Hindi infant age is an emergency: 'दो महीने के बच्चे को बुखार है'", detect("दो महीने के बच्चे को बुखार है")[0] == ["high_fever_infant"])
+cheap, summ, _, cp = run("कोई सस्ती वाली जगह बताओ अल्ट्रासाउंड के लिए", decide("diagnostic_test", tests=["ultrasound"], specialty="none"), lang="hi")
+check("'सस्ती' puts price in the headline", "price" in summ, summ)
+
+# ---------------------------------------------------------------- the words people read
+# Render every summary type with every preference and check the grammar, so a broken sentence can't ship again.
+import re  # noqa: E402
+
+SCENARIOS = {
+    "rare": ("need an MRI", decide("diagnostic_test", tests=["mri"], specialty="none")),
+    "test": ("need an x-ray", decide("diagnostic_test", tests=["xray"], specialty="none")),
+    "procedure-common": ("tetanus shot chahiye", decide(services=["tetanus_shot"])),
+    "procedure-uncommon": ("dog bite", decide(services=["anti_rabies"])),
+    "consult": ("doctor ko dikhana hai", decide()),
+    "consult-tests": ("burning urination", decide("specialist_visit", specialty="urology", tests=["urine_test", "urine_culture"])),
+    "home": ("ghar pe injection", decide("home_nursing", services=["injection"])),
+    "online": ("video call pe doctor", decide("teleconsultation")),
+    "relaxed": ("need dialysis and a root canal", decide("diagnostic_test", services=["dialysis", "root_canal"], specialty="none")),
+}
+EXTRA = {"none": "", "budget": " sasti jagah", "quality+nearby": " best doctor nearby", "soon": " aaj hi", "female": " lady doctor"}
+bad = []
+rendered = []
+for sname, (text, dec) in SCENARIOS.items():
+    for ename, extra in EXTRA.items():
+        for lang in ("en", "hi"):
+            _, summ, _, _ = run(text + extra, dec, CYBER_CITY, lang)
+            rendered.append(f"[{sname} / {ename} / {lang}] {summ}")
+            problems = []
+            for m in re.finditer(r"(?:so|,|;|:) ([a-z][a-z \-]*?) (decides?)\b", summ):
+                plural = " and " in m.group(1)
+                if plural != (m.group(2) == "decide"):
+                    problems.append(f"verb agreement: '{m.group(0)}'")
+            if re.search(r"[{}]|None|  |\.\.|,\.| \.", summ):
+                problems.append("template residue or stray punctuation")
+            if re.search(r"\b(and|are) (is|are)\b|\bis available\b.* and .*", summ.split(" (")[0]) and " are " not in summ:
+                problems.append("is/are agreement")
+            if problems:
+                bad.append(f"[{sname} / {ename} / {lang}] {problems}: {summ}")
+check(f"All {len(rendered)} rendered summaries read correctly", not bad, "\n      ".join(bad[:5]))
+if "--show" in sys.argv:
+    print("\n".join(rendered))
+
+# ---------------------------------------------------------------- vocabulary across the three languages
+GRID = [  # (phrase, kind, expected tag)
+    ("I need something cheap", "pref", "budget"), ("sasta wala chahiye", "pref", "budget"), ("sasti jagah batao", "pref", "budget"),
+    ("सस्ता क्लिनिक", "pref", "budget"), ("कोई सस्ती जगह", "pref", "budget"), ("kam paise mein", "pref", "budget"),
+    ("nearest clinic", "pref", "nearby"), ("ghar ke paas", "pref", "nearby"), ("नजदीक अस्पताल", "pref", "nearby"), ("नज़दीक", "pref", "nearby"),
+    ("best doctor please", "pref", "quality"), ("sabse achha doctor", "pref", "quality"), ("सबसे अच्छा डॉक्टर", "pref", "quality"),
+    ("last doctor was useless", "pref", "quality"),
+    ("need it today", "pref", "soon"), ("aaj hi chahiye", "pref", "soon"), ("अभी डॉक्टर चाहिए", "pref", "soon"),
+    ("lady doctor", "pref", "female"), ("mahila doctor chahiye", "pref", "female"), ("लेडी डॉक्टर", "pref", "female"), ("महिला डॉक्टर", "pref", "female"),
+    ("video consult", "pref", "online"), ("phone pe baat", "pref", "online"), ("फोन पर डॉक्टर", "pref", "online"), ("वीडियो कॉल", "pref", "online"),
+    ("I need an MRI", "svc", "mri"), ("mri karwana hai", "svc", "mri"), ("एमआरआई करवाना है", "svc", "mri"),
+    ("chest x-ray", "svc", "xray"), ("xray karwana", "svc", "xray"), ("एक्स-रे", "svc", "xray"),
+    ("tetanus shot", "svc", "tetanus_shot"), ("टिटनेस का इंजेक्शन", "svc", "tetanus_shot"),
+    ("ultrasound", "svc", "ultrasound"), ("सोनोग्राफी", "svc", "ultrasound"), ("अल्ट्रासाउंड", "svc", "ultrasound"),
+    ("dog bite", "svc", "anti_rabies"), ("kutte ne kaat liya", "svc", "anti_rabies"), ("कुत्ते ने काटा", "svc", "anti_rabies"),
+    ("blood test", "svc", "blood_test"), ("khoon ki jaanch", "svc", "blood_test"), ("खून की जाँच", "svc", "blood_test"),
+]
+missed = []
+for phrase, kind, tag in GRID:
+    h = lexicon.analyse(phrase)
+    if tag not in (h.preferences if kind == "pref" else h.services):
+        missed.append(f"{phrase!r} -> {tag}")
+check(f"Vocabulary grid: {len(GRID) - len(missed)}/{len(GRID)} phrases across English, Hinglish and Hindi", not missed, ", ".join(missed))
+
 # ---------------------------------------------------------------- Part B
 if "--e2e" in sys.argv:
     from app.pipeline import run as triage

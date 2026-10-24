@@ -29,7 +29,8 @@ models:
   classifier:
     provider: ollama
     base_url: http://localhost:11434/v1
-    model: hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M   # replace with LoRA fine-tune once trained
+    model: hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M   # replace with LoRA fine-tune once trained (training/FINETUNE_PLAN.md)
+    prompt: few_shot          # few_shot = rules + 7 examples (base model); rules_only = what the fine-tune was trained on
     second_opinion:
       provider: cerebras
       base_url: https://api.cerebras.ai/v1

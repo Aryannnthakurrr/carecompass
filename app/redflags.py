@@ -54,14 +54,19 @@ EXTRA = {
     "anaphylaxis": [r"(face|throat|tongue) (is )?swell", r"gala sooj", r"गला सूज"],
 }
 
-# an infant's AGE, not a duration such as "2 days": newborn, "6 weeks old", "2 month old", "do mahine ka", "2 महीने की"
+# an infant's AGE, not a duration such as "2 days": newborn, "6 weeks old", "2 month old", "do mahine ka", "दो महीने की".
+# Devanagari number words and digits carry no \b: vowel signs are not word characters, so \b fails next to them.
+HI_WEEKS = r"एक|दो|तीन|चार|पांच|पाँच|छह|छः|सात|आठ|[०-९]{1,2}"
+HI_MONTHS = r"एक|दो|[०-२]"
 INFANT = re.compile(r"new ?born|infant|नवजात"
-                    r"|\b(\d|1[0-2]|one|two|three|ek|do|teen)[\s-]*(weeks?|hafte|हफ़्ते|हफ्ते)[\s-]*(old|ka|ki|ke|का|की|के)"
-                    r"|(\b|^)([0-2]|one|two|ek|do)[\s-]*(months?|mahine|maheene|महीने|महीना)[\s-]*(old|ka|ki|ke|का|की|के)", re.I)
+                    r"|(\b(\d|1[0-2]|one|two|three|ek|do|teen)|" + HI_WEEKS + r")[\s-]*(weeks?|hafte|हफ़्ते|हफ्ते)[\s-]*(old|ka|ki|ke|का|की|के)"
+                    r"|((\b|^)([0-2]|one|two|ek|do)|" + HI_MONTHS + r")[\s-]*(months?|mahine|maheene|महीने|महीना)[\s-]*(old|ka|ki|ke|का|की|के)", re.I)
 FEVER = re.compile(r"fever|temperature|bukh?aa?r|बुखार|तापमान|\btemp\b", re.I)
 
-NEG_BEFORE = re.compile(r"\b(no|not|without|denies|never|na)\b[\w\s]{0,12}$", re.I)
-NEG_AFTER = re.compile(r"^\W{0,3}(hai |है |ho raha |हो रहा )?\W{0,3}(nahi|nahin|nhi|नहीं|नही)\b", re.I)
+NEG_BEFORE = re.compile(r"(\b(no|not|without|denies|never|na)\b|बिना)[\w\s]{0,12}$", re.I)
+# "nahi" / "नहीं" right after the phrase is a denial ("seene mein dard nahi", "सीने में दर्द नहीं है"). The end check is a
+# lookahead, not \b, because "नहीं" ends in a nasal sign the regex engine does not count as a word character.
+NEG_AFTER = re.compile(r"^\W{0,3}(hai |है |ho raha |हो रहा )?\W{0,3}(nahi|nahin|nhi|नहीं|नही)(?![a-zऀ-ॿ])", re.I)
 
 _COMPILED = {k: [re.compile(p, re.I) for p in v] for k, v in {**RULES, **EXTRA}.items()}
 

@@ -89,6 +89,9 @@ def _run_dataset(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
 def _run_smart(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
     text = " ".join(user_turns)
     hints = lexicon.analyse(text)
+    # patterns are the fast, explainable path; the structurer's reading catches phrasings the patterns don't know.
+    # "online" stays pattern-only: the structurer has read "dikhana hai" (see a doctor) as a video request before.
+    hints.preferences = list(dict.fromkeys(hints.preferences + [p for p in facts.preferences if p != "online"]))
     decision, votes = smart.classify(facts, hints)
     log.info("smart votes medgemma=%s qwen=%s hints=%s", votes["medgemma"] and votes["medgemma"].care_type,
              votes["qwen"] and votes["qwen"].care_type, hints.as_dict())
@@ -102,6 +105,8 @@ def _run_smart(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
                               seriousness=decision.seriousness)
 
     providers, summary, need = smart_match.match(decision, hints, facts, req.location, lang)
+    if decision.care_type == "teleconsultation" and need.setting != "online":  # the user never asked for video
+        decision = decision.model_copy(update={"care_type": "specialist_visit" if need.specialty not in (None, "general_medicine") else "clinic_visit"})
     tests = need.soft_tests + need.info_tests + [r for r in need.required if r in smart.TEST_TAGS]
     top = providers[0] if providers else None
     resp = TriageResponse(
