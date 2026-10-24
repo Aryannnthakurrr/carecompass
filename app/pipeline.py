@@ -102,6 +102,8 @@ def _run_smart(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
                               seriousness=decision.seriousness)
 
     providers, summary, need = smart_match.match(decision, hints, facts, req.location, lang)
+    if decision.care_type == "teleconsultation" and need.setting != "online":  # the user never asked for video
+        decision = decision.model_copy(update={"care_type": "specialist_visit" if need.specialty not in (None, "general_medicine") else "clinic_visit"})
     tests = need.soft_tests + need.info_tests + [r for r in need.required if r in smart.TEST_TAGS]
     top = providers[0] if providers else None
     resp = TriageResponse(
