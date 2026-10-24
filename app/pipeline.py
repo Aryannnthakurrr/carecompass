@@ -13,6 +13,7 @@
   7. Matching + explanation. Every shown line is scrubbed of disease and medicine names.
 """
 import logging
+import re
 import time
 from concurrent.futures import ThreadPoolExecutor
 
@@ -73,12 +74,13 @@ def _medical(facts: CaseFacts) -> bool:
                 or facts.setting_requested not in (None, "unspecified"))
 
 
-def _missing_basics(facts: CaseFacts, asked: int) -> list[str]:
-    """A symptom complaint needs who (and, for fever, the age group) and since when before it can be routed safely.
+BASICS_ASKS = 2  # questions the enough-facts guard may spend; after that a user who won't say still gets care
+
+
+def _basic_gaps(facts: CaseFacts) -> list[str]:
+    """What a symptom complaint lacks to be routed safely: who (for fever, the age group) and since when.
     Explicit requests (a named service or kind of visit) need neither: the user already knows what they want."""
-    if facts.no_more_questions or asked >= MAX_FOLLOW_UPS or not facts.symptoms_present:
-        return []
-    if facts.services_requested or facts.setting_requested not in (None, "unspecified"):
+    if not facts.symptoms_present or facts.services_requested or facts.setting_requested not in (None, "unspecified"):
         return []
     missing = []
     fever = any("fever" in s.lower() or "temperature" in s.lower() for s in facts.symptoms_present + facts.vitals_reported)
@@ -91,16 +93,53 @@ def _missing_basics(facts: CaseFacts, asked: int) -> list[str]:
     return missing[:2]
 
 
+def _missing_basics(facts: CaseFacts, asked: int) -> list[str]:
+    """The gaps worth asking about now: none once the user wants no more questions or the guard's budget is spent."""
+    if facts.no_more_questions or asked >= BASICS_ASKS:
+        return []
+    return _basic_gaps(facts)
+
+
+def _stem(w: str) -> str:
+    return w[:5]
+
+
+def _grounded(signs: list[str], facts: CaseFacts) -> list[str]:
+    """Danger signs that match something the user actually reported (the screener sometimes reasons about what MIGHT
+    be happening; only reported findings count)."""
+    reported = " ".join(facts.symptoms_present + facts.vitals_reported + facts.existing_conditions + facts.special_population
+                        + [facts.patient or "", facts.onset or "", facts.severity or ""]).lower()
+    words = {_stem(w) for w in re.findall(r"[a-z]{4,}", reported)} - _STOP
+    return [s for s in signs if {_stem(w) for w in re.findall(r"[a-z]{4,}", s.lower())} & words]
+
+
+_STOP = {_stem(w) for w in ("with", "that", "this", "patient", "very", "since", "years", "from", "have", "been", "some", "more")}
+
+
+def _norm(q: str) -> str:
+    return re.sub(r"[^\w]+", " ", q.lower()).strip()
+
+
+def _fresh(q: str, asked_qs: list[str]) -> str | None:
+    """The question, unless it repeats one already asked (then the user isn't going to answer it: decide instead)."""
+    return None if _norm(q) in {_norm(a) for a in asked_qs} else q
+
+
 def _screened(scr, facts: CaseFacts, history, asked: int, lang: str, mode: str):
-    """MedGemma's emergency screen -> an emergency, a safety-check question, or None (routing unchanged)."""
+    """MedGemma's emergency screen -> an emergency, a safety-check question, or None (routing unchanged).
+    It never escalates on its own first word: it asks about the reported danger sign once, and escalates only if the
+    danger is still reported after that question."""
     s = scr.result() if scr else None
     if s is None or not s.emergency:
         return None
-    signs = s.danger_signs or facts.symptoms_present[:2]
+    signs = _grounded(s.danger_signs, facts)
+    if not signs:
+        log.info("screen ignored: no reported finding behind %s", s.danger_signs)
+        return None
     checked = any(t.role == "assistant" and SAFETY_MARK in t.content for t in history)
-    if checked or asked >= MAX_FOLLOW_UPS:  # asked once already and the danger persists, or no room left to ask
+    if checked:
         mapped, more = redflags.detect(*signs, *facts.symptoms_present)
-        log.info("screen emergency confirmed: %s", signs)
+        log.info("screen emergency confirmed after the safety check: %s", signs)
         return _emergency(mapped, more, lang, mode, why=f"MedGemma emergency screen: {', '.join(signs)}. {s.reasoning}")
     q, line = explain.safety_check(s.check_question, signs, lang)
     log.info("screen safety check: %s", signs)
@@ -136,16 +175,25 @@ def _run(req: TriageRequest) -> TriageResponse:
         return _emergency(flags, extra, lang, req.mode)
     safety_note = None
     if raw_flags or raw_extra:
-        if facts.not_literal or facts.message_check in GATE_STOP:
+        hit = raw_flags + raw_extra
+        denied = sum(redflags.detect(*facts.symptoms_denied), [])
+        retracted = [f for f in hit if f in denied]  # "chest pain" ... "no wait, no chest pain": confirm once, don't just drop it
+        checked = any(t.role == "assistant" and SAFETY_MARK in t.content for t in history)
+        if retracted and not checked:
+            signs = [f.replace("_", " ") for f in retracted]
+            q, line = explain.safety_check(f"Just to be safe: is there any {' or '.join(signs)} right now?", signs, lang)
+            return _ask(q, lang, req.mode, "safety_check", f"Red flag mentioned then denied ({', '.join(signs)}); confirming.", line)
+        if retracted or facts.not_literal or facts.message_check in GATE_STOP:
             safety_note = explain.SAFETY_LINE[lang]  # not sounding the alarm for a figure of speech, but saying how to get help
-            log.info("raw rule hit %s judged not literal: %s", raw_flags + raw_extra, facts.not_literal)
+            log.info("raw rule hit %s judged not literal or denied: %s", hit, facts.not_literal or retracted)
         else:
             return _emergency(raw_flags, raw_extra, lang, req.mode)
 
     # 4. the gate: nothing here reaches a medical model
     log.info("intake check=%s notes=%s wants=%s", facts.message_check, facts.check_notes, facts.user_wants)
     if facts.message_check in GATE_STOP and not _medical(facts):
-        return _ask(explain.redirect(lang, facts.message_check == "abusive"), lang, req.mode, "redirect",
+        redirects = sum(t.role == "assistant" and t.content in explain.GATE_TEXTS for t in history)
+        return _ask(explain.redirect(lang, facts.message_check == "abusive", redirects), lang, req.mode, "redirect",
                     "No health concern described; steering back to the health problem.", safety_note)
     if facts.message_check == "unclear" and (voice or not _medical(facts)) and asked < MAX_FOLLOW_UPS:
         q = explain.misheard(req.user_input, lang) if voice else explain.clarify(facts.check_notes, _context(facts), lang)
@@ -159,7 +207,7 @@ def _run(req: TriageRequest) -> TriageResponse:
     # 5. classifier + MedGemma's emergency screen, in parallel. The screen waits until who/age and since-when are known:
     #    with them missing it assumes the worst case (an infant) and raises false alarms; clear emergencies are already
     #    caught by the rules above and by the classifier.
-    basics_known = not _missing_basics(facts, len(asked_qs))
+    basics_known = not _basic_gaps(facts)
     scr = _POOL.submit(screen.screen, facts) if basics_known and screen.wanted(facts) else None
     if req.mode == "smart":
         return _run_smart(req, facts, user_turns, asked_qs, lang, t0, scr, safety_note)
@@ -181,9 +229,12 @@ def _run_dataset(req, facts, user_turns, asked_qs, lang, t0, scr, safety_note) -
         return out
     if decision is None:  # both classifiers down: someone should see the patient
         care, reasoning = "paramedic_home_visit", "Classifier unavailable; defaulting to an in-person Medic assessment."
-    elif decision.status == "need_more_info" and asked < MAX_FOLLOW_UPS and not facts.no_more_questions:
-        return _ask(explain.follow_up(decision.missing_info or ["main concern"], ctx, lang), lang, "dataset", "medical",
-                    decision.reasoning, safety_note)
+    elif (decision.status == "need_more_info" and asked < MAX_FOLLOW_UPS and not facts.no_more_questions
+          and (q := _fresh(explain.follow_up(decision.missing_info or ["main concern"], ctx, lang), asked_qs))):
+        return _ask(q, lang, "dataset", "medical", decision.reasoning, safety_note)
+    elif decision.status == "need_more_info":  # nothing new to ask: decide with what we have
+        care = decision.care_type
+        reasoning = decision.reasoning
     else:
         care, reasoning = decision.care_type, decision.reasoning
 
@@ -222,9 +273,12 @@ def _run_smart(req, facts, user_turns, asked_qs, lang, t0, scr, safety_note) -> 
                     f"Need {' and '.join(missing)} before routing safely.", safety_note, seriousness=decision.seriousness)
     if (out := _screened(scr, facts, req.conversation_history, asked, lang, "smart")) is not None:
         return out
-    if decision.status == "need_more_info" and asked < MAX_FOLLOW_UPS and not facts.no_more_questions:
-        return _ask(explain.follow_up(decision.missing_info or ["main concern"], ctx, lang), lang, "smart", "medical",
-                    decision.reasoning, safety_note, seriousness=decision.seriousness)
+    graded = scr.result() if scr else None
+    if graded and graded.level == "see_doctor_today" and decision.seriousness == "routine":
+        decision = decision.model_copy(update={"seriousness": "soon"})  # MedGemma says a doctor soon: not "plan it whenever"
+    if (decision.status == "need_more_info" and asked < MAX_FOLLOW_UPS and not facts.no_more_questions
+            and (q := _fresh(explain.follow_up(decision.missing_info or ["main concern"], ctx, lang), asked_qs))):
+        return _ask(q, lang, "smart", "medical", decision.reasoning, safety_note, seriousness=decision.seriousness)
 
     providers, summary, need = smart_match.match(decision, hints, facts, req.location, lang)
     if decision.care_type == "teleconsultation" and need.setting != "online":  # the user never asked for video

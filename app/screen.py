@@ -1,14 +1,13 @@
-"""MedGemma emergency screener: one focused question on the structured facts, written as a short clinical note.
+"""MedGemma emergency screener: the structured facts, written as a short clinical note, and one focused question.
 
-Asked to pick one of six care types, MedGemma under-calls emergencies (37 of 77 on held-out cases). Asked only
-"does this person need emergency services now?", with the danger signs spelled out and the facts as a clinical note,
-the same model caught 73 of 77 (training/medgemma_probe.py), with false alarms on about 1 in 4 non-emergencies.
-So a "yes" alone is not acted on blindly: the pipeline first asks the user the screener's own confirming question, with a
-"call 112 now if ..." safety line, and goes to the emergency path if the danger is confirmed or persists after it.
-A "no" changes nothing: routing is exactly as it would be without the screener.
+Asked to pick one of six care types, MedGemma under-calls emergencies (37 of 77 held-out cases). Asked a focused question
+about danger, the same model caught 73 of 77 (training/medgemma_probe.py), but a yes/no question framed as "a miss is far
+worse" also flagged sprains and ordinary fevers. So it grades instead: emergency_now / see_doctor_today / routine, taught
+by worked examples. Only emergency_now is acted on, and even then the pipeline first asks the screener's own confirming
+question with a pre-written call-112 line, escalating only if the reported danger is still there after it.
 """
 import logging
-from typing import Optional
+from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -20,27 +19,52 @@ CFG = llm.MODELS["classifier"].get("screener", {})
 
 
 class Screen(BaseModel):
-    danger_signs: list[str] = Field(max_length=5, description="Findings that could mean a life-threatening problem; empty if none")
+    danger_signs: list[str] = Field(max_length=5, description="Reported findings that could mean a life-threatening problem; empty if none")
     reasoning: str = Field(description="One or two short sentences")
-    emergency: bool
-    check_question: str = Field("", description="If emergency: ONE short plain question to the family that would confirm or rule out the danger; else empty")
+    level: Literal["emergency_now", "see_doctor_today", "routine"]
+    check_question: str = Field("", description="If emergency_now: one short plain question about the reported danger sign; else empty")
+
+    @property
+    def emergency(self) -> bool:
+        return self.level == "emergency_now"
 
 
-SYSTEM = """You are an experienced emergency triage nurse in India. Read the case and decide one thing: does this person
-need emergency services (call 112 / go to an emergency department now)?
-Missing an emergency is far worse than a false alarm. Answer emergency=true when any finding could reasonably signal a
-life-threatening or time-critical problem for THIS patient, considering age (infants, young children, the elderly),
-pregnancy and existing illness: for example chest pain or pressure, breathing difficulty, fainting or reduced
-responsiveness, new confusion or unusual drowsiness, stroke signs (face drooping, one-sided weakness or numbness, speech
-trouble), seizures, heavy or non-stop bleeding, bleeding in pregnancy, high fever in a baby, severe dehydration (not
-drinking, not passing urine, cannot stand), head injury with vomiting or drowsiness, poisoning or overdose, severe
-allergic swelling, suicidal thoughts, or an elderly or frail person who suddenly cannot get up or respond normally.
-An elderly person who is only weak or not eating, with no other warning sign, is NOT an emergency (a home visit); it
-becomes one with drowsiness or unusual sleepiness, confusion, inability to get up, not drinking, dizziness or fainting.
-Routine requests (wound dressing, injections, catheter care, tests, check-ups) without a warning sign are NOT emergencies.
-Answer emergency=false for routine requests and mild, stable complaints. Do not diagnose.
-If emergency=true, check_question asks the family the one thing that would confirm the danger (e.g. "Is he hard to wake or
-not making sense?"), in plain words, no medical terms."""
+SYSTEM = """You are an experienced emergency triage nurse in India. Grade the case:
+- emergency_now: a REPORTED finding could be life-threatening or time-critical for this patient right now: chest pain or
+  pressure, breathing difficulty, fainting, unresponsive or unusually drowsy/hard to wake, new confusion, stroke signs,
+  seizure, heavy or non-stop bleeding, bleeding in pregnancy, fever in a baby under 3 months, severe dehydration (not
+  drinking, no urine, cannot stand), head injury with vomiting or drowsiness, poisoning, throat or face swelling, suicidal
+  thoughts, an elderly or frail person who suddenly cannot get up, eat or respond normally.
+- see_doctor_today: needs a doctor soon but not an ambulance (high fever in a child or adult, a possible fracture, a deep cut,
+  an animal bite, vomiting many times).
+- routine: can be planned.
+When unsure between emergency_now and see_doctor_today for a child under 5, a very old or a pregnant patient, or anyone
+showing dehydration (cannot keep water down, not passing urine), choose emergency_now.
+Judge only what is reported. Do not diagnose. For emergency_now, check_question asks the family about that reported sign.
+
+Examples:
+Case: Patient: self, 30 years. Presenting with: fever. Duration: since yesterday. Reported readings: temperature 101F.
+-> {"danger_signs":[],"reasoning":"Fever in an alert adult without warning signs.","level":"see_doctor_today","check_question":""}
+Case: Patient: son, 5 years (child). Presenting with: fever. Duration: since yesterday. Reported readings: temperature 102F.
+-> {"danger_signs":[],"reasoning":"High fever in a school-age child, no warning signs reported.","level":"see_doctor_today","check_question":""}
+Case: Patient: mother, 65 years (elderly). Presenting with: fall; swollen wrist; wrist pain. Duration: 1 hour.
+-> {"danger_signs":[],"reasoning":"Wrist injury after a fall; needs an X-ray today, not an ambulance.","level":"see_doctor_today","check_question":""}
+Case: Patient: grandfather, 82 years (elderly). Presenting with: excessive sleepiness; not eating. Onset: sudden.
+-> {"danger_signs":["sudden excessive sleepiness in an 82-year-old"],"reasoning":"Sudden drowsiness in the very old can be time-critical.","level":"emergency_now","check_question":"Is he hard to wake or not making sense right now?"}
+Case: Patient: baby, 2 months (infant). Presenting with: fever. Duration: since morning.
+-> {"danger_signs":["fever in a 2-month-old"],"reasoning":"Any fever under 3 months needs emergency care.","level":"emergency_now","check_question":"Does the baby feel hot to touch right now?"}
+Case: Patient: wife, 6 months pregnant (pregnant). Presenting with: headache; blurred vision.
+-> {"danger_signs":["headache with blurred vision in pregnancy"],"reasoning":"These signs in pregnancy can be time-critical.","level":"emergency_now","check_question":"Is her vision still blurred right now?"}
+Case: Patient: daughter, 2 years (child). Presenting with: high fever; not eating since last night; weakness.
+-> {"danger_signs":["high fever with weakness and not eating in a 2-year-old"],"reasoning":"A toddler with fever who is weak and not eating may be getting dehydrated.","level":"emergency_now","check_question":"Is she drinking anything and passing urine?"}
+Case: Patient: son, 4 years (child). Presenting with: vomiting many times; cannot keep water down. Onset: sudden.
+-> {"danger_signs":["cannot keep water down in a 4-year-old"],"reasoning":"Repeated vomiting with no fluids kept down risks dehydration in a young child.","level":"emergency_now","check_question":"Has he passed urine in the last 6 hours?"}
+Case: Patient: wife. Presenting with: heavy menstrual bleeding; dizziness; pale face.
+-> {"danger_signs":["heavy bleeding with dizziness and paleness"],"reasoning":"Heavy bleeding with dizziness can mean dangerous blood loss.","level":"emergency_now","check_question":"Is she dizzy or faint right now?"}
+Case: Patient: father, 68 years (elderly). Presenting with: breathless when climbing stairs. Onset: gradual. Duration: 4 months.
+-> {"danger_signs":[],"reasoning":"Slowly worsening breathlessness on exertion over months needs a doctor soon, not an ambulance.","level":"see_doctor_today","check_question":""}
+Case: Patient: self. Presenting with: mild acidity. Duration: since morning.
+-> {"danger_signs":[],"reasoning":"Mild, stable complaint.","level":"routine","check_question":""}"""
 
 
 def note(facts: CaseFacts) -> str:
@@ -72,10 +96,10 @@ def wanted(facts: CaseFacts) -> bool:
 
 
 def screen(facts: CaseFacts) -> Optional[Screen]:
-    """-> MedGemma's screen, or None when skipped, Ollama is down or the output is invalid (then nothing changes)."""
+    """-> MedGemma's grade, or None when skipped, Ollama is down or the output is invalid (then nothing changes)."""
     if not wanted(facts):
         return None
     out = llm.medgemma(SYSTEM, f"Case: {note(facts)}", Screen, num_predict=CFG.get("num_predict", 500))
     if out is not None:
-        log.info("screen emergency=%s signs=%s", out.emergency, out.danger_signs)
+        log.info("screen level=%s signs=%s", out.level, out.danger_signs)
     return out

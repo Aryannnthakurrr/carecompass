@@ -251,7 +251,7 @@ function hideWelcome() {
   $('#homeBtn').hidden = false;
 }
 
-async function submit(text, { echo = true } = {}) {
+async function submit(text, { echo = true, voiceInput = false } = {}) {
   text = text.trim();
   if (!text || state.busy) return;
   const convo = state.convo;
@@ -270,6 +270,7 @@ async function submit(text, { echo = true } = {}) {
       location: state.location && { lat: state.location.lat, lng: state.location.lng },
       conversation_history: state.history,
       mode: state.mode,
+      input_mode: voiceInput ? 'voice' : 'text', // the server double-checks transcripts for mis-heard words
     });
   } catch (err) {
     console.error(err);
@@ -289,11 +290,12 @@ async function submit(text, { echo = true } = {}) {
 
 const isEmergency = res => ['emergency_112', 'emergency'].includes(res.care_type) || res.red_flags?.length > 0;
 
-function addQuestion(q, { live = true } = {}) {
+function addQuestion(q, { live = true, safetyNote = null } = {}) {
   const chips = live ? chipsFor(q) : [];
   addBot(
     h('p', { class: 'q-label' }, T('qCount', { n: state.questions })),
     h('div', { class: 'bubble' }, q),
+    safetyNote && h('p', { class: 'safety-note', role: 'alert' }, safetyNote),
     chips.length && chipRow(chips, submit),
     h('div', { class: 'bubble-actions' }, listenBtn(q)),
   );
@@ -312,7 +314,7 @@ function handle(res) {
     state.history.push({ role: 'assistant', content: q });
     state.questions++;
     setStep(1);
-    const chips = addQuestion(q);
+    const chips = addQuestion(q, { safetyNote: res.safety_note });
     saveChat();
     if (voice.open) voiceAsk(q, chips);
     return;
@@ -657,7 +659,7 @@ async function finishListening() {
   if (!text) return setVoiceState('idle', T('didntCatch'));
   $('#vCaption').textContent = text;
   renderVoiceChips([]);
-  submit(text);
+  submit(text, { voiceInput: true });
 }
 
 async function voiceAsk(q, chips) {

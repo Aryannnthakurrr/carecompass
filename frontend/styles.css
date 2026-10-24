@@ -878,3 +878,8 @@ button.em-mini { background: var(--surface); font: inherit; font-weight: 800; }
 .factor { padding: 3px 9px; border-radius: 999px; background: #F2EFE8; color: var(--ink-2); font-size: 13px; font-weight: 600; }
 .factor.need { background: var(--brand-50); color: var(--brand-600); }
 .factor.warn { background: var(--amber-50); color: var(--amber); }
+
+/* safety line under a confirm-first question: "if this is happening right now, call 112" */
+.safety-note { margin: 6px 0 0; padding: 8px 12px; border-radius: 10px; font-weight: 600;
+  color: #9b1c1c; background: #fdecec; border: 1px solid #f5b5b5; }
+@media (prefers-color-scheme: dark) { .safety-note { color: #ffd2d2; background: #3a1414; border-color: #7a2a2a; } }

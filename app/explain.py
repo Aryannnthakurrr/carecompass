@@ -115,7 +115,23 @@ def safety_check(check_question: str, signs: list[str], lang: str) -> tuple[str,
     return f"{q} {SAFETY_LINE[lang]}", SAFETY_LINE[lang]
 
 
-def redirect(lang: str, abusive: bool = False) -> str:
+REDIRECT_AGAIN = {
+    "en": "Please tell me about the health problem, for example: “my father has had fever for 2 days”. Who is unwell?",
+    "hi": "कृपया सेहत की परेशानी बताइए, जैसे: “पापा को दो दिन से बुखार है”। कौन बीमार है?",
+    "hinglish": "Please health problem bataiye, jaise: “papa ko do din se bukhar hai”. Kaun beemar hai?",
+}
+REDIRECT_THIRD = {
+    "en": "I'm a health assistant, so I can only help with a health problem. Type or say what is wrong and for whom.",
+    "hi": "मैं सेहत से जुड़ी मदद के लिए हूँ। लिखिए या बोलिए कि किसे क्या परेशानी है।",
+    "hinglish": "Main health assistant hoon, sirf sehat ki pareshani mein madad kar sakta hoon. Likhiye ya boliye kise kya problem hai.",
+}
+GATE_TEXTS = {v for d in (REDIRECT, CALM, REDIRECT_AGAIN, REDIRECT_THIRD) for v in d.values()}
+
+
+def redirect(lang: str, abusive: bool = False, before: int = 0) -> str:
+    """Fixed text; from the second redirect on, an example of what to say instead of the same line again."""
+    if before:
+        return (REDIRECT_AGAIN if before % 2 else REDIRECT_THIRD)[lang]
     return (CALM if abusive else REDIRECT)[lang]
 
 
