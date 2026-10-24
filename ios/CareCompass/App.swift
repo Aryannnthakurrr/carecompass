@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct CareCompassApp: App {
-    @State private var app = AppState()
+    @State private var app = AppState.shared
 
     var body: some Scene {
         WindowGroup {
