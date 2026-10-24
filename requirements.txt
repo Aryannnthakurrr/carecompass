@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+pydantic
+python-dotenv
+pyyaml
+httpx
+openai
+google-genai
+sarvamai
+pandas
+scikit-learn
+rapidfuzz

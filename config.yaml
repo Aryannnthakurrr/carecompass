@@ -1,0 +1,48 @@
+# Every model name / endpoint lives here so it can be swapped without code changes.
+
+models:
+  stt:
+    provider: sarvam
+    model: saarika:v2.5          # VERIFY latest Saarika version
+  tts:
+    provider: sarvam
+    model: bulbul:v2             # VERIFY latest Bulbul version
+    speaker: anushka             # VERIFY available speakers
+  intake:
+    provider: gemini
+    model: gemma-3-27b-it        # VERIFY id in AI Studio
+    fallback: sarvam-m
+  explain:
+    provider: gemini
+    model: gemma-3-27b-it
+  triage:
+    provider: ollama
+    base_url: http://localhost:11434/v1
+    model: medgemma-4b           # replace with fine-tuned model name after LoRA
+  local_fallback:
+    provider: ollama
+    base_url: http://localhost:11434/v1
+    model: gemma3:4b
+
+# Replace with organiser label strings once the taxonomy is released.
+labels:
+  care_types:
+    - paramedic_home_visit
+    - nurse
+    - gp_teleconsult
+    - specialist
+    - emergency
+  urgency:
+    - routine
+    - same_day
+    - immediate
+
+intake:
+  max_follow_ups: 4
+
+matching:
+  weights:
+    distance: 0.35
+    language: 0.25
+    rating: 0.20
+    availability: 0.20
