@@ -514,6 +514,14 @@ a { color: inherit; text-decoration: none; }
 .loc-option.gps .icon { color: var(--brand); }
 .loc-option.loading .icon { animation: spin 1s linear infinite; }
 .loc-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 6px; }
+.coord-form { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line-2); }
+.coord-title { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+.coord-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; }
+.coord-input { min-width: 0; padding: 11px 12px; border: 1.5px solid var(--line-2); border-radius: var(--r-sm); font: inherit; font-size: 15px; background: #fff; }
+.coord-input:focus { outline: none; border-color: var(--brand); }
+.coord-btn { padding: 0 16px; border: 0; border-radius: var(--r-sm); background: var(--brand); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.coord-msg { min-height: 1em; margin-top: 8px; font-size: 14px; color: var(--muted); }
+.coord-msg.warn { color: var(--amber); font-weight: 600; }
 
 .booked { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; }
 .check-anim {

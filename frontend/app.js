@@ -100,6 +100,7 @@ function locationText() {
   const l = state.location;
   if (!l) return T('locating');
   if (l.source === 'manual') return l.name;
+  if (l.source === 'coords') return `${l.lat.toFixed(4)}, ${l.lng.toFixed(4)}`;
   if (l.source === 'default') return T('locApprox', { place: l.name });
   return l.name ? T('locNear', { place: l.name }) : T('locHere');
 }
@@ -139,7 +140,44 @@ function openLocationSheet() {
     class: 'loc-option' + (state.location?.source !== 'gps' && state.location?.name === l.name ? ' selected' : ''),
     onclick: () => { setLocation({ ...l, source: 'manual' }); closeSheet(); },
   }, icon('pin'), h('span', {}, l.name)));
-  openSheet(h('div', {}, h('h2', { class: 'sheet-title' }, T('locTitle')), note, gps, h('div', { class: 'loc-list' }, options)));
+  openSheet(h('div', {}, h('h2', { class: 'sheet-title' }, T('locTitle')), note, gps, h('div', { class: 'loc-list' }, options), coordsForm()));
+}
+
+// Exact coordinates, for testing queries anywhere. Pasting "28.54, 77.27" into either box fills both.
+const NCR = { lat: [28.3, 28.75], lng: [76.9, 77.6] }; // where the caregiver roster operates
+function coordsForm() {
+  const cur = state.location;
+  const field = (label, value) => h('input', {
+    class: 'coord-input', type: 'text', inputmode: 'decimal', 'aria-label': label, placeholder: label,
+    value: cur ? String(value) : '',
+  });
+  const lat = field(T('locLat'), cur?.lat), lng = field(T('locLng'), cur?.lng);
+  const msg = h('p', { class: 'coord-msg', role: 'status' });
+  const split = e => {
+    const parts = e.target.value.split(/[,\s]+/).filter(Boolean);
+    if (parts.length === 2) [lat.value, lng.value] = parts;
+  };
+  lat.addEventListener('input', split);
+  lng.addEventListener('input', split);
+  const apply = e => {
+    e.preventDefault();
+    const pt = { lat: parseFloat(lat.value), lng: parseFloat(lng.value) };
+    if (!(Math.abs(pt.lat) <= 90 && Math.abs(pt.lng) <= 180)) {
+      msg.textContent = T('locBadCoords');
+      msg.className = 'coord-msg warn';
+      return;
+    }
+    pt.lat = +pt.lat.toFixed(5); pt.lng = +pt.lng.toFixed(5);
+    setLocation({ ...pt, name: nearestLocality(pt)?.name, source: 'coords' });
+    const inside = pt.lat >= NCR.lat[0] && pt.lat <= NCR.lat[1] && pt.lng >= NCR.lng[0] && pt.lng <= NCR.lng[1];
+    if (inside) return closeSheet();
+    msg.textContent = T('locOutside');
+    msg.className = 'coord-msg warn';
+  };
+  return h('form', { class: 'coord-form', onsubmit: apply },
+    h('p', { class: 'coord-title' }, T('locCoords')),
+    h('div', { class: 'coord-row' }, lat, lng, h('button', { class: 'coord-btn', type: 'submit' }, T('locUse'))),
+    msg);
 }
 
 // ---------------------------------------------------------------- bottom sheet
