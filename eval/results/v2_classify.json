@@ -5049,5 +5049,635 @@
     "latency": 4.54
    }
   ]
+ },
+ "gpt-5.4 (OpenAI)": {
+  "summary": {
+   "valid": "30/30",
+   "care_macro_f1": 0.961,
+   "urgency_macro_f1": 0.925,
+   "care_correct": "29/30",
+   "urgency_correct": "28/30",
+   "emergencies_caught": "11/11",
+   "false_emergencies": 0,
+   "under_triaged": 0,
+   "asks_follow_up_non_emergency": "4/19",
+   "asks_follow_up_on_emergency": 0,
+   "median_s": 1.81,
+   "p90_s": 2.26,
+   "max_s": 3.56
+  },
+  "rows": [
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "An elderly patient with 3 days of fever and dry cough should have vitals checked in person today even without reported breathlessness."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "E1",
+    "valid": true,
+    "latency": 3.28
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "gp_teleconsult",
+     "urgency": "routine",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "A mild headache since this morning without reported red-flag features can usually be assessed remotely and does not appear urgent based on the facts given."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "E2",
+    "valid": true,
+    "latency": 1.81
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "one-sided weakness",
+      "slurred speech",
+      "sudden onset"
+     ],
+     "missing_info": [],
+     "reasoning": "Sudden inability to move the right arm with slurred speech are stroke warning signs and need emergency care immediately."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "E3",
+    "valid": true,
+    "latency": 2.01
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "Fever in an infant under 3 months"
+     ],
+     "missing_info": [],
+     "reasoning": "A 2-month-old infant with a reported fever is a red-flag situation that needs immediate emergency evaluation."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "E4",
+    "valid": true,
+    "latency": 1.96
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "nurse",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "The requested need is a home wound dressing change after recent surgery, which is a nursing care task and should be done today to support safe post-procedure care."
+    },
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "E5",
+    "valid": true,
+    "latency": 2.15
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "A person with diabetes reporting excessive thirst, fatigue, and a very high reported blood sugar should speak to a doctor today for assessment, and no listed emergency red flags are present in the provided facts."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "E6",
+    "valid": true,
+    "latency": 1.91
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "chest tightness",
+      "excessive sweating"
+     ],
+     "missing_info": [],
+     "reasoning": "Chest tightness with excessive sweating in a 55-year-old is a red-flag combination needing emergency evaluation right away."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "E7",
+    "valid": true,
+    "latency": 2.26
+   },
+   {
+    "pred": {
+     "status": "need_more_info",
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [
+      "Are there any signs of dehydration or concerning symptoms such as very little urine, unusual sleepiness, repeated vomiting, severe abdominal pain, blood in stool, or inability to drink fluids?",
+      "Does the child have a high fever?"
+     ],
+     "reasoning": "An 8-year-old with loose motions since morning may be manageable remotely, but dehydration or high fever would make same-day in-person assessment more appropriate."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": true,
+    "id": "E8",
+    "valid": true,
+    "latency": 3.56
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "specialist",
+     "urgency": "routine",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "Knee pain that has been present for 6 months and is worse with stair climbing is a long-standing musculoskeletal problem without red-flag features, so specialist evaluation is appropriate and can be arranged routinely."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "E9",
+    "valid": true,
+    "latency": 1.85
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "Bleeding in pregnancy"
+     ],
+     "missing_info": [],
+     "reasoning": "Vaginal bleeding during pregnancy is a red-flag situation that needs emergency assessment immediately."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "E10",
+    "valid": true,
+    "latency": 1.66
+   },
+   {
+    "pred": {
+     "status": "need_more_info",
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [
+      "Is the patient having any breathing difficulty, chest tightness, blue lips, confusion, seizure, or unconsciousness?",
+      "What is the patient's age?"
+     ],
+     "reasoning": "Fever with cough for 2 days is often suitable for a remote doctor review today, but breathing-related red flags or very young/older age could change this to more urgent care."
+    },
+    "care_ok": false,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": true,
+    "id": "H1",
+    "valid": true,
+    "latency": 1.92
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "An elderly patient with vomiting and dizziness should have vitals and hydration status checked in person today, especially with hypertension and no vitals available."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "H2",
+    "valid": true,
+    "latency": 1.76
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "seizures",
+      "loss of consciousness"
+     ],
+     "missing_info": [],
+     "reasoning": "Seizures and loss of consciousness are emergency red flags requiring immediate emergency care."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "H3",
+    "valid": true,
+    "latency": 1.34
+   },
+   {
+    "pred": {
+     "status": "need_more_info",
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [
+      "Is the abdominal pain severe or getting worse, or is there repeated vomiting or inability to keep fluids down?",
+      "Any red-flag symptoms such as chest pain, trouble breathing, fainting/unconsciousness, heavy bleeding, or pregnancy with bleeding?"
+     ],
+     "reasoning": "Abdominal pain for 3 days without fever may be manageable remotely, but same-day assessment is safer unless severe pain or red-flag symptoms are present."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": true,
+    "id": "H4",
+    "valid": true,
+    "latency": 2.21
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "severe difficulty breathing",
+      "blue lips"
+     ],
+     "missing_info": [],
+     "reasoning": "Severe breathing difficulty and blue lips are emergency red-flag signs needing immediate emergency care."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "H5",
+    "valid": true,
+    "latency": 1.59
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "A 5-year-old with ear pain and fever since last night has no stated emergency red flags, but a child with fever should be assessed by a doctor today."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "H6",
+    "valid": true,
+    "latency": 1.81
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "Burning and frequent urination for 2 days without reported red-flag symptoms is usually appropriate for a doctor teleconsult today."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "H7",
+    "valid": true,
+    "latency": 1.55
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "nurse",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "The request is for post-procedure care tasks like injection and wound dressing, which are typically handled by a nurse, and recent surgery makes same-day attention appropriate."
+    },
+    "care_ok": true,
+    "urg_ok": false,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "H8",
+    "valid": true,
+    "latency": 2.55
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "chest pain"
+     ],
+     "missing_info": [],
+     "reasoning": "Chest pain, especially with associated left arm pain, is a red-flag symptom that needs immediate emergency evaluation."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "H9",
+    "valid": true,
+    "latency": 1.62
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "gp_teleconsult",
+     "urgency": "routine",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "One week of mild upper-respiratory symptoms without fever or other red-flag features is appropriate for a routine remote doctor review."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "H10",
+    "valid": true,
+    "latency": 1.65
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "chest pain"
+     ],
+     "missing_info": [],
+     "reasoning": "Chest pain with sweating is a red-flag symptom and needs immediate emergency evaluation."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "D1",
+    "valid": true,
+    "latency": 1.41
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "paramedic_home_visit",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "A child with high fever for 3 days should be assessed today with in-person vitals and clinical review, even without other reported red-flag symptoms."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "D2",
+    "valid": true,
+    "latency": 1.81
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "specialist",
+     "urgency": "routine",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "Several months of knee pain with difficulty walking in an elderly person is a long-standing mobility problem better assessed by a specialist, with no red-flag emergency features provided."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "D3",
+    "valid": true,
+    "latency": 1.87
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "facial drooping on one side",
+      "difficulty speaking"
+     ],
+     "missing_info": [],
+     "reasoning": "One-sided facial drooping with difficulty speaking are stroke warning signs and need immediate emergency care."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "D4",
+    "valid": true,
+    "latency": 1.7
+   },
+   {
+    "pred": {
+     "status": "need_more_info",
+     "care_type": "gp_teleconsult",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [
+      "What is the patient’s age?",
+      "Is there dizziness/fainting, inability to drink, or very low urine output?"
+     ],
+     "reasoning": "Loose motions for 2 days without vomiting may be manageable remotely, but age and signs of dehydration could raise the need for a same-day in-person assessment."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": true,
+    "id": "D5",
+    "valid": true,
+    "latency": 2.21
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "poisoning",
+      "ingestion of insecticide"
+     ],
+     "missing_info": [],
+     "reasoning": "Reported insecticide ingestion is a poisoning red flag that needs emergency care immediately."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "D6",
+    "valid": true,
+    "latency": 1.55
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "nurse",
+     "urgency": "same_day",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "A non-healing foot wound in a person with diabetes needs prompt in-person wound care and assessment, though no emergency red flags were provided."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "D7",
+    "valid": true,
+    "latency": 1.69
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "gp_teleconsult",
+     "urgency": "routine",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "A 4-year-old with cough since last night and no breathing difficulty has no stated red flags and can start with a remote doctor consultation."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "D8",
+    "valid": true,
+    "latency": 1.81
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "emergency",
+     "urgency": "immediate",
+     "red_flags": [
+      "suicidal thoughts"
+     ],
+     "missing_info": [],
+     "reasoning": "Suicidal ideation is an emergency red flag that requires immediate in-person emergency help."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": true,
+    "pred_emergency": true,
+    "under": false,
+    "asked": false,
+    "id": "D9",
+    "valid": true,
+    "latency": 1.43
+   },
+   {
+    "pred": {
+     "status": "final",
+     "care_type": "nurse",
+     "urgency": "routine",
+     "red_flags": [],
+     "missing_info": [],
+     "reasoning": "The request is for nursing care in an elderly bedridden patient without any reported acute symptoms or red-flag signs, so a routine nurse visit is the best fit."
+    },
+    "care_ok": true,
+    "urg_ok": true,
+    "emergency": false,
+    "pred_emergency": false,
+    "under": false,
+    "asked": false,
+    "id": "D10",
+    "valid": true,
+    "latency": 1.74
+   }
+  ]
  }
 }
