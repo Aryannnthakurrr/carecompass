@@ -1,6 +1,6 @@
 import * as api from './api.js';
 import { startRecording, speak, stopSpeaking, BANDS } from './voice.js';
-import { LANGS, t, careText, urgencyText, detectLang, chipsFor, slotLabel } from './i18n.js';
+import { LANGS, t, careText, urgencyText, flagText, detectLang, chipsFor, slotLabel } from './i18n.js';
 import { LOCALITIES, nearestLocality } from './geo.js';
 import { icon } from './icons.js';
 
@@ -16,7 +16,11 @@ const EXAMPLES = [
   'I need a nurse to change a wound dressing at home',
   'मेरी माँ के घुटनों में 3 महीने से दर्द है',
 ];
-const CARE_ICON = { paramedic_home_visit: 'homePlus', nurse: 'syringe', gp_teleconsult: 'video', specialist: 'stethoscope', emergency: 'alert' };
+const CARE_ICON = {
+  paramedic_home_visit: 'homePlus', home_nursing: 'syringe', lab_test_home: 'flask', teleconsultation: 'video', emergency_112: 'alert',
+  nurse: 'syringe', gp_teleconsult: 'video', specialist: 'stethoscope', emergency: 'alert', // offline mock's labels
+};
+const VIDEO_CARE = new Set(['teleconsultation', 'gp_teleconsult']);
 
 const state = {
   lang: LANGS.some(l => l.code === store.get('cc.lang')) ? store.get('cc.lang') : 'en',
@@ -241,7 +245,7 @@ async function submit(text, { echo = true } = {}) {
   handle(res);
 }
 
-const isEmergency = res => res.care_type === 'emergency' || res.red_flags?.length > 0;
+const isEmergency = res => ['emergency_112', 'emergency'].includes(res.care_type) || res.red_flags?.length > 0;
 
 function addQuestion(q, { live = true } = {}) {
   const chips = live ? chipsFor(q) : [];
@@ -324,7 +328,7 @@ const hue = s => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 360, 7);
 function caregiverCard(cg, i, careType) {
   const name = cg.name || cg.caregiver_id;
   const pct = Math.round(Math.max(0, Math.min(1, cg.score ?? 0)) * 100);
-  const video = careType === 'gp_teleconsult';
+  const video = VIDEO_CARE.has(careType);
   const meta = [
     video ? [icon('video'), T('videoCall')] : cg.distance_km != null && [icon('pin'), T('km', { n: (+cg.distance_km).toFixed(1) })],
     cg.next_slot && [icon('clock'), slotText(cg.next_slot)],
@@ -401,7 +405,7 @@ async function book(cg, card, btn, careType) {
   setStep(3);
 
   const name = cg.name || cg.caregiver_id;
-  const video = careType === 'gp_teleconsult';
+  const video = VIDEO_CARE.has(careType);
   const row = (k, v) => [h('dt', {}, k), h('dd', {}, v)];
   openSheet(h('div', { class: 'booked' },
     h('div', { class: 'check-anim', 'aria-hidden': 'true' }, icon('check')),
@@ -433,7 +437,7 @@ function emergencyCard(res) {
   const flags = res.red_flags || [];
   return h('article', { class: 'card em-card' },
     h('div', { class: 'em-card-head' }, icon('alert'), h('h3', {}, T('emTitle'))),
-    flags.length && h('div', { class: 'em-flag-list' }, flags.map(f => h('span', { class: 'em-flag' }, f))),
+    flags.length && h('div', { class: 'em-flag-list' }, flags.map(f => h('span', { class: 'em-flag' }, flagText(state.lang, f)))),
     res.reasoning && h('p', { class: 'em-card-why' }, res.reasoning),
     h('div', { class: 'em-card-actions' },
       h('a', { class: 'em-mini primary', href: 'tel:112' }, icon('phone'), T('call112')),
@@ -446,7 +450,7 @@ function showEmergency(res) {
   const flags = res.red_flags || [];
   closeVoice();
   $('#emFlags').replaceChildren(...(flags.length
-    ? [h('p', { class: 'em-flags-title' }, T('emNoticed')), h('div', { class: 'em-flag-list' }, flags.map(f => h('span', { class: 'em-flag' }, f)))]
+    ? [h('p', { class: 'em-flags-title' }, T('emNoticed')), h('div', { class: 'em-flag-list' }, flags.map(f => h('span', { class: 'em-flag' }, flagText(state.lang, f))))]
     : []));
   addWide(emergencyCard(res));
   openEmergency();

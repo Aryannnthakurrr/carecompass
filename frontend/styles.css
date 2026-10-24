@@ -241,7 +241,7 @@ a { color: inherit; text-decoration: none; }
 .u-dot { width: 10px; height: 10px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 18%, transparent); }
 .urgency.u-same_day { background: var(--amber-50); color: var(--amber); }
 .urgency.u-same_day .u-dot { animation: pulse-dot 1.8s infinite; }
-.urgency.u-immediate { background: var(--red-50); color: var(--red); }
+.urgency.u-emergency, .urgency.u-immediate { background: var(--red-50); color: var(--red); }
 .explain { font-size: 17px; font-weight: 600; color: var(--ink); }
 .why { padding: 12px 14px; border-radius: var(--r-sm); background: #F6F3EC; }
 .why p:last-child { margin-top: 4px; font-size: 15px; color: var(--ink-2); }

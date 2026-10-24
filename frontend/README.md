@@ -7,7 +7,7 @@ Plain HTML/CSS/ES modules, no build step.
 ## Run
 
 ```powershell
-uvicorn app.main:app --port 8000          # API: Sarvam speech (/stt, /tts); needs SARVAM_API_KEY in .env
+uvicorn app.main:app --port 8000          # API: /triage, /stt, /tts; keys in .env
 python -m http.server 5173 -d frontend    # UI, in a second terminal
 ```
 

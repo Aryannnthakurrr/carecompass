@@ -76,13 +76,18 @@ const S = {
     pastChat: 'Past conversation · {date}',
     saveNudge: 'Sign in to keep this booking in your history.', notSaved: 'Couldn’t save this to your history.',
     care: {
-      paramedic_home_visit: ['Paramedic home visit', 'A trained paramedic comes home to check vitals and assess.'],
+      paramedic_home_visit: ['Medic home visit', 'A trained Medic comes home to check the patient; a doctor can join by video.'],
+      home_nursing: ['Home nursing', 'A trained Medic comes home for the procedure: injection, dressing, IV or catheter care.'],
+      lab_test_home: ['Lab test at home', 'A sample collector comes home at a scheduled time.'],
+      teleconsultation: ['Doctor on video call', 'A doctor can help with this safely over a video call.'],
+      emergency_112: ['Emergency: call 112', 'Get emergency help now.'],
       nurse: ['Nurse visit', 'A nurse comes home for care such as dressings, injections or bedside care.'],
       gp_teleconsult: ['Doctor on video call', 'A general doctor can assess this safely over a video call.'],
       specialist: ['Specialist consult', 'A specialist doctor should review this long-standing problem.'],
       emergency: ['Emergency care', 'Get emergency help now.'],
     },
-    urg: { routine: 'Routine · in the next few days', same_day: 'Today', immediate: 'Right now' },
+    urg: { emergency: 'Right now', same_day: 'Today', scheduled: 'Scheduled · at a time you choose', routine: 'Routine · in the next few days', immediate: 'Right now' },
+    flag: { chest_pain: 'Chest pain', breathlessness: 'Trouble breathing', unconsciousness: 'Unconscious or not responding', severe_bleeding: 'Heavy bleeding', stroke_symptoms: 'Stroke signs', seizure: 'Seizure', high_fever_infant: 'Fever in a young baby', suicidal_ideation: 'Thoughts of self-harm', severe_dehydration: 'Severe dehydration' },
     chips: {
       duration: ['Since today', '2–3 days', 'About a week', 'More than a week'],
       age: ['Under 3 months', '3–12 months', '1–12 years', '13–59 years', '60 years or older'],
@@ -158,13 +163,18 @@ const S = {
     pastChat: 'पुरानी बातचीत · {date}',
     saveNudge: 'यह बुकिंग इतिहास में रखने के लिए साइन इन करें।', notSaved: 'इतिहास में सहेजा नहीं जा सका।',
     care: {
-      paramedic_home_visit: ['पैरामेडिक घर पर', 'प्रशिक्षित पैरामेडिक घर आकर जाँच करेंगे।'],
+      paramedic_home_visit: ['मेडिक घर पर', 'प्रशिक्षित मेडिक घर आकर जाँच करेंगे; डॉक्टर वीडियो से जुड़ सकते हैं।'],
+      home_nursing: ['घर पर नर्सिंग', 'प्रशिक्षित मेडिक घर आकर इंजेक्शन, पट्टी, IV या कैथेटर की देखभाल करेंगे।'],
+      lab_test_home: ['घर पर लैब टेस्ट', 'तय समय पर सैंपल लेने वाले घर आएँगे।'],
+      teleconsultation: ['डॉक्टर से वीडियो कॉल', 'डॉक्टर वीडियो कॉल पर सुरक्षित रूप से मदद कर सकते हैं।'],
+      emergency_112: ['आपातकाल: 112 पर कॉल करें', 'अभी आपातकालीन मदद लीजिए।'],
       nurse: ['नर्स विज़िट', 'नर्स घर आकर पट्टी, इंजेक्शन या देखभाल करेंगी।'],
       gp_teleconsult: ['डॉक्टर से वीडियो कॉल', 'डॉक्टर वीडियो कॉल पर सुरक्षित रूप से देख सकते हैं।'],
       specialist: ['विशेषज्ञ डॉक्टर', 'लंबे समय की इस परेशानी को विशेषज्ञ डॉक्टर को दिखाना चाहिए।'],
       emergency: ['आपातकालीन देखभाल', 'अभी आपातकालीन मदद लीजिए।'],
     },
-    urg: { routine: 'सामान्य · अगले कुछ दिनों में', same_day: 'आज ही', immediate: 'तुरंत' },
+    urg: { emergency: 'तुरंत', same_day: 'आज ही', scheduled: 'तय समय पर', routine: 'सामान्य · अगले कुछ दिनों में', immediate: 'तुरंत' },
+    flag: { chest_pain: 'सीने में दर्द', breathlessness: 'साँस लेने में तकलीफ़', unconsciousness: 'बेहोशी', severe_bleeding: 'बहुत ज़्यादा खून', stroke_symptoms: 'लकवे के लक्षण', seizure: 'दौरा', high_fever_infant: 'छोटे शिशु को बुखार', suicidal_ideation: 'खुद को नुकसान के विचार', severe_dehydration: 'पानी की गंभीर कमी' },
     chips: {
       duration: ['आज से', '2–3 दिन से', 'लगभग एक हफ़्ते से', 'एक हफ़्ते से ज़्यादा'],
       age: ['3 महीने से कम', '3–12 महीने', '1–12 साल', '13–59 साल', '60 साल या ज़्यादा'],
@@ -240,13 +250,18 @@ const S = {
     pastChat: 'Purani baatcheet · {date}',
     saveNudge: 'Yeh booking history mein rakhne ke liye sign in karein.', notSaved: 'History mein save nahi ho paya.',
     care: {
-      paramedic_home_visit: ['Paramedic ghar par', 'Trained paramedic ghar aakar vitals check karenge.'],
+      paramedic_home_visit: ['Medic ghar par', 'Trained Medic ghar aakar jaanch karenge; doctor video se jud sakte hain.'],
+      home_nursing: ['Ghar par nursing', 'Trained Medic ghar aakar injection, dressing, IV ya catheter care karenge.'],
+      lab_test_home: ['Ghar par lab test', 'Tay samay par sample collector ghar aayenge.'],
+      teleconsultation: ['Doctor se video call', 'Doctor video call par safely madad kar sakte hain.'],
+      emergency_112: ['Emergency: 112 call karein', 'Abhi emergency madad lijiye.'],
       nurse: ['Nurse visit', 'Nurse ghar aakar dressing, injection ya dekhbhaal karengi.'],
       gp_teleconsult: ['Doctor se video call', 'Doctor video call par safely dekh sakte hain.'],
       specialist: ['Specialist doctor', 'Lambe samay ki is pareshani ko specialist ko dikhana chahiye.'],
       emergency: ['Emergency care', 'Abhi emergency madad lijiye.'],
     },
-    urg: { routine: 'Routine · agle kuch dinon mein', same_day: 'Aaj hi', immediate: 'Turant' },
+    urg: { emergency: 'Turant', same_day: 'Aaj hi', scheduled: 'Tay samay par', routine: 'Routine · agle kuch dinon mein', immediate: 'Turant' },
+    flag: { chest_pain: 'Seene mein dard', breathlessness: 'Saans lene mein takleef', unconsciousness: 'Behoshi', severe_bleeding: 'Bahut khoon', stroke_symptoms: 'Lakwe ke lakshan', seizure: 'Daura', high_fever_infant: 'Chhote bachche ko bukhar', suicidal_ideation: 'Khud ko nuksan ke vichar', severe_dehydration: 'Paani ki gambhir kami' },
     chips: {
       duration: ['Aaj se', '2-3 din se', 'Lagbhag ek hafte se', 'Ek hafte se zyada'],
       age: ['3 mahine se kam', '3-12 mahine', '1-12 saal', '13-59 saal', '60 saal ya zyada'],
@@ -268,6 +283,7 @@ export const careText = (lang, key) => {
   return { label, desc };
 };
 export const urgencyText = (lang, key) => S[lang].urg[key] || humanize(key);
+export const flagText = (lang, key) => S[lang].flag?.[key] || humanize(key);
 
 const HINGLISH = /\b(hai|hain|ho|ko|ka|ki|ke|se|mein|mujhe|meri|mera|nahi|bhi|aur|kya|kab|kaise|kitni|kitne|dard|bukhar|khansi|raha|rahi|papa|mummy|bahut|abhi|kal|din|saal|ji|yeh|umar)\b/gi;
 export function detectLang(s = '') {
