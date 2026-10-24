@@ -24,6 +24,34 @@ function loadLeaflet() {
   }));
 }
 
+// Alarm for the countdown: a rising/falling wail synthesised with Web Audio (no audio file).
+// Browsers allow it because the user has just tapped something on the page.
+let siren = null;
+function startSiren() {
+  stopSiren();
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator(), lp = ctx.createBiquadFilter(), gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    lp.type = 'lowpass';
+    lp.frequency.value = 2600;
+    gain.gain.value = 0.2;
+    osc.connect(lp).connect(gain).connect(ctx.destination);
+    const t = ctx.currentTime;
+    osc.frequency.setValueAtTime(650, t);
+    for (let i = 1; i <= (COUNTDOWN + 2) * 2; i++) osc.frequency.linearRampToValueAtTime(i % 2 ? 1450 : 650, t + i * 0.5);
+    osc.start(t);
+    ctx.resume();
+    siren = ctx;
+  } catch (e) {
+    console.warn('siren unavailable', e);
+  }
+}
+function stopSiren() {
+  siren?.close().catch(() => {});
+  siren = null;
+}
+
 function show(node, mode) {
   el.dataset.mode = mode;
   el.replaceChildren(node);
@@ -36,6 +64,7 @@ function show(node, mode) {
 export function closeSos() {
   if (el.hidden) return;
   run++;
+  stopSiren();
   map?.remove();
   map = null;
   el.classList.remove('open');
@@ -63,6 +92,7 @@ export function openSos(ctx) {
     h('button', { class: 'sos-now', onclick: () => { left = 0; tick(); } }, T('sosNow')),
   ), 'count');
   setTimeout(() => cancel.focus({ preventScroll: true }), 80);
+  startSiren();
 
   let timer = 0;
   function tick() {
@@ -70,7 +100,10 @@ export function openSos(ctx) {
     if (my !== run) return;
     num.textContent = String(left);
     arc.style.strokeDashoffset = String(RING * (1 - left / COUNTDOWN));
-    if (left <= 0) return dispatch(ctx, my);
+    if (left <= 0) {
+      stopSiren();
+      return dispatch(ctx, my);
+    }
     navigator.vibrate?.(80);
     timer = setTimeout(() => { left--; tick(); }, 1000);
   }

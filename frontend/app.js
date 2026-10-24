@@ -510,10 +510,13 @@ function emergencyCard(res) {
     h('div', { class: 'em-card-actions' },
       h('a', { class: 'em-mini primary', href: 'tel:112' }, icon('phone'), T('call112')),
       h('a', { class: 'em-mini', href: 'tel:108' }, icon('phone'), T('call108'))),
+    h('button', { class: 'em-mini amb', onclick: startSos }, icon('ambulance'), T('sosSendAmb')),
     h('button', { class: 'text-btn danger', onclick: openEmergency }, T('emShow')),
   );
 }
 
+// An emergency from triage goes straight into the ambulance countdown (cancelable for 10 s);
+// the card stays in the thread with the call buttons and the pre-written steps.
 function showEmergency(res) {
   const flags = res.red_flags || [];
   closeVoice();
@@ -521,8 +524,7 @@ function showEmergency(res) {
     ? [h('p', { class: 'em-flags-title' }, T('emNoticed')), h('div', { class: 'em-flag-list' }, flags.map(f => h('span', { class: 'em-flag' }, flagText(state.lang, f))))]
     : []));
   addWide(emergencyCard(res));
-  openEmergency();
-  if (state.usedVoice) speak([T('emTitle'), T('emSub'), T('call112'), ...T('emSteps')].join(' '), state.lang, api.tts);
+  startSos();
 }
 
 function openEmergency() {
