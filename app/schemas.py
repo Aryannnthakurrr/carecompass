@@ -32,6 +32,7 @@ class TriageRequest(BaseModel):
     location: Optional[Location] = None
     conversation_history: list[Turn] = Field(default_factory=list, max_length=40)
     mode: Literal["dataset", "smart"] = "dataset"  # dataset: organiser roster + reference matching; smart: providers.csv + dynamic matching
+    input_mode: Literal["text", "voice"] = "text"  # voice: user_input is a speech transcript, so words may be mis-heard
 
 
 class MatchedCaregiver(BaseModel):
@@ -77,14 +78,17 @@ class TriageResponse(BaseModel):
     services_needed: list[str] = Field(default_factory=list)
     match_summary: Optional[str] = None
     possible_causes: list[str] = Field(default_factory=list)
+    # conversation control
+    follow_up_kind: Optional[Literal["medical", "safety_check", "clarify", "redirect", "misheard"]] = None
+    safety_note: Optional[str] = None  # shown with a safety_check question: "if this is happening right now, call 112"
 
 
 # ---------------------------------------------------------------- model I/O
 
 class CaseFacts(BaseModel):
     """Structurer output: what the user said, in English. No decisions."""
-    symptoms_present: list[str] = Field(description="Symptoms the patient HAS, short English clinical phrases")
-    symptoms_denied: list[str] = Field(description="Symptoms the user explicitly says are absent")
+    symptoms_present: list[str] = Field(default_factory=list, description="Symptoms the patient HAS, short English clinical phrases")
+    symptoms_denied: list[str] = Field(default_factory=list, description="Symptoms the user explicitly says are absent")
     onset: Optional[Literal["sudden", "gradual"]] = None
     duration: Optional[str] = None
     patient: Optional[str] = Field(None, description="Who the patient is, e.g. 'father, 70 years', 'baby, 2 months'")
@@ -96,10 +100,20 @@ class CaseFacts(BaseModel):
     severity: Optional[Literal["mild", "moderate", "severe"]] = None
     preferences: list[Literal["quality", "nearby", "budget", "soon", "female", "home", "online", "consult_only", "hospital"]] = Field(
         default_factory=list,
-        description="Only what the user explicitly asks for, in any language: quality (best, experienced, bad past doctor), nearby, "
-                    "budget (cheap, sasta/sasti, kam paise), soon (today, now), female (lady doctor), home, online (video/phone), "
-                    "consult_only (just a consultation, no tests), hospital")
-    detected_language: Lang = Field(description="hi = Devanagari Hindi, hinglish = romanised Hindi/English mix, en = English")
+        description="Only what the user explicitly ASKS FOR about the care, in any language: quality (best, experienced, bad past doctor), "
+                    "nearby, budget (cheap, sasta/sasti, kam paise), soon (wants help today/now; NOT a symptom that started today), "
+                    "female (lady doctor), home, online (video/phone call), consult_only (just a consultation, no tests), "
+                    "hospital (wants a hospital; NOT 'was in hospital')")
+    detected_language: Lang = Field("en", description="hi = Devanagari Hindi, hinglish = romanised Hindi/English mix, en = English")
+    # reading the conversation, not just extracting it
+    age_group: Optional[Literal["infant", "child", "adult", "elderly"]] = Field(None, description="Patient's age group if stated or clear; null if unknown")
+    message_check: Literal["ok", "unclear", "off_topic", "nonsense", "abusive", "mixed_up", "contradictory"] = Field(
+        "ok", description="Is the conversation usable as a health request? See the rules.")
+    check_notes: list[str] = Field(default_factory=list, max_length=3, description="What is wrong with the conversation, in plain English; empty if ok")
+    not_literal: list[str] = Field(default_factory=list, max_length=3,
+                                   description="Alarming words NOT meant literally or denied (figure of speech, joke, past event), e.g. 'heart attack (figure of speech)'")
+    user_wants: Optional[str] = Field(None, description="What the user is asking for, in a few English words")
+    no_more_questions: bool = Field(False, description="True if the user refuses further questions or says just give me a doctor")
 
 
 class Decision(BaseModel):

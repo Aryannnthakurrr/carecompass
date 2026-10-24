@@ -39,6 +39,11 @@ models:
 
     timeout_s: 20                # MedGemma skipped (Qwen decides alone) if Ollama is down or slow
     tie_break: second_opinion    # same urgency, different care type -> Qwen until MedGemma is fine-tuned
+    medgemma_vote: false         # MedGemma's 6-way vote in dataset mode: added no emergencies on held-out data and
+                                 # queued behind the screener on the one GPU; MedGemma's job here is the emergency screen
+    screener:                    # MedGemma emergency screen (app/screen.py): a "yes" asks to confirm first, then escalates
+      enabled: true
+      num_predict: 500           # room for danger signs + reasoning + check question
 
 # Organiser taxonomy (training/README.md, Sanocare dataset v1).
 labels:

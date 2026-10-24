@@ -7,7 +7,7 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
-from app import llm
+from app import intake, llm
 from app.lexicon import SERVICES, SPECIALTY_TAGS, TEST_KINDS, Hints
 
 TEST_TAGS = tuple(t for t, v in SERVICES.items() if v[1] in TEST_KINDS)
@@ -44,7 +44,9 @@ services_needed: procedures needed, from {list(PROC_TAGS)}.
 consult_first: true when a doctor should examine first or the user asked only for a consultation.
 status: need_more_info when seriousness depends on details the user has not given. Bleeding: where from, how much, how it
   happened, does it stop with pressure. Injury: how it happened, can they move it, swelling. Pain: where, how bad, since when.
-  Fever: age, how high, how long. Ask at most 2 plain questions in missing_info. Never ask again about details already given.
+  Fever: age, how high, how long. Ask at most 2 plain questions in missing_info, only when the answer could change seriousness
+  or care_type. Once who/how old and since when are known, or a service is named, decide (final). Never ask what is already
+  answered or already asked (listed after the facts). If the user wants no more questions, decide with what you have.
 Any red flag (uncontrolled bleeding, chest pain, breathlessness, unconsciousness, stroke signs, seizure, poisoning, infant fever,
 suicidal thoughts) => emergency_112, seriousness emergency, status final.
 
@@ -63,13 +65,18 @@ Examples (facts -> decision):
 RANK = {s: i for i, s in enumerate(SERIOUSNESS)}
 
 
-def _payload(facts, hints: Hints) -> str:
-    d = facts.model_dump(exclude={"detected_language"}, exclude_none=True)
-    d = {k: v for k, v in d.items() if v not in ([], "")}
+def _payload(facts, hints: Hints, asked: list[str] = ()) -> str:
+    d = json.loads(intake.facts_for_models(facts))
     if hints.preferences:
         d["preferences"] = hints.preferences
     h = {k: v for k, v in hints.as_dict().items() if k != "preferences"}
-    return f"Patient facts: {json.dumps(d, ensure_ascii=False)}\nKeyword hints: {json.dumps(h)}"
+    out = f"Patient facts: {json.dumps(d, ensure_ascii=False)}\nKeyword hints: {json.dumps(h)}"
+    if asked:
+        out += ("\nQuestions already asked (a detail asked but still missing means the user did not say: do not ask it again): "
+                + json.dumps(list(asked), ensure_ascii=False))
+    if facts.no_more_questions:
+        out += "\nThe user wants no more questions: decide now."
+    return out
 
 
 def _safe(fn):
@@ -79,8 +86,8 @@ def _safe(fn):
         return None
 
 
-def classify(facts, hints: Hints) -> tuple[Optional[SmartDecision], dict]:
-    user = _payload(facts, hints)
+def classify(facts, hints: Hints, asked: list[str] = ()) -> tuple[Optional[SmartDecision], dict]:
+    user = _payload(facts, hints, asked)
     with ThreadPoolExecutor(max_workers=2) as ex:
         f_med = ex.submit(llm.medgemma, SYSTEM, user, SmartDecision)
         f_qwen = ex.submit(lambda: _safe(lambda: llm.chat(SYSTEM, user, SmartDecision)))

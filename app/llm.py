@@ -74,12 +74,12 @@ def chat(system: str, user: str, cls: Optional[type[BaseModel]] = None):
     raise RuntimeError(f"all conversation models failed: {last}")
 
 
-def medgemma(system: str, user: str, cls: type[BaseModel]) -> Optional[BaseModel]:
+def medgemma(system: str, user: str, cls: type[BaseModel], num_predict: int = 400) -> Optional[BaseModel]:
     """MedGemma via Ollama with grammar-constrained JSON. None if Ollama is down, slow or the output is invalid."""
     m = MODELS["classifier"]
     base = m["base_url"].removesuffix("/v1")
     body = {"model": m["model"], "stream": False, "keep_alive": -1, "format": cls.model_json_schema(),
-            "options": {"temperature": 0, "num_predict": 400},
+            "options": {"temperature": 0, "num_predict": num_predict},
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}]}
     try:
         r = httpx.post(f"{base}/api/chat", json=body, timeout=m.get("timeout_s", 20))
