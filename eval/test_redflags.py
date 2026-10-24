@@ -20,6 +20,9 @@ FIRE = [
     "pregnant woman, bleeding a lot", "heavy vaginal bleeding", "passing clots",
     "limb jerking", "head injury from cane, increased drowsiness and vomiting", "सिर में चोट लगी और उल्टी हो रही है",
     "my baby is 2 months old and has fever",
+    "i want to die", "mar jaana chahta hoon", "मर जाना चाहता हूँ", "i wish i was dead",
+    "when he bombs a building the people end up injured", "dhamaka hua, log ghayal hain", "इमारत गिर गई, लोग फँसे हैं",
+    "my son is drowning", "bijli ka current lag gaya", "saanp ne kaat liya", "baby is choking on a coin", "severe burns on his chest",
 ]
 QUIET = [
     "no chest pain", "seene mein dard nahi hai", "he doesn’t have chest pain", "he doesnt have chest pain",
@@ -29,6 +32,9 @@ QUIET = [
     "सिर में चोट लगी थी, सिलाई हो गई", "mild acidity, burning in chest after food", "heavy periods every month",
     "chest congestion with cold", "tingling in fingers", "confusion about medicine dose", "not eating",
     "weakness, high body temperature, throat pain, difficulty speaking",
+    "i will die if hamilton dont win", "he bombs buildings", "no blast, nobody hurt", "i am dying to see the match",
+    "this movie was a bomb", "small burn on finger from tea", "severe burning sensation in stomach", "current bill is high",
+    "choked up at the wedding", "dog bite on leg",
 ]
 
 

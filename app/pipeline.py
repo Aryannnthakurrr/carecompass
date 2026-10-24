@@ -60,7 +60,7 @@ def _infer_flags(*texts: str) -> list[str]:
 
 def _emergency(flags: list[str], extra: list[str], lang: str, mode: str, why: str | None = None, texts=()) -> TriageResponse:
     flags = flags or _infer_flags(*texts, why or "")
-    e = emergency_text.card(flags, lang)
+    e = emergency_text.card(flags + extra, lang)
     named = ", ".join(flags + extra) or "red-flag signs"
     return TriageResponse(
         care_type="emergency_112", urgency="emergency", red_flags=flags, mode=mode,
@@ -131,7 +131,11 @@ def _missing_basics(facts: CaseFacts, asked: int) -> list[str]:
     gaps = _basic_gaps(facts)
     if asked < BASICS_ASKS:
         return gaps
-    return [g for g in gaps if "old" in g][:1] if asked < MAX_FOLLOW_UPS else []
+    if asked >= MAX_FOLLOW_UPS:
+        return []
+    # asking the age again: say why, so it doesn't read as the same question ignored twice
+    return ["how old the patient is (asked once already: add in a few words that fever in a small baby needs very different "
+            "care than in an adult)"] if any("old" in g for g in gaps) else []
 
 
 def _kind(t) -> str:

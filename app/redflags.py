@@ -57,7 +57,9 @@ RULES = {
     "suicidal_ideation": [
         r"suicid", r"kill (my|him|her)self", r"end (my|his|her) life", r"(don'?t|do not) want to live", r"no reason to live",
         r"jee+ne ka (mann?|man) nahi", r"jeena nahi chaht", r"marna chaht", r"khudkushi", r"aatmahatya",
-        r"जीने का मन नहीं", r"जीना नहीं चाहत", r"मरना चाहत", r"खुदकुशी", r"आत्महत्या",
+        r"\bwant(s|ed)? to die\b", r"wish (i|he|she) (was|were) dead", r"better off dead", r"\b(hurt|harm)(ing)? (my|him|her)self",
+        r"mar jaa?n(a|e|aa) chaht", r"marne ka (mann?|man)", r"khud ko (khatam|nuksaan)",
+        r"जीने का मन नहीं", r"जीना नहीं चाहत", r"मरना चाहत", r"मर जाना चाहत", r"मरने का मन", r"खुद को (खत्म|ख़त्म|नुकसान)", r"खुदकुशी", r"आत्महत्या",
     ],
     "severe_dehydration": [
         r"severe(ly)? dehydrat", r"(no|not passed|hasn'?t passed) urine", r"sunken eyes",
@@ -70,6 +72,19 @@ EXTRA = {
     "severe_head_injury": [r"head injury.{0,80}(bleed|unconscious|vomit|drows|confus)", r"sar (pe|par|mein) (gehri )?chot.{0,30}(khoon|behosh|ulti)",
                            r"सिर (पर|में) (गहरी )?चोट.{0,60}(खून|बेहोश|उल्टी|उलटी|होश|उलझन)"],
     "anaphylaxis": [r"(face|throat|tongue) (is )?swell", r"gala sooj", r"गला सूज"],
+    # events rather than symptoms (from a teammate's edge-case log): the injury is implied by what happened
+    "mass_casualty": [r"(blast|explosion|explode|bomb|building (collapse|fell|on fire)|collapsed building|stampede|fire in (the|our|a) building)"
+                      r".{0,80}(injur|hurt|trapped|bleed|dying|dead|unconscious|need (immediate )?(help|support))",
+                      r"(injur|trapped|bleeding|dying)\w*.{0,60}(blast|explosion|bomb|collapse|stampede|fire)",
+                      r"(dhamaka|visphot|imarat gir|building gir|bhagdad|aag lag).{0,60}(ghayal|zakhmi|fans|phas|khoon|mar gaye|behosh)",
+                      r"(धमाका|विस्फोट|इमारत गिर|भगदड़|आग लग).{0,60}(घायल|ज़ख़्मी|ज़ख्मी|फँस|फंस|खून|मर गए|बेहोश)"],
+    "drowning": [r"drown", r"doob (gaya|gayi|gaye|raha|rahi)", r"pani mein doob", r"डूब (गया|गई|गए|रहा|रही)"],
+    "electric_shock": [r"electrocut", r"electric shock", r"(current|bijli|करंट|बिजली)( ka)?( jhatka| झटका)? (lag|लग)"],
+    "snake_bite": [r"snake ?bite", r"bitten by a snake", r"(saa?n?p|snake) ne kaa?t", r"साँप ने काट", r"सांप ने काट"],
+    "choking": [r"chok(ing|ed) on", r"(is|was) choking", r"can'?t (swallow|breathe).{0,20}(stuck|coin|food)",
+                r"gale mein .{0,15}(atak|phas|fans)", r"गले में .{0,15}(अटक|फँस|फंस)"],
+    "severe_burns": [r"(severe|bad|badly|major|large) burns?\b", r"burn(s|ed|t)? (all over|on (the |his |her )?(face|chest|whole body))",
+                     r"(poora|pura|bahut zyada) jal (gaya|gayi|gaye)", r"(पूरा|बुरी तरह) जल (गया|गई|गए)"],
 }
 
 # an infant's AGE, not a duration such as "2 days": newborn, "6 weeks old", "2 month old", "do mahine ka", "दो महीने की".

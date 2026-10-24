@@ -105,11 +105,16 @@ def kind_of(text: str) -> str:
     return "medical"
 
 
+HINDI_BANNED = re.compile(r"डेंगू|मलेरिया|टाइफ़?ाइड|कोविड|कोरोना|निमोनिया|टीबी|तपेदिक|डायबिटीज़?|मधुमेह|अस्थमा|दमा|पीलिया|कैंसर|"
+                          r"पैरासिटामोल|क्रोसिन|डोलो|एंटीबायोटिक|एस्पिरिन|इबुप्रोफ़?ेन|"
+                          r"(sugar ki bimari|peeliya|tapedik|antibiotic|paracetamol)", re.I)
+
+
 def scrub(text: str | None, fallback: str | None = None) -> str | None:
-    """Drop every sentence that names a disease or a medicine; nothing left -> fallback."""
+    """Drop every sentence that names a disease or a medicine (English, Hindi, Hinglish); nothing left -> fallback."""
     if not text:
         return text
-    keep = [x for x in re.split(r"(?<=[.!?।])\s+", text) if not (DISEASE.search(x) or MEDICINE.search(x))]
+    keep = [x for x in re.split(r"(?<=[.!?।])\s+", text) if not (DISEASE.search(x) or MEDICINE.search(x) or HINDI_BANNED.search(x))]
     return " ".join(keep) or fallback
 
 

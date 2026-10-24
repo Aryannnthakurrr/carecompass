@@ -158,8 +158,43 @@ CARDS = {
                      "explanation": "Seene mein dard ya dabav mein ghar par care nahi, emergency madad chahiye. Kripya abhi 112 ya 108 par call karein."},
     },
 }
+CARDS["snake_bite"] = {
+    "en": {"title": "A snake bite needs emergency care now.",
+           "steps": ["Call 112 or 108 and go to the nearest hospital right away.",
+                     "Keep the person still and calm, the bitten limb still and below heart level. Remove rings or tight items.",
+                     "Do not cut the wound, suck it, tie a tight band, or apply anything to it."],
+           "explanation": "Any snake bite needs hospital care quickly, even if it looks small. Please call 112 or 108 now."},
+    "hi": {"title": "साँप के काटने पर तुरंत आपातकालीन मदद चाहिए।",
+           "steps": ["112 या 108 पर कॉल करें और तुरंत नज़दीकी अस्पताल जाएँ।",
+                     "व्यक्ति को शांत और स्थिर रखें, काटा हुआ हिस्सा न हिलाएँ और दिल से नीचे रखें। अँगूठी या कसी चीज़ें उतार दें।",
+                     "घाव को न काटें, न चूसें, कसकर न बाँधें, और उस पर कुछ न लगाएँ।"],
+           "explanation": "साँप काटने पर, चाहे घाव छोटा दिखे, जल्दी अस्पताल पहुँचना ज़रूरी है। कृपया अभी 112 या 108 पर कॉल करें।"},
+    "hinglish": {"title": "Saanp ke kaatne par turant emergency madad chahiye.",
+                 "steps": ["112 ya 108 par call karein aur turant nazdeeki hospital jayein.",
+                           "Insaan ko shaant aur sthir rakhein, kaata hua hissa na hilayein aur dil se neeche rakhein. Angoothi ya kasi cheezein utaar dein.",
+                           "Ghaav ko na kaatein, na choosein, kaskar na baandhein, aur us par kuch na lagayein."],
+                 "explanation": "Saanp kaatne par, chahe ghaav chhota dikhe, jaldi hospital pahunchna zaroori hai. Kripya abhi 112 ya 108 par call karein."},
+}
+CARDS["choking"] = {
+    "en": {"title": "Choking is an emergency. Act now.",
+           "steps": ["If they can cough, keep them coughing. If they cannot breathe, speak or cough, call 112 or 108 now.",
+                     "Adult or child: lean them forward and give up to 5 firm blows between the shoulder blades.",
+                     "Baby: lay face down along your forearm, head lower, and give up to 5 back blows. Do not put fingers in the mouth blindly."],
+           "explanation": "Something stuck in the throat needs help right now. Call 112 or 108 if they cannot breathe or cough."},
+    "hi": {"title": "गले में कुछ अटकना आपातकाल है। अभी मदद करें।",
+           "steps": ["अगर खाँस पा रहे हैं तो खाँसते रहने दें। साँस, बोल या खाँस न पाएँ तो अभी 112 या 108 पर कॉल करें।",
+                     "बड़े या बच्चे को आगे झुकाकर कंधों के बीच 5 बार ज़ोर से थपकी दें।",
+                     "शिशु को बाँह पर उल्टा लिटाकर, सिर नीचे रखते हुए, पीठ पर 5 बार थपकी दें। बिना देखे मुँह में उँगली न डालें।"],
+           "explanation": "गले में कुछ अटका हो तो अभी मदद चाहिए। साँस या खाँसी न आए तो 112 या 108 पर कॉल करें।"},
+    "hinglish": {"title": "Gale mein kuch atakna emergency hai. Abhi madad karein.",
+                 "steps": ["Agar khaans pa rahe hain to khaanste rehne dein. Saans, bol ya khaans na paayein to abhi 112 ya 108 par call karein.",
+                           "Bade ya bachche ko aage jhukakar kandhon ke beech 5 baar zor se thapki dein.",
+                           "Baby ko baanh par ulta litakar, sir neeche rakhte hue, peeth par 5 baar thapki dein. Bina dekhe munh mein ungli na daalein."],
+                 "explanation": "Gale mein kuch atka ho to abhi madad chahiye. Saans ya khaansi na aaye to 112 ya 108 par call karein."},
+}
 # the card shown is the first red flag in this order
-PRIORITY = ["suicidal_ideation", "seizure", "severe_bleeding", "high_fever_infant", "unconsciousness", "stroke_symptoms", "chest_pain"]
+PRIORITY = ["suicidal_ideation", "choking", "seizure", "severe_bleeding", "snake_bite", "high_fever_infant", "unconsciousness",
+            "stroke_symptoms", "chest_pain"]
 
 
 def card(flags: list[str], lang: str) -> dict:

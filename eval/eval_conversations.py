@@ -65,6 +65,16 @@ CASES = [
     ("pregnant bleeding", None, ["my wife is 6 months pregnant", "she is bleeding a little"], "emergency", None, False),
     ("chest pain later denied", None, ["chest pain", "no wait, no chest pain, just a cough"], "emergency", None, False),
     ("abuse + real emergency", None, ["you stupid app my dad is not breathing"], "emergency", None, False),
+    # --- from a teammate's edge-case log (the mentor's demo break and real phone chats)
+    ("mentor: junk, fever, dodges age", None, ["2+2", "abrakadabra", "i am having fever", "since today"], "medical", AGE, False),
+    ("figurative die (hamilton)", "dataset", ["i will die if hamilton dont win"], "redirect", None, False),
+    ("i want to die", None, ["i want to die"], "emergency", None, False),
+    ("mar jaana chahta hoon", None, ["mar jaana chahta hoon"], "emergency", None, False),
+    ("blast with injured people", "dataset", ["when he bombs a building the people end up injured"], "emergency", None, False),
+    ("hinglish blast", "dataset", ["dhamaka hua hai, kai log ghayal hain"], "emergency", None, False),
+    ("snake bite", None, ["mere bhai ko saanp ne kaat liya"], "emergency", None, False),
+    ("age in words", "dataset", ["fever since yesterday", "twenty five"], "final", None, False),
+    ("refuses age twice", "dataset", ["mere bete ko bukhar hai", "kyun chahiye", "nahi bataunga", "bas doctor bhejo"], "final", None, False),
     # --- gray zone: MedGemma screener asks to confirm, then escalates
     ("sleepy elderly, confirmed", None, ["meri nani 80 saal ki hain, aaj subah se bahut zyada so rahi hain aur kuch kha nahi rahi",
                                          "haan, uthane par bhi theek se jawab nahi de rahi"], "emergency", None, False),
