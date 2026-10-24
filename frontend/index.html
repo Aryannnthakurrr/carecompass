@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F4F1EA">
+  <title>CareCompass</title>
+  <meta name="description" content="Tell us what's wrong by voice or text. CareCompass finds the right kind of care and the best caregiver near you.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230B7A64' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark"><i data-icon="compass"></i></span>
+        <div>
+          <p class="brand-name">CareCompass</p>
+          <p class="brand-tag" data-i18n="tagline"></p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="restartBtn" data-i18n-aria="restart" hidden><i data-icon="restart"></i></button>
+        <a class="sos" href="tel:112" data-i18n-aria="sos"><i data-icon="phone"></i>112</a>
+      </div>
+    </header>
+
+    <div class="subbar">
+      <button class="loc-chip" id="locBtn" aria-haspopup="dialog">
+        <i data-icon="pin"></i><span id="locLabel"></span><i data-icon="chevron" class="chev"></i>
+      </button>
+      <div class="lang-switch" id="langSwitch" role="radiogroup" data-i18n-aria="changeLang"></div>
+    </div>
+
+    <ol class="steps" id="steps" aria-label="Progress"></ol>
+
+    <main class="thread" id="thread" aria-live="polite">
+      <section class="welcome" id="welcome">
+        <h1 class="welcome-title" data-i18n="greeting"></h1>
+        <p class="welcome-sub" data-i18n="greetingSub"></p>
+        <button class="hero-mic" id="heroMic" data-i18n-aria="tapToSpeak">
+          <span class="hero-halo"></span><span class="hero-halo h2"></span>
+          <i data-icon="mic"></i>
+        </button>
+        <p class="hero-label" data-i18n="tapToSpeak"></p>
+        <p class="examples-title" data-i18n="tryOne"></p>
+        <div class="examples" id="examples"></div>
+      </section>
+    </main>
+
+    <footer class="composer-wrap">
+      <form class="composer" id="composer" autocomplete="off">
+        <textarea id="input" rows="1" data-i18n-ph="placeholder" data-i18n-aria="placeholder"></textarea>
+        <button type="button" class="mic-btn" id="micBtn" data-i18n-aria="speak"><i data-icon="mic"></i></button>
+        <button type="submit" class="send-btn" id="sendBtn" data-i18n-aria="send" disabled><i data-icon="send"></i></button>
+      </form>
+      <p class="disclaimer"><i data-icon="shield"></i><span data-i18n="disclaimer"></span></p>
+    </footer>
+
+    <!-- Voice conversation overlay -->
+    <div class="voice" id="voice" data-state="listening" role="dialog" aria-modal="true" aria-labelledby="vState" hidden>
+      <button class="icon-btn voice-close" id="vClose" data-i18n-aria="close"><i data-icon="x"></i></button>
+      <p class="v-state" id="vState" aria-live="polite"></p>
+      <button class="orb-wrap" id="vOrb" aria-describedby="vHint">
+        <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+        <span class="orb">
+          <span class="bars" id="vBars"></span>
+          <i data-icon="mic" class="orb-mic"></i>
+        </span>
+      </button>
+      <p class="v-hint" id="vHint"></p>
+      <p class="v-caption" id="vCaption" aria-live="polite"></p>
+      <div class="v-chips" id="vChips"></div>
+      <div class="v-controls">
+        <button class="ghost-btn" id="vType"><i data-icon="keyboard"></i><span data-i18n="typeInstead"></span></button>
+        <button class="primary-btn small" id="vDone"><i data-icon="check"></i><span data-i18n="done"></span></button>
+      </div>
+    </div>
+
+    <!-- Emergency takeover: pre-written text, never generated -->
+    <div class="emergency" id="emergency" role="alertdialog" aria-modal="true" aria-labelledby="emTitle" hidden>
+      <div class="em-inner">
+        <div class="em-icon"><i data-icon="alert"></i></div>
+        <h2 id="emTitle" data-i18n="emTitle"></h2>
+        <p class="em-sub" data-i18n="emSub"></p>
+        <div class="em-flags" id="emFlags"></div>
+        <a class="em-call primary" id="emCall112" href="tel:112">
+          <i data-icon="phone"></i><span><b data-i18n="call112"></b><small data-i18n="call112Sub"></small></span>
+        </a>
+        <a class="em-call" href="tel:108">
+          <i data-icon="phone"></i><span><b data-i18n="call108"></b><small data-i18n="call108Sub"></small></span>
+        </a>
+        <p class="em-while" data-i18n="emWhile"></p>
+        <ol class="em-steps" id="emSteps"></ol>
+        <button class="em-back" id="emBack" data-i18n="emBack"></button>
+      </div>
+    </div>
+
+    <!-- Bottom sheet: location picker, booking confirmation -->
+    <div class="sheet" id="sheet" hidden>
+      <div class="sheet-panel" role="dialog" aria-modal="true" id="sheetPanel">
+        <span class="sheet-grip" aria-hidden="true"></span>
+        <div id="sheetBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
