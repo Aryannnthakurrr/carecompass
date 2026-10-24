@@ -105,6 +105,7 @@ def _medical(facts: CaseFacts) -> bool:
 
 
 BASICS_ASKS = 2  # questions the enough-facts guard may spend; after that a user who won't say still gets care
+ASK_SEVERITY = CFG["intake"].get("ask_severity", True)  # also ask how bad / how high (off for an organiser scoring run)
 ADULT_RELATION = re.compile(r"father|mother|papa|mummy|\bdad\b|\bmom\b|husband|wife|pati|patni|grand|dada|dadi|nana|nani|uncle|"
                             r"aunt|in-law|पापा|मम्मी|पिता|माँ|माता|पति|पत्नी|दादा|दादी|नाना|नानी|ससुर|सास", re.I)
 
@@ -116,7 +117,7 @@ def _age_stated(facts: CaseFacts) -> bool:
     return bool(facts.special_population or re.search(r"\d", p) or ADULT_RELATION.search(p))
 
 
-def _basic_gaps(facts: CaseFacts) -> list[str]:
+def _basic_gaps(facts: CaseFacts, severity: bool = True) -> list[str]:
     """What a symptom complaint lacks to be routed safely: who (for fever, the age group) and since when.
     Explicit requests (a named service or kind of visit) need neither: the user already knows what they want."""
     if not facts.symptoms_present or facts.services_requested or facts.setting_requested not in (None, "unspecified"):
@@ -129,7 +130,18 @@ def _basic_gaps(facts: CaseFacts) -> list[str]:
         missing.append("how old the patient is")
     if not facts.duration:
         missing.append("since when")
-    return missing[:2]
+    if severity and ASK_SEVERITY and not (facts.severity or facts.vitals_reported):
+        missing.append(_severity_ask(facts, fever))
+    return missing[:2]  # at most two facts per question; the third comes in the next one
+
+
+def _severity_ask(facts: CaseFacts, fever: bool) -> str:
+    """How bad: the fact that most often moves the care type once who and how long are known."""
+    if fever:
+        return "how high the temperature is"
+    if any(s.lower().strip() in ("pain", "ache", "dard", "body pain", "hurting", "swelling") for s in facts.symptoms_present):
+        return "where exactly it hurts and how bad it is (mild, moderate or severe)"  # only "pain" said: where is unknown
+    return "how bad it is (mild, moderate or severe)"
 
 
 def _missing_basics(facts: CaseFacts, asked: int) -> list[str]:
@@ -290,7 +302,7 @@ def _run(req: TriageRequest) -> TriageResponse:
     # 5. classifier + MedGemma's emergency screen, in parallel. The screen waits until who/age and since-when are known
     #    (with them missing it tends to assume an infant), unless the user won't say or the question budget is spent:
     #    then it runs anyway, told the age is not stated, so the least forthcoming users still get a safety screen.
-    basics_known = not _basic_gaps(facts) or facts.no_more_questions or asked >= BASICS_ASKS
+    basics_known = not _basic_gaps(facts, severity=False) or facts.no_more_questions or asked >= BASICS_ASKS
     scr = _POOL.submit(screen.screen, facts) if basics_known and screen.wanted(facts) else None
     if req.mode == "smart":
         return _run_smart(req, facts, user_turns, asked_qs, asked, lang, t0, scr, safety_note)

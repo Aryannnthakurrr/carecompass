@@ -79,6 +79,7 @@ labels:
 
 intake:
   max_follow_ups: 4
+  ask_severity: true             # a symptom complaint is asked who/age, since when AND how bad (fever: how high) before routing
 
 smart:
   providers_csv: data/providers.csv
