@@ -1,4 +1,4 @@
-"""CareCompass REST API: speech, sign-in, and per-user history. /triage is not wired yet (the UI uses its mock)."""
+"""CareCompass REST API: /triage (the organiser contract), speech, sign-in, and per-user history."""
 import json
 import logging
 import secrets
@@ -11,8 +11,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from pydantic import BaseModel, Field
 
-from app import auth, db, speech
+from app import auth, db, pipeline, speech
 from app.auth import current_user
+from app.schemas import TriageRequest, TriageResponse
 
 log = logging.getLogger("carecompass")
 MAX_AUDIO_BYTES = 10 * 1024 * 1024  # ~10 min of webm/opus; a spoken turn is far smaller
@@ -28,6 +29,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(auth.router)
+
+
+@app.post("/triage", response_model=TriageResponse)
+def triage(body: TriageRequest):
+    """Returns either a follow_up_question (decision fields null) or a decision with matched caregivers."""
+    return pipeline.run(body)
 
 
 @app.post("/stt")

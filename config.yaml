@@ -36,25 +36,54 @@ models:
       model: qwen-3.8-27b
     combine: more_urgent_wins
 
-# Replace with organiser label strings once the taxonomy is released.
+    timeout_s: 20                # MedGemma skipped (Qwen decides alone) if Ollama is down or slow
+    tie_break: second_opinion    # same urgency, different care type -> Qwen until MedGemma is fine-tuned
+
+# Organiser taxonomy (training/README.md, Sanocare dataset v1).
 labels:
   care_types:
     - paramedic_home_visit
-    - nurse
-    - gp_teleconsult
-    - specialist
-    - emergency
+    - home_nursing
+    - lab_test_home
+    - teleconsultation
+    - emergency_112
   urgency:
-    - routine
+    - emergency
     - same_day
-    - immediate
+    - scheduled
+  red_flags:
+    - chest_pain
+    - breathlessness
+    - unconsciousness
+    - severe_bleeding
+    - stroke_symptoms
+    - seizure
+    - high_fever_infant
+    - suicidal_ideation
+    - severe_dehydration
+  # In all 340 organiser examples urgency is fixed by care type.
+  urgency_for_care:
+    emergency_112: emergency
+    paramedic_home_visit: same_day
+    home_nursing: same_day
+    teleconsultation: same_day
+    lab_test_home: scheduled
 
 intake:
   max_follow_ups: 4
 
 matching:
+  caregivers_csv: training/caregivers.csv
+  top_k: 3
+  proximity_km: 12             # distance normalised over 12 km (best fit to the organiser's labelled matches)
+  # Organiser reference blend (training/README.md).
   weights:
-    distance: 0.35
-    language: 0.25
-    rating: 0.20
-    availability: 0.20
+    language: 0.35
+    proximity: 0.30
+    skill: 0.20
+    rating: 0.15
+  role_for_care:
+    paramedic_home_visit: [medic]
+    home_nursing: [medic]
+    lab_test_home: [phlebotomist, medic]
+    teleconsultation: [doctor]
