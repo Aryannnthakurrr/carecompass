@@ -6,7 +6,9 @@ from pydantic import BaseModel, Field
 from app.llm import CFG
 
 LABELS = CFG["labels"]
-CareType = Literal[tuple(LABELS["care_types"])]
+SMART_CARE = ("hospital_visit", "clinic_visit", "specialist_visit", "diagnostic_test")  # smart mode only
+OrganiserCare = Literal[tuple(LABELS["care_types"])]
+CareType = Literal[tuple(LABELS["care_types"]) + SMART_CARE]
 Urgency = Literal[tuple(LABELS["urgency"])]
 RedFlag = Literal[tuple(LABELS["red_flags"])]
 Lang = Literal["en", "hi", "hinglish"]
@@ -29,6 +31,7 @@ class TriageRequest(BaseModel):
     language: Literal["auto", "en", "hi", "hinglish"] = "auto"
     location: Optional[Location] = None
     conversation_history: list[Turn] = Field(default_factory=list, max_length=40)
+    mode: Literal["dataset", "smart"] = "dataset"  # dataset: organiser roster + reference matching; smart: providers.csv + dynamic matching
 
 
 class MatchedCaregiver(BaseModel):
@@ -42,6 +45,10 @@ class MatchedCaregiver(BaseModel):
     languages: list[str] = Field(default_factory=list)
     rating: Optional[float] = None
     next_slot: Optional[str] = None
+    # smart mode
+    factors: list[str] = Field(default_factory=list)
+    fee_inr: Optional[int] = None
+    provider_type: Optional[str] = None
 
 
 class Emergency(BaseModel):
@@ -62,6 +69,14 @@ class TriageResponse(BaseModel):
     language: Lang = "en"
     explanation: Optional[str] = None
     emergency: Optional[Emergency] = None
+    mode: Literal["dataset", "smart"] = "dataset"
+    # smart mode
+    seriousness: Optional[Literal["routine", "soon", "urgent", "emergency"]] = None
+    specialty: Optional[str] = None
+    recommended_tests: list[str] = Field(default_factory=list)
+    services_needed: list[str] = Field(default_factory=list)
+    match_summary: Optional[str] = None
+    possible_causes: list[str] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------- model I/O
@@ -85,7 +100,7 @@ class CaseFacts(BaseModel):
 class Decision(BaseModel):
     """Classifier output: decided from CaseFacts alone."""
     status: Literal["final", "need_more_info"]
-    care_type: CareType
+    care_type: OrganiserCare
     red_flags: list[str] = Field(max_length=4, description="Red-flag findings present, empty if none")
     missing_info: list[str] = Field(max_length=2, description="At most 2 plain-English questions whose answers could change the decision; empty if final")
     reasoning: str = Field(description="One short English sentence, no diagnosis, no medication")

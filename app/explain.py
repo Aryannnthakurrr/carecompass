@@ -45,3 +45,29 @@ def explanation(care_type: str, reasoning: str, user_text: str, lang: str) -> st
                                      f"Care arranged: {CARE_PLAIN[care_type]}\nWhy: {reasoning}").strip().strip('"')
     except Exception:  # noqa: BLE001
         return FALLBACK_EXPLAIN[care_type][lang]
+
+
+SMART_SYS = """You are the voice of a care-navigation app. In at most 2 short, warm sentences tell the user what kind of care to get,
+how soon, and why the first suggested place fits them. If tests are listed, say a doctor may ask for them (do not insist).
+Plain words, in the reply language you are given, exactly. Never name a disease, never suggest medicine. Output only the sentences."""
+SOON_WORDS = {"urgent": "today", "soon": "in the next 2-3 days", "routine": "at a convenient time"}
+SMART_FALLBACK = {
+    "en": "Please visit {place} {when}.",
+    "hi": "कृपया {when_hi} {place} जाएँ।",
+    "hinglish": "Kripya {when_hl} {place} jaayein.",
+}
+
+
+def smart_explanation(care: str, seriousness: str, specialty: str | None, tests: list[str], top_name: str | None, top_reason: str | None,
+                      user_text: str, lang: str) -> str:
+    when = SOON_WORDS.get(seriousness, "soon")
+    try:
+        doctor = f"; doctor: {specialty}" if specialty else ""
+        prompt = (f"Reply language: {REPLY_LANG[lang]}\nUser said: {user_text}\nCare: {care}, {when}{doctor}\n"
+                  f"Tests a doctor may ask for: {', '.join(tests) or 'none'}\n"
+                  f"First suggested place: {top_name or 'none found'} ({top_reason or ''})")
+        return llm.chat(SMART_SYS, prompt).strip().strip('"')
+    except Exception:  # noqa: BLE001
+        return SMART_FALLBACK[lang].format(place=top_name or "a nearby clinic", when=when,
+                                           when_hi={"today": "आज ही", "in the next 2-3 days": "अगले 2-3 दिनों में"}.get(when, "जल्द"),
+                                           when_hl={"today": "aaj hi", "in the next 2-3 days": "agle 2-3 dinon mein"}.get(when, "jaldi"))

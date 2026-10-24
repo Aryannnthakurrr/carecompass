@@ -72,6 +72,12 @@ labels:
 intake:
   max_follow_ups: 4
 
+smart:
+  providers_csv: data/providers.csv
+  # The problem statement forbids diagnosing. The analyser still notes possible causes internally; keep this false
+  # unless the organisers allow showing them (then they appear labelled "not a diagnosis").
+  show_possible_causes: false
+
 matching:
   caregivers_csv: training/caregivers.csv
   top_k: 3
