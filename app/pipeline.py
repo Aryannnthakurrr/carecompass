@@ -4,15 +4,13 @@
 Either path asks a follow-up when it needs one and can exit to the emergency path at every step."""
 import logging
 import time
-from concurrent.futures import ThreadPoolExecutor
 
-from app import explain, intake, lexicon, matching, redflags, screen, smart, smart_match, triage
+from app import explain, intake, lexicon, matching, redflags, smart, smart_match, triage
 from app.emergency_text import EMERGENCY
 from app.llm import CFG
 from app.schemas import Emergency, TriageRequest, TriageResponse
 
 log = logging.getLogger("carecompass.pipeline")
-_SCREEN_POOL = ThreadPoolExecutor(max_workers=4)  # MedGemma's emergency screen runs beside the classifier
 URGENCY_FOR_CARE = CFG["labels"]["urgency_for_care"]
 MAX_FOLLOW_UPS = CFG["intake"]["max_follow_ups"]
 SMART_URGENCY = {"emergency": "emergency", "urgent": "same_day", "soon": "scheduled", "routine": "scheduled"}
@@ -59,28 +57,13 @@ def run(req: TriageRequest) -> TriageResponse:
     if flags or extra:
         return _emergency(flags, extra, lang, req.mode)
 
-    # 4. MedGemma emergency screen (app/screen.py), in parallel with the classifier: it can only ADD an emergency
-    scr = _SCREEN_POOL.submit(screen.screen, facts)
     if req.mode == "smart":
-        return _run_smart(req, facts, user_turns, asked, lang, t0, scr)
-    return _run_dataset(req, facts, user_turns, asked, lang, t0, scr)
+        return _run_smart(req, facts, user_turns, asked, lang, t0)
+    return _run_dataset(req, facts, user_turns, asked, lang, t0)
 
 
-def _screened(scr, facts, lang: str, mode: str):
-    """The screener's emergency response, or None when it says no, was skipped or failed (routing unchanged)."""
-    s = scr.result()
-    if s is None or not s.emergency:
-        return None
-    log.info("screen emergency: %s", s.danger_signs)
-    mapped, more = redflags.detect(*s.danger_signs, *facts.symptoms_present)
-    signs = ", ".join(s.danger_signs) or "warning signs"
-    return _emergency(mapped, more, lang, mode, why=f"MedGemma emergency screen: {signs}. {s.reasoning}")
-
-
-def _run_dataset(req, facts, user_turns, asked, lang, t0, scr) -> TriageResponse:
+def _run_dataset(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
     decision, votes = triage.classify(facts)
-    if not (decision and decision.care_type == "emergency_112") and (em := _screened(scr, facts, lang, "dataset")):
-        return em
     log.info("votes medgemma=%s qwen=%s", votes["medgemma"] and votes["medgemma"].care_type, votes["qwen"] and votes["qwen"].care_type)
     if decision is None:  # both classifiers down: someone should see the patient
         care, reasoning = "paramedic_home_visit", "Classifier unavailable; defaulting to an in-person Medic assessment."
@@ -103,7 +86,7 @@ def _run_dataset(req, facts, user_turns, asked, lang, t0, scr) -> TriageResponse
     return resp
 
 
-def _run_smart(req, facts, user_turns, asked, lang, t0, scr) -> TriageResponse:
+def _run_smart(req, facts, user_turns, asked, lang, t0) -> TriageResponse:
     text = " ".join(user_turns)
     hints = lexicon.analyse(text)
     # patterns are the fast, explainable path; the structurer's reading catches phrasings the patterns don't know.
@@ -113,8 +96,6 @@ def _run_smart(req, facts, user_turns, asked, lang, t0, scr) -> TriageResponse:
     log.info("smart votes medgemma=%s qwen=%s hints=%s", votes["medgemma"] and votes["medgemma"].care_type,
              votes["qwen"] and votes["qwen"].care_type, hints.as_dict())
     decision = decision or smart.fallback(hints)
-    if decision.care_type != "emergency_112" and (em := _screened(scr, facts, lang, "smart")):
-        return em
     if decision.care_type == "emergency_112":
         mapped, more = redflags.detect(*decision.red_flags, *facts.symptoms_present)
         return _emergency(mapped, more, lang, "smart", why=decision.reasoning)
