@@ -30,10 +30,10 @@ worked examples. MedGemma never sees the patient's own words; Qwen's structurer 
 | Score | `python training/eval_finetune.py --model <tag> --prompt rules_only [--split test\|test_v2\|hard]` | Accuracy, macro-F1, emergency recall, under-triage, latency |
 | Probe | `python training/medgemma_probe.py` | Same facts asked four ways (JSON or clinical note; decide-first, reason-first, or emergency-only) |
 
-**Budget safety (after 24 Oct).** `build_sft.py` halts on the first 402/quota error, caps requests per provider
-(`--max-calls-cerebras`, `--max-calls-openai`, default 1,500 each), meters OpenAI spend cumulatively in `sft/spend.json`
-(`--budget`, default $3.75), and uses `CEREBRAS_TRAINING_API_KEY` from `.env` if set, so bulk jobs never drain the
-live app's key. The first build exhausted Cerebras because none of this existed.
+**Bulk-job controls.** `build_sft.py` stops on the first quota error, caps requests per provider
+(`--max-calls-cerebras`, `--max-calls-openai`, default 1,500 each), meters OpenAI usage cumulatively in `sft/spend.json`
+(`--budget`, default $3.75), and uses a separate `CEREBRAS_TRAINING_API_KEY` from `.env` if set, so dataset jobs and the
+live app run on separate keys.
 
 ## Data (24 Oct)
 

@@ -25,7 +25,8 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 |---|---|---|---|
 | Speech → text | Sarvam **Saaras v4** `transcribe` only (original words) | Sarvam API | ~0.4 s, Rs0.49/min. `translate` dropped: Qwen reads Devanagari/Hinglish directly. Sarvam text translation (Mayura) rejected: mistranslated typed "seene mein dard" |
 | Structurer + conversation voice (facts JSON, follow-up phrasing, explanation) | **Qwen 3.8 27B** (open weights; fallback Gemini 3.5 Flash-Lite) | Cerebras API | `eval/bench_v2.py`: all facts 30/30, 11/11 red flags, 0 denial leaks, 0.45 s; follow-ups right script 17/17 at 0.38 s with explicit target language |
-| Triage classifier (facts only → status/care/urgency/missing_info) | Red-flag rules → **MedGemma 4B** (local, recall-first LoRA training) **+ Qwen 3.8 27B second opinion, more urgent wins** | Ollama + Cerebras | 30-case pair: 11/11 emergencies. Held-out (254 cases): base MedGemma 37/73, Qwen 56/73, rules+Qwen 66/73, MedGemma adds none. As an emergency screener on a clinical note, base MedGemma 73/77. MedGemma on raw text was 5/11 — it must never see raw language |
+| Clinical screen (how dangerous, now) | **MedGemma 4B** on a clinical note, graded emergency_now / see_doctor_today / routine, with retrieved similar cases | Ollama, local GPU | Held-out chain: rules + Qwen 66/77 emergencies → + MedGemma screen 74/77, 2/56 false alarms. As a 6-way classifier it was 37/77, so its job is the screen. It must never see raw language |
+| Care decision (facts → care type / follow-up) | Red-flag rules + **Qwen 3.8 27B** (protocol cards, questions already asked) | Cerebras | Either emergency vote wins; recall-first LoRA of MedGemma in `training/` |
 | Caregiver matching | Weighted scoring in Python | Local CPU | Deterministic, explainable |
 | Plain-language explanation | Qwen 3.8 27B (same as conversation) | Cerebras API | Replies in the detected language, passed explicitly |
 | Text → speech | Sarvam **Bulbul v3** | Sarvam API | Natural Indian voices, handles Hinglish |
@@ -41,8 +42,9 @@ All model names / endpoints / labels / weights live in `config.yaml`.
 
 ```
 CLAUDE.md, README.md, .env (git-ignored), .env.example, requirements.txt, config.yaml
-app/            main.py (FastAPI, POST /triage), schemas.py, intake.py, redflags.py,
-                triage.py, matching.py, explain.py, speech.py, emergency_text.py
+app/            main.py (FastAPI), pipeline.py, schemas.py, intake.py, redflags.py, screen.py, retrieval.py,
+                protocols.py, triage.py, smart.py, matching.py, smart_match.py, explain.py, speech.py, emergency_text.py
+ios/            native iPhone client (SwiftUI); the laptop runs the server (uvicorn --host 0.0.0.0)
 data/           organiser data (data/raw/ git-ignored)
 docs/           problem statement, write-up
 models/         GGUF files (git-ignored) + Ollama Modelfiles
@@ -79,14 +81,17 @@ Response:
 - If more info is needed, return `follow_up_question` and leave decision fields null.
 - Use the organisers' exact label strings once released.
 
-## Pipeline logic
+## Pipeline logic (`app/pipeline.py`, layered; each layer can only make the system safer or ask)
 
-1. **Structurer (`intake.py`)**: Qwen 3.8 27B → `CaseFacts` JSON (symptoms_present/denied, onset, duration, age, special_population, existing_conditions, vitals_reported, services_requested, severity, detected_language). Records facts only: no decisions, no questions. Re-reads the whole `conversation_history` each turn (stateless API).
-2. **Red flags (`redflags.py`)**: run on BOTH raw transcript and structured symptoms. Any hit → emergency path immediately, skip matching. Denials scope over their clause (negated lists, EN + HI), past history is excluded, each symptom phrase is checked on its own. `python eval/test_redflags.py` (54 offline checks + dataset coverage, 441/542) must pass after any change. Starter list: chest pain / seene mein dard · difficulty breathing / saans lene mein taklif / saans nahi aa rahi · unconscious / behosh · seizure / daura / jhatke · stroke signs (muh tedha, haath-pair sunn, bolne mein dikkat) · heavy bleeding / bahut khoon · severe head injury · poisoning / zeher · face or throat swelling · blue lips · sudden confusion · fever in infant < 3 months · bleeding in pregnancy · suicidal thoughts.
-3. **Classifier (`triage.py`)**: MedGemma + Qwen in parallel on CaseFacts only → `{status: final|need_more_info, care_type, urgency, red_flags, missing_info (≤2 plain questions), reasoning}`. Either says emergency → emergency; else higher urgency wins; invalid output → the other decides. Emergencies never ask. Then Qwen phrases `missing_info` into one question in the detected language (pass it explicitly; Hinglish returns romanised for screen + Devanagari for Bulbul). Hard cap 4 follow-ups.
-4. **Matching (`matching.py`)**: filter by skill and availability within urgency window; score = weighted sum of distance (haversine), language match, rating, soonest slot (0.35/0.25/0.2/0.2). Reasons from templates, not the LLM.
-5. **Explain (`explain.py`)**: Qwen → 1–2 plain sentences in the detected language. Hinglish: Devanagari copy for Bulbul, romanised on screen. Emergency audio pre-generated at startup.
-6. **Emergency (`emergency_text.py`)**: NEVER generated. Pre-written EN/HI/Hinglish with "Call 112" and "Call 108" plus 2–3 simple steps.
+1. **Red flags (`redflags.py`)** on the raw words: EN / Hinglish / Devanagari, denials scoped to their clause, past history excluded, event rules (blast with injured people, drowning, electric shock, snake bite, choking, severe burns). `python eval/test_redflags.py` (85 offline checks + dataset coverage, 0 false alarms) must pass after any change.
+2. **Intake analyst (`intake.py`, Qwen)**: whole conversation → `CaseFacts` (facts in English) + `message_check` (ok / unclear / off_topic / nonsense / abusive / mixed_up / contradictory), `check_notes`, `not_literal`, `user_wants`, `no_more_questions`, `asks_medicine_or_diagnosis`, `age_group`. Taught by worked examples, not keyword rules. Lenient validation: one odd value never voids a reading. A raw red-flag hit stands unless the analyst names it a figure of speech (only chest pain / breathlessness can be; self-harm, collapse, fits, stroke, bleeding, poisoning never).
+3. **Rules again** on the English symptoms; a retracted red flag gets one safety check.
+4. **Gate**: off-topic / nonsense / abuse → fixed redirect (`explain.REDIRECT*`); after 3 non-progress turns the conversation closes (`conversation_ended`). Voice mis-hearing → "did you say …?". Mixed-up / contradictory → one clarifying question per conversation.
+5. **Information gathering**: a symptom complaint needs who / age (fever: a stated age), since when, and how bad (`protocols.KEY_ASK`: fever how high, bleeding stops with pressure, accident what happened / head hit …). Two facts per question, two questions, then decide. Named services ask nothing. Budgets count only medical / safety questions (`Turn.kind` echoed by clients, inferred otherwise). `config intake.ask_severity` switches the "how bad" question off.
+6. **MedGemma clinical screen (`screen.py` + `retrieval.py`)**: clinical note → emergency_now / see_doctor_today / routine with the 4 most similar graded training cases. Danger signs must match reported findings; an emergency_now first asks its own check question with the pre-written call-112 line, then escalates. Chain on 133 held-out cases: rules + Qwen 66/77 → + screen 74/77 emergencies, 2/56 false alarms. `python eval/eval_screener.py`.
+7. **Care decision**: dataset `triage.py` (Qwen, with questions already asked + protocol cards; MedGemma vote off) / smart `smart.py`. Either saying emergency → emergency.
+8. **Matching + explanation**: templates for reasons and the place sentence; "we recommend", never "booked". `explain.scrub` removes disease / medicine names (EN, HI, Hinglish) from every shown line; the reply writer never sees raw user text.
+9. **Emergency (`emergency_text.py`)**: NEVER generated. One pre-written card per red flag (bleeding, seizure, infant fever, unconsciousness, stroke, chest pain, snake bite, choking, suicidal with Tele-MANAS 14416 [VERIFY]) + generic.
 
 ## Smart mode (request `"mode": "smart"`; default stays `dataset`)
 - `app/lexicon.py`: service/test/specialty/symptom/preference vocabulary (EN/Hinglish/Devanagari regexes).
@@ -107,7 +112,7 @@ Response:
 - Runbook: `training/FINETUNE_PLAN.md`. Goal: miss as few emergencies as possible (over-triage OK), MedGemma the star.
 - Task = production call: `CaseFacts` JSON in → `Decision` JSON out, system prompt `triage.RULES` (`config.yaml classifier.prompt: rules_only` for the fine-tune).
 - Data: `training/build_sft.py` (generate → facts → panel label → export), recall-first relabels in `training/manual_review.py`, follow-ups in `training/manual_followups.py`. Splits in `training/sft/` are a stable hash of the generation batch.
-- Bulk API jobs: `build_sft.py` halts on 402/quota, caps requests per provider, meters OpenAI spend; set `CEREBRAS_TRAINING_API_KEY` so the app's key is never drained. Ask before any large API job.
+- Bulk API jobs: `build_sft.py` stops on quota errors, caps requests per provider and meters OpenAI usage; use a separate key (`CEREBRAS_TRAINING_API_KEY`) for bulk jobs. Ask before any large API job; prefer `eval/smoke_budget.py` (metered, capped) for live checks.
 - Train: `python training/kaggle_run.py all` (private dataset, T4, phone-verified account; Gemma 3 trains in float32). Notebook is generated by `training/make_notebook.py`. One Kaggle notebook per round (`TAG`).
 - Score: `training/eval_finetune.py`; format experiments: `training/medgemma_probe.py`.
 
