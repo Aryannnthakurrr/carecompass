@@ -1,8 +1,11 @@
 import * as api from './api.js';
 import { startRecording, speak, stopSpeaking, BANDS } from './voice.js';
-import { LANGS, t, careText, urgencyText, flagText, detectLang, chipsFor, slotLabel } from './i18n.js';
+import { LANGS, t, careText, urgencyText, flagText, skillText, detectLang, chipsFor, slotLabel } from './i18n.js';
 import { LOCALITIES, nearestLocality } from './geo.js';
 import { icon } from './icons.js';
+import { h, initials, hue } from './dom.js';
+import { renderBrowse } from './browse.js';
+import { openSos, closeSos, sosOpen } from './sos.js';
 
 const $ = sel => document.querySelector(sel);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -42,20 +45,6 @@ const state = {
 };
 const T = (key, vars) => t(state.lang, key, vars);
 
-// ---------------------------------------------------------------- tiny DOM helper
-
-function h(tag, props = {}, ...kids) {
-  const el = document.createElement(tag);
-  for (const [k, v] of Object.entries(props)) {
-    if (v == null || v === false) continue;
-    if (k === 'class') el.className = v;
-    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
-    else el.setAttribute(k, v === true ? '' : v);
-  }
-  el.append(...kids.flat(Infinity).filter(c => c != null && c !== false));
-  return el;
-}
-
 const thread = $('#thread');
 const welcome = $('#welcome');
 const input = $('#input');
@@ -86,6 +75,8 @@ function applyLang() {
   setVoiceState(voiceEl.dataset.state);
   renderAccountBtn();
   renderHomeAccount();
+  directory?.redraw();
+  if (!profileEl.hidden) renderProfile();
 }
 
 function renderSteps() {
@@ -108,7 +99,7 @@ function renderLocation() {
   $('#locLabel').textContent = locationText();
   $('#locBtn').classList.toggle('pending', !state.location);
 }
-function setLocation(loc) { state.location = loc; renderLocation(); }
+function setLocation(loc) { state.location = loc; renderLocation(); directory?.refresh(); }
 
 function locateMe() {
   return new Promise(resolve => {
@@ -360,9 +351,6 @@ function slotText(s) {
   return isNaN(d) ? String(s) : slotLabel(d, state.lang);
 }
 
-const initials = name => name.replace(/^Dr\.?\s+/i, '').split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
-const hue = s => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 360, 7);
-
 function caregiverCard(cg, i, careType) {
   const name = cg.name || cg.caregiver_id;
   const pct = Math.round(Math.max(0, Math.min(1, cg.score ?? 0)) * 100);
@@ -405,20 +393,62 @@ function markBooked(caregiverId) {
   }
 }
 
-// Saved to the user's history when signed in; there is no caregiver-side scheduling yet.
+const bookingLocation = () => state.location && { lat: state.location.lat, lng: state.location.lng, name: state.location.name ?? null };
+
+// Booked from the AI conversation (the booking keeps its chat_id).
 async function book(cg, card, btn, careType) {
   if (state.booked) return;
   state.booked = true;
   btn.disabled = true;
   btn.classList.add('loading');
-  const payload = {
+  const { ref, saveNote } = await saveBooking({
     chat_id: state.chatId,
     caregiver: cg,
     care_type: careType,
     urgency: state.outcome?.urgency ?? null,
     slot: cg.next_slot ?? null,
-    location: state.location && { lat: state.location.lat, lng: state.location.lng, name: state.location.name ?? null },
-  };
+    location: bookingLocation(),
+  });
+  btn.classList.remove('loading');
+  markBooked(cg.caregiver_id);
+  setStep(3);
+  showBooked(cg, careType, ref, saveNote);
+  if (state.usedVoice) speak(T('bookedSpeech', { name: cg.name || cg.caregiver_id }), state.lang, api.tts);
+}
+
+// Booked straight from the home-page directory (no conversation, chat_id null): confirm first.
+function bookFromSearch(cg) {
+  const video = VIDEO_CARE.has(cg.care_type);
+  const row = (k, v) => [h('dt', {}, k), h('dd', {}, v)];
+  const confirm = h('button', {
+    class: 'primary-btn',
+    onclick: async () => {
+      confirm.disabled = true;
+      confirm.classList.add('loading');
+      const caregiver = { caregiver_id: cg.caregiver_id, name: cg.name, role: cg.role, rating: cg.rating, distance_km: video ? null : cg.distance_km };
+      const { ref, saveNote } = await saveBooking({
+        chat_id: null, caregiver, care_type: cg.care_type, urgency: null, slot: cg.next_slot, location: bookingLocation(),
+      });
+      showBooked(cg, cg.care_type, ref, saveNote);
+      renderHomeAccount();
+    },
+  }, T('confirmBooking'));
+  openSheet(h('div', { class: 'booked' },
+    h('div', { class: 'cg-avatar lg', style: `--hue:${hue(cg.name)}` }, initials(cg.name)),
+    h('h2', { class: 'sheet-title' }, T('bookTitle', { name: cg.name })),
+    h('p', { class: 'sheet-note' }, cg.role),
+    h('dl', { class: 'summary' },
+      row(T('rowType'), careText(state.lang, cg.care_type).label),
+      row(T('rowWhen'), slotText(cg.next_slot)),
+      row(T('rowWhere'), video ? T('videoNote') : locationText()),
+      row(T('rowRating'), `★ ${cg.rating.toFixed(1)} · ${T('yrs', { n: cg.experience_years })}`)),
+    confirm,
+    h('button', { class: 'text-btn', onclick: closeSheet }, T('cancel'))));
+}
+
+// Saved to the user's account when signed in; a guest's booking is kept to save after sign-in.
+// There is no caregiver-side scheduling yet.
+async function saveBooking(payload) {
   let ref = null, saveNote = null;
   if (state.user) {
     try {
@@ -437,11 +467,10 @@ async function book(cg, card, btn, careType) {
         h('button', { class: 'text-btn inline', onclick: openSignIn }, T('signIn')));
     }
   }
-  ref ||= 'CC-' + Math.random().toString(36).slice(2, 8).toUpperCase();
-  btn.classList.remove('loading');
-  markBooked(cg.caregiver_id);
-  setStep(3);
+  return { ref: ref || 'CC-' + Math.random().toString(36).slice(2, 8).toUpperCase(), saveNote };
+}
 
+function showBooked(cg, careType, ref, saveNote) {
   const name = cg.name || cg.caregiver_id;
   const video = VIDEO_CARE.has(careType);
   const row = (k, v) => [h('dt', {}, k), h('dd', {}, v)];
@@ -457,9 +486,10 @@ async function book(cg, card, btn, careType) {
       row(T('rowRef'), ref)),
     saveNote,
     h('button', { class: 'primary-btn', onclick: closeSheet }, T('done')),
-    h('button', { class: 'text-btn', onclick: () => { closeSheet(); restart(); } }, T('newRequest')),
+    state.user
+      ? h('button', { class: 'text-btn', onclick: () => { closeSheet(); openProfile(); } }, T('seeAppointments'))
+      : h('button', { class: 'text-btn', onclick: () => { closeSheet(); restart(); } }, T('newRequest')),
   ));
-  if (state.usedVoice) speak(T('bookedSpeech', { name }), state.lang, api.tts);
 }
 
 // ---------------------------------------------------------------- emergency
@@ -697,16 +727,13 @@ function renderHomeAccount() {
       h('button', { class: 'pill-btn', onclick: openSignIn }, T('signIn'))));
   }
 
-  const now = Date.now();
-  const bookings = state.bookings.slice(0, 5).map(b => {
-    const upcoming = !b.slot || new Date(b.slot).getTime() > now;
-    return h('button', { class: 'hist-row', onclick: () => b.chat_id && openPastChat(b.chat_id) },
-      h('span', { class: 'hist-icon' }, icon(CARE_ICON[b.care_type] || 'calendar')),
-      h('span', { class: 'hist-main' },
-        h('span', { class: 'hist-title' }, b.caregiver.name || b.caregiver.caregiver_id),
-        h('span', { class: 'hist-sub' }, [b.slot && slotText(b.slot), careText(state.lang, b.care_type).label, b.id].filter(Boolean).join(' · '))),
-      h('span', { class: `status ${upcoming ? 'up' : 'done'}` }, T(upcoming ? 'upcoming' : 'completed')));
-  });
+  const { up } = splitBookings();
+  const bookings = up.slice(0, 2).map(b => h('button', { class: 'hist-row', onclick: openProfile },
+    h('span', { class: 'hist-icon' }, icon(CARE_ICON[b.care_type] || 'calendar')),
+    h('span', { class: 'hist-main' },
+      h('span', { class: 'hist-title' }, b.caregiver.name || b.caregiver.caregiver_id),
+      h('span', { class: 'hist-sub' }, [b.slot && slotText(b.slot), careText(state.lang, b.care_type).label].filter(Boolean).join(' · '))),
+    h('span', { class: 'status up' }, T('upcoming'))));
   const chats = state.chats.slice(0, 8).map(c => h('button', { class: 'hist-row', onclick: () => openPastChat(c.id) },
     h('span', { class: 'hist-icon' + (c.care_type === 'emergency' ? ' em' : '') }, icon(CARE_ICON[c.care_type] || 'chat')),
     h('span', { class: 'hist-main' },
@@ -714,10 +741,102 @@ function renderHomeAccount() {
       h('span', { class: 'hist-sub' }, `${fmtDate(c.updated_at)} · ${c.care_type ? careText(state.lang, c.care_type).label : T('inProgress')}`)),
     icon('chevronRight', 'chev')));
 
-  const section = (iconName, title, rows) => rows.length && h('section', { class: 'home-section' },
-    h('h2', { class: 'home-h' }, icon(iconName), title), h('div', { class: 'hist-list' }, rows));
+  const section = (iconName, title, rows, action) => rows.length && h('section', { class: 'home-section' },
+    h('div', { class: 'home-h-row' }, h('h2', { class: 'home-h' }, icon(iconName), title), action),
+    h('div', { class: 'hist-list' }, rows));
+  const seeAll = h('button', { class: 'text-btn inline', onclick: openProfile }, T('seeAll'), icon('chevronRight'));
   welcome.classList.toggle('has-history', bookings.length + chats.length > 0); // history above the examples
-  box.replaceChildren(...[section('calendar', T('yourBookings'), bookings), section('chat', T('recentChats'), chats)].filter(Boolean));
+  box.replaceChildren(...[
+    section('calendar', T('nextAppts'), bookings, seeAll),
+    section('chat', T('recentChats'), chats.slice(0, 4)),
+  ].filter(Boolean));
+}
+
+// Upcoming (soonest first) and past (latest first) bookings.
+function splitBookings() {
+  const now = Date.now();
+  const at = b => (b.slot ? new Date(b.slot).getTime() : Infinity);
+  const up = state.bookings.filter(b => at(b) > now).sort((a, b) => at(a) - at(b));
+  const past = state.bookings.filter(b => at(b) <= now).sort((a, b) => at(b) - at(a));
+  return { up, past };
+}
+
+// ---- profile page: the user's appointments, booked by the assistant or from the directory
+
+const profileEl = $('#profile');
+let apptTab = 'up';
+
+function openProfile() {
+  closeSheet();
+  renderProfile();
+  profileEl.hidden = false;
+  requestAnimationFrame(() => profileEl.classList.add('open'));
+  setTimeout(() => $('#pfBack').focus({ preventScroll: true }), 80);
+  if (state.user) loadHistory().then(() => { if (!profileEl.hidden) renderProfile(); });
+}
+function closeProfile() {
+  profileEl.classList.remove('open');
+  setTimeout(() => { if (!profileEl.classList.contains('open')) profileEl.hidden = true; }, 260);
+}
+
+function renderProfile() {
+  const body = $('#pfBody');
+  const u = state.user;
+  if (!u) {
+    return body.replaceChildren(h('div', { class: 'keep-card' },
+      h('span', { class: 'keep-icon' }, icon('calendar')),
+      h('div', { class: 'keep-text' }, h('p', { class: 'keep-title' }, T('appointments')), h('p', { class: 'keep-sub' }, T('signInToSee'))),
+      state.auth && h('button', { class: 'pill-btn', onclick: openSignIn }, T('signIn'))));
+  }
+  const { up, past } = splitBookings();
+  const viaAi = state.bookings.filter(b => b.chat_id).length;
+  const title = u.name || u.phone || u.email;
+  const list = apptTab === 'up' ? up : past;
+  const stat = (n, label) => h('div', { class: 'pf-stat' }, h('b', {}, String(n)), h('span', {}, label));
+  body.replaceChildren(
+    h('div', { class: 'pf-card' },
+      h('div', { class: 'acct-head' },
+        h('span', { class: 'acct-avatar' }, avatarFor(u)),
+        h('div', {},
+          h('p', { class: 'acct-name' }, title),
+          h('p', { class: 'acct-sub' }, [u.email, u.phone].filter(x => x && x !== title).join(' · ')))),
+      h('div', { class: 'pf-stats' }, stat(up.length, T('upcoming')), stat(past.length, T('completed')), stat(viaAi, T('viaAiShort')))),
+    h('h3', { class: 'home-h' }, icon('calendar'), T('appointments')),
+    h('div', { class: 'seg', role: 'tablist' }, [['up', T('apptUpcoming'), up.length], ['past', T('apptPast'), past.length]].map(([k, label, n]) =>
+      h('button', {
+        role: 'tab', 'aria-selected': String(apptTab === k), class: apptTab === k ? 'on' : '',
+        onclick: () => { apptTab = k; renderProfile(); },
+      }, label, h('span', { class: 'seg-n' }, String(n))))),
+    list.length
+      ? h('div', { class: 'appts' }, list.map(apptCard))
+      : h('div', { class: 'dir-empty' }, h('p', {}, T(apptTab === 'up' ? 'noUpcoming' : 'noPast')),
+        h('button', { class: 'text-btn inline', onclick: () => { closeProfile(); restart(); } }, T('findCareCta'))),
+    h('button', { class: 'ghost-btn wide', onclick: signOut }, icon('logout'), T('signOut')),
+  );
+}
+
+function apptCard(b) {
+  const cg = b.caregiver;
+  const name = cg.name || cg.caregiver_id;
+  const video = VIDEO_CARE.has(b.care_type);
+  const d = b.slot ? new Date(b.slot) : null;
+  const ok = d && !isNaN(d);
+  const ai = !!b.chat_id;
+  return h('article', { class: 'appt' + (apptTab === 'past' ? ' past' : '') },
+    h('div', { class: 'appt-date' },
+      h('small', {}, ok ? d.toLocaleDateString(locale(), { weekday: 'short' }) : '—'),
+      h('b', {}, ok ? String(d.getDate()) : '?'),
+      h('small', {}, ok ? d.toLocaleDateString(locale(), { month: 'short' }) : '')),
+    h('div', { class: 'appt-main' },
+      h('p', { class: 'appt-time' }, icon(CARE_ICON[b.care_type] || 'clock'),
+        [ok && d.toLocaleTimeString(locale(), { hour: 'numeric', minute: '2-digit' }), careText(state.lang, b.care_type).label].filter(Boolean).join(' · ')),
+      h('h4', {}, name),
+      cg.role && h('p', { class: 'appt-role' }, cg.role),
+      h('div', { class: 'appt-tags' },
+        h('span', { class: 'src ' + (ai ? 'ai' : 'manual') }, icon(ai ? 'chat' : 'search'), T(ai ? 'viaAi' : 'viaSearch')),
+        h('span', { class: 'tag' }, video ? T('videoCall') : (b.location?.name || T('atHome'))),
+        h('span', { class: 'appt-ref' }, b.id)),
+      ai && h('button', { class: 'text-btn inline', onclick: () => { closeProfile(); openPastChat(b.chat_id); } }, T('viewChat'), icon('chevronRight'))));
 }
 
 async function openPastChat(id) {
@@ -891,23 +1010,43 @@ async function onSignedIn(user) {
   renderHomeAccount();
 }
 
-function openAccountSheet() {
-  const u = state.user;
-  const title = u.name || u.phone || u.email;
-  openSheet(h('div', { class: 'account-sheet' },
-    h('div', { class: 'acct-head' },
-      h('span', { class: 'acct-avatar' }, avatarFor(u)),
-      h('div', {},
-        h('p', { class: 'acct-name' }, title),
-        h('p', { class: 'acct-sub' }, [u.email, u.phone].filter(x => x && x !== title).join(' · ')))),
-    h('button', { class: 'ghost-btn wide', onclick: signOut }, icon('logout'), T('signOut'))));
-}
-
 async function signOut() {
   try { await api.account.logout(); } catch { /* session may already be gone */ }
   Object.assign(state, { user: null, chats: [], bookings: [] });
   renderAccountBtn();
+  closeProfile();
   restart();
+}
+
+// ---------------------------------------------------------------- one-tap emergency (sos.js)
+
+const sosCtx = () => ({
+  T,
+  flagText: f => flagText(state.lang, f),
+  location: () => state.location || LOCALITIES[0],
+  locationText,
+  history: state.history,
+  outcome: state.outcome,
+});
+function startSos() {
+  closeVoice();
+  closeSheet();
+  closeEmergency();
+  stopSpeaking();
+  openSos(sosCtx());
+}
+
+// ---------------------------------------------------------------- home-page directory (browse.js)
+
+let directory = null;
+function initDirectory() {
+  directory = renderBrowse($('#directory'), {
+    T,
+    skillText: s => skillText(state.lang, s),
+    location: () => state.location,
+    slotText,
+    onBook: bookFromSearch,
+  });
 }
 
 // ---------------------------------------------------------------- composer + misc wiring
@@ -933,11 +1072,16 @@ $('#micBtn').addEventListener('click', openVoice);
 $('#heroMic').addEventListener('click', openVoice);
 $('#locBtn').addEventListener('click', openLocationSheet);
 $('#homeBtn').addEventListener('click', restart);
-$('#accountBtn').addEventListener('click', () => (state.user ? openAccountSheet() : openSignIn()));
+$('#accountBtn').addEventListener('click', () => (state.user ? openProfile() : openSignIn()));
+$('#pfBack').addEventListener('click', closeProfile);
+$('#sosBtn').addEventListener('click', startSos);
+$('#emAmb').addEventListener('click', startSos);
 $('#emBack').addEventListener('click', closeEmergency);
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
   if (!sheet.hidden) closeSheet();
+  else if (sosOpen()) closeSos();
+  else if (!profileEl.hidden) closeProfile();
   else if (voice.open) closeVoice();
   else if (!emergencyEl.hidden) closeEmergency();
 });
@@ -980,6 +1124,7 @@ $('#examples').append(...EXAMPLES.map(ex => h('button', {
   class: 'example', lang: detectLang(ex) === 'hi' ? 'hi' : 'en', onclick: () => submit(ex),
 }, h('span', {}, ex), icon('send'))));
 applyLang();
+initDirectory();
 setVoiceState('idle');
 locateMe().then(ok => { if (!ok) setLocation({ ...LOCALITIES[0], source: 'default' }); });
 initAccount();

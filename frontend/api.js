@@ -111,6 +111,19 @@ export const account = {
   book: booking => post('/me/bookings', booking),
 };
 
+// ---- caregiver directory + simulated ambulance dispatch (app/services.py)
+//   GET  /caregivers?lat&lng&kind&skill&q&min_rating&min_experience&max_km&sort -> { count, caregivers[], skills[] }
+//   POST /emergency/dispatch {location, address, conversation_history, red_flags, reasoning} -> dispatch + first tracking
+//   GET  /emergency/{id}/tracking -> { status, position, progress, eta_s, remaining_km }
+export const services = {
+  caregivers: params => {
+    const q = new URLSearchParams(Object.entries(params).filter(([, v]) => v != null && v !== '' && v !== false));
+    return call(`/caregivers?${q}`);
+  },
+  dispatch: body => post('/emergency/dispatch', body),
+  tracking: id => call(`/emergency/${encodeURIComponent(id)}/tracking`),
+};
+
 export async function tts(text, language) {
   const r = await optional('/tts', {
     method: 'POST',
