@@ -29,7 +29,7 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 | Caregiver matching | Weighted scoring in Python | Local CPU | Deterministic, explainable |
 | Plain-language explanation | Gemma 4 26B-A4B | Google AI Studio | Replies in the user's language |
 | Text → speech | Sarvam **Bulbul v3** | Sarvam API | Natural Indian voices, handles Hinglish |
-| Local fallback LLM | Gemma 3 4B Q4 | Local, via Ollama | If the API is rate-limited during the demo |
+| Fallback LLM | Sarvam-M (API), then MedGemma 4B (local, already loaded) | Sarvam API / Ollama | If Gemini is rate-limited; avoids swapping models on the 6 GB GPU |
 
 Saaras is speech-to-TEXT. Bulbul is text-to-SPEECH. MedGemma is under Google's Health AI Developer Foundations terms.
 

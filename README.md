@@ -18,7 +18,7 @@ copy .env.example .env   # then fill in SARVAM_API_KEY and GEMINI_API_KEY
 Local models (Ollama, https://ollama.com):
 
 ```powershell
-ollama pull gemma3:4b
+ollama pull hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M
 ```
 
 ## Models and APIs used
@@ -29,7 +29,7 @@ ollama pull gemma3:4b
 | Intake + explanation | Gemma 4 26B-A4B | Google AI Studio |
 | Triage | MedGemma 4B (LoRA, Q4 GGUF) + rule-based red flags | Local (Ollama) |
 | Text → speech | Sarvam Bulbul v3 | Sarvam API |
-| Fallback LLM | Gemma 3 4B | Local (Ollama) |
+| Fallback LLM | Sarvam-M (API), then MedGemma 4B (local) | Sarvam API / Ollama |
 
 ## Status
 
