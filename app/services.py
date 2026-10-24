@@ -36,19 +36,65 @@ def _card(c: dict, here: tuple, now: datetime) -> dict:
     }
 
 
+# smart mode browses data/providers.csv: grouped into the kinds a patient thinks in
+SMART_KIND = {"hospital": "hospital", "gp_clinic": "clinic", "polyclinic": "clinic", "specialist_clinic": "clinic", "physio_centre": "clinic",
+              "diagnostic_centre": "diagnostic", "lab": "diagnostic", "home_lab": "diagnostic", "home_care": "home", "teleconsult_doctor": "video"}
+SMART_CARE = {"hospital": "hospital_visit", "gp_clinic": "clinic_visit", "polyclinic": "clinic_visit", "specialist_clinic": "specialist_visit",
+              "physio_centre": "specialist_visit", "diagnostic_centre": "diagnostic_test", "lab": "diagnostic_test", "home_lab": "lab_test_home",
+              "home_care": "home_nursing", "teleconsult_doctor": "teleconsultation"}
+
+
+def _smart_cards(here: tuple, now: datetime, kind, skill, q, min_rating, max_km, sort) -> dict:
+    from app import lexicon, smart_match as sm
+    out = []
+    for p in sm.providers():
+        if (kind and SMART_KIND[p.type] != kind) or (skill and skill not in p.services) or p.rating < min_rating:
+            continue
+        d = haversine(here, (p.lat, p.lng))
+        video = p.type == "teleconsult_doctor"
+        if max_km and not video and d > max_km:
+            continue
+        specs = [lexicon.label(s) for s in sorted(p.specialties)]
+        if q and q.lower() not in " ".join([p.name, *specs, *(lexicon.label(s) for s in p.services)]).lower():
+            continue
+        _, hours_now, slot = sm.availability(p, now)
+        out.append({
+            "caregiver_id": p.id, "name": p.name, "kind": SMART_KIND[p.type], "care_type": SMART_CARE[p.type],
+            "role": " · ".join([sm.TYPE_LABEL[p.type]] + ([f"{len(specs)} specialties"] if len(specs) > 2 else specs)),
+            "gender": "F" if p.female_doctor else "", "skills": sorted(p.services, key=lambda s: sm.coverage().get(s, 1)),  # rarest first
+            "languages": sorted(p.languages, key=lambda x: x != "Hindi"), "rating": p.rating, "reviews": p.reviews, "fee_inr": p.fee,
+            "experience_years": None, "distance_km": round(d, 1), "video": video,
+            "serves_you": video or (d <= (p.radius or 15) if p.home_visit and p.type in ("home_care", "home_lab") else d <= 40),
+            "next_slot": slot, "hours": "24×7" if p.is_24x7 else f"{p.open_from}–{p.open_until}", "open_text": hours_now,
+        })
+    keys = {
+        "distance": lambda x: (x["distance_km"], -x["rating"]),
+        "rating": lambda x: (-x["rating"], -x["reviews"]),
+        "experience": lambda x: (-x["reviews"], x["distance_km"]),  # most reviewed stands in for experience
+        "best": lambda x: (not x["serves_you"], -(x["rating"] - 3) / 2 * 0.5 + min(x["distance_km"], 20) / 20 * 0.5),
+    }
+    out.sort(key=keys[sort])
+    all_services = sorted({s for p in sm.providers() for s in p.services}, key=lexicon.label)
+    return {"count": len(out), "caregivers": out, "skills": all_services, "skill_labels": {s: lexicon.label(s) for s in all_services}}
+
+
 @router.get("/caregivers")
 def browse(
     lat: float = Query(DEFAULT_LOC[0], ge=-90, le=90), lng: float = Query(DEFAULT_LOC[1], ge=-180, le=180),
-    kind: Optional[Literal["doctor", "medic", "phlebotomist"]] = None,
+    kind: Optional[Literal["doctor", "medic", "phlebotomist", "hospital", "clinic", "diagnostic", "home", "video"]] = None,
     skill: Optional[str] = Query(None, max_length=40),
     q: Optional[str] = Query(None, max_length=60),
     min_rating: float = Query(0, ge=0, le=5),
     min_experience: int = Query(0, ge=0, le=60),
     max_km: Optional[float] = Query(None, gt=0, le=100),
     sort: Literal["best", "distance", "rating", "experience"] = "best",
+    mode: Literal["dataset", "smart"] = "dataset",
 ):
-    """Active caregivers with distance from (lat, lng). max_km ignores video doctors (they don't travel)."""
+    """Active caregivers with distance from (lat, lng). max_km ignores video doctors (they don't travel).
+    mode=smart lists the full provider directory (data/providers.csv) instead of the organiser roster."""
     now, here = datetime.now(IST), (lat, lng)
+    if mode == "smart":
+        return _smart_cards(here, now, kind, skill, q, min_rating, max_km, sort)
     out = []
     for c in caregivers():
         if not c["active"] or (kind and c["role"] != kind) or (skill and skill not in c["skills"]):

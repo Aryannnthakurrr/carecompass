@@ -5,15 +5,23 @@ import { icon } from './icons.js';
 import * as api from './api.js';
 
 const PAGE = 6;
-const KINDS = [['', 'kindAll'], ['doctor', 'kindDoctor'], ['medic', 'kindMedic'], ['phlebotomist', 'kindLab']];
-const SORTS = [['best', 'sortBest'], ['distance', 'sortDistance'], ['rating', 'sortRating'], ['experience', 'sortExp']];
-const TOGGLES = [['top', 'f4plus', 'star'], ['exp', 'f5yrs', 'award'], ['near', 'f5km', 'pin']];
+// Dataset mode browses the organiser roster; smart mode the full provider directory (hospitals, clinics, labs...).
+const KINDS = {
+  dataset: [['', 'kindAll'], ['doctor', 'kindDoctor'], ['medic', 'kindMedic'], ['phlebotomist', 'kindLab']],
+  smart: [['', 'kindAll'], ['hospital', 'kindHospital'], ['clinic', 'kindClinic'], ['diagnostic', 'kindTests'], ['home', 'kindHome'], ['video', 'kindVideo']],
+};
+const SORTS = { dataset: [['best', 'sortBest'], ['distance', 'sortDistance'], ['rating', 'sortRating'], ['experience', 'sortExp']],
+  smart: [['best', 'sortBest'], ['distance', 'sortDistance'], ['rating', 'sortRating'], ['experience', 'sortReviews']] };
+const TOGGLES = { dataset: [['top', 'f4plus', 'star'], ['exp', 'f5yrs', 'award'], ['near', 'f5km', 'pin']],
+  smart: [['top', 'f4plus', 'star'], ['near', 'f5km', 'pin']] };
 const BLANK = { kind: '', skill: '', q: '', sort: 'best', top: false, exp: false, near: false };
 
-// ctx: { T, skillText(skill), location() -> {lat, lng, name}?, slotText(iso), onBook(caregiver, button) }
+// ctx: { T, skillText(skill), location() -> {lat, lng, name}?, mode() -> 'dataset' | 'smart', slotText(iso), onBook(caregiver, button) }
 export function renderBrowse(root, ctx) {
   const { T } = ctx;
   const f = { ...BLANK };
+  const mode = () => (ctx.mode?.() === 'smart' ? 'smart' : 'dataset');
+  const label = s => data?.skill_labels?.[s] || ctx.skillText(s);
   let data = null, failed = false, shown = PAGE, req = 0, timer = 0;
 
   const controls = h('div', { class: 'dir-controls' });
@@ -27,8 +35,8 @@ export function renderBrowse(root, ctx) {
     const loc = ctx.location();
     try {
       data = await api.services.caregivers({
-        lat: loc?.lat, lng: loc?.lng, kind: f.kind, skill: f.skill, q: f.q.trim(), sort: f.sort,
-        min_rating: f.top && 4, min_experience: f.exp && 5, max_km: f.near && 5,
+        lat: loc?.lat, lng: loc?.lng, kind: f.kind, skill: f.skill, q: f.q.trim(), sort: f.sort, mode: mode(),
+        min_rating: f.top && 4, min_experience: mode() === 'dataset' && f.exp && 5, max_km: f.near && 5,
       });
       failed = false;
     } catch (e) {
@@ -72,13 +80,13 @@ export function renderBrowse(root, ctx) {
     const skills = data?.skills || [];
     controls.replaceChildren(
       h('div', { class: 'dir-search' }, icon('search'), search),
-      h('div', { class: 'seg', role: 'tablist' }, KINDS.map(([v, key]) => h('button', {
+      h('div', { class: 'seg', role: 'tablist' }, KINDS[mode()].map(([v, key]) => h('button', {
         role: 'tab', 'aria-selected': String(f.kind === v), class: f.kind === v ? 'on' : '', onclick: () => set({ kind: v }),
       }, T(key)))),
       h('div', { class: 'filters' },
-        select(f.sort, SORTS.map(([v, k]) => [v, T(k)]), T('sortLabel'), v => set({ sort: v })),
-        skills.length > 0 && select(f.skill, [['', T('anySkill')], ...skills.map(s => [s, ctx.skillText(s)])], T('anySkill'), v => set({ skill: v })),
-        TOGGLES.map(([k, key, ic]) => h('button', {
+        select(f.sort, SORTS[mode()].map(([v, k]) => [v, T(k)]), T('sortLabel'), v => set({ sort: v })),
+        skills.length > 0 && select(f.skill, [['', T('anySkill')], ...skills.map(s => [s, label(s)])], T('anySkill'), v => set({ skill: v })),
+        TOGGLES[mode()].map(([k, key, ic]) => h('button', {
           class: 'fchip' + (f[k] ? ' on' : ''), 'aria-pressed': String(f[k]), onclick: () => set({ [k]: !f[k] }),
         }, icon(ic), T(key)))),
     );
@@ -112,12 +120,12 @@ export function renderBrowse(root, ctx) {
         h('div', { class: 'cg-id' }, h('h5', {}, cg.name), h('p', {}, cg.role)),
         h('span', { class: 'rating', 'aria-label': `${cg.rating} / 5` }, icon('star'), cg.rating.toFixed(1))),
       h('div', { class: 'stats' },
-        stat('award', T('yrs', { n: cg.experience_years })),
+        cg.experience_years != null ? stat('award', T('yrs', { n: cg.experience_years })) : stat('star', T('reviewsN', { n: cg.reviews })),
         cg.video ? stat('video', T('videoCall')) : stat('pin', T('km', { n: cg.distance_km.toFixed(1) })),
         stat('languages', cg.languages.slice(0, 2).join(', '))),
       h('div', { class: 'tags' },
-        cg.skills.slice(0, 3).map(s => h('span', { class: 'tag' }, ctx.skillText(s))),
-        extra > 0 && h('span', { class: 'tag more', title: cg.skills.slice(3).map(ctx.skillText).join(', ') }, `+${extra}`)),
+        cg.skills.slice(0, 3).map(s => h('span', { class: 'tag' }, label(s))),
+        extra > 0 && h('span', { class: 'tag more', title: cg.skills.slice(3).map(label).join(', ') }, `+${extra}`)),
       h('div', { class: 'cg-foot' },
         cg.serves_you
           ? h('span', { class: 'next' }, icon('clock'), h('span', {}, h('small', {}, T('nextFree')), ctx.slotText(cg.next_slot)))
@@ -128,6 +136,7 @@ export function renderBrowse(root, ctx) {
   load();
   return {
     refresh: load, // location changed
+    reset: () => { Object.assign(f, BLANK); load(); }, // matching mode changed: kinds and services differ
     redraw: () => { drawHead(); drawControls(); drawList(); }, // language changed
   };
 }

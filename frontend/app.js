@@ -69,7 +69,7 @@ function renderLangSwitch() {
 function renderModeSwitch() {
   $('#modeSwitch').replaceChildren(...['dataset', 'smart'].map(m => h('button', {
     role: 'radio', 'aria-checked': String(m === state.mode), class: m === state.mode ? 'on' : '',
-    onclick: () => { state.mode = m; store.set('cc.mode', m); renderModeSwitch(); },
+    onclick: () => { if (m === state.mode) return; state.mode = m; store.set('cc.mode', m); renderModeSwitch(); directory?.reset(); },
   }, T(m === 'smart' ? 'modeSmart' : 'modeDataset'))));
   $('#modeHint').textContent = T(state.mode === 'smart' ? 'modeHintSmart' : 'modeHintDataset');
 }
@@ -447,6 +447,9 @@ async function book(cg, card, btn, careType) {
 }
 
 // Booked straight from the home-page directory (no conversation, chat_id null): confirm first.
+// Smart-directory hospitals, clinics and labs: the patient goes to them, so show where they are.
+const visitAtProvider = cg => ['hospital', 'clinic', 'diagnostic'].includes(cg.kind) && cg.care_type !== 'lab_test_home';
+
 function bookFromSearch(cg) {
   const video = VIDEO_CARE.has(cg.care_type);
   const row = (k, v) => [h('dt', {}, k), h('dd', {}, v)];
@@ -470,8 +473,8 @@ function bookFromSearch(cg) {
     h('dl', { class: 'summary' },
       row(T('rowType'), careText(state.lang, cg.care_type).label),
       row(T('rowWhen'), slotText(cg.next_slot)),
-      row(T('rowWhere'), video ? T('videoNote') : locationText()),
-      row(T('rowRating'), `★ ${cg.rating.toFixed(1)} · ${T('yrs', { n: cg.experience_years })}`)),
+      row(T('rowWhere'), video ? T('videoNote') : visitAtProvider(cg) ? `${cg.name} · ${T('km', { n: cg.distance_km.toFixed(1) })}` : locationText()),
+      row(T('rowRating'), `★ ${cg.rating.toFixed(1)} · ${cg.experience_years != null ? T('yrs', { n: cg.experience_years }) : T('reviewsN', { n: cg.reviews })}`)),
     confirm,
     h('button', { class: 'text-btn', onclick: closeSheet }, T('cancel'))));
 }
@@ -1076,6 +1079,7 @@ function initDirectory() {
     T,
     skillText: s => skillText(state.lang, s),
     location: () => state.location,
+    mode: () => state.mode,
     slotText,
     onBook: bookFromSearch,
   });
