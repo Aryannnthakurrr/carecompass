@@ -215,18 +215,26 @@ private struct ServerSetting: View {
     @Environment(AppState.self) private var app
     @State private var base = API.base
     @State private var open = false
+    @State private var busy = false
+    @State private var result: (ok: Bool, text: String)?
 
     var body: some View {
         DisclosureGroup(isExpanded: $open) {
             VStack(alignment: .leading, spacing: 8) {
                 TextField("http://192.168.1.10:8000", text: $base)
                     .keyboardType(.URL).textInputAutocapitalization(.never).autocorrectionDisabled()
+                    .foregroundStyle(Color.ink)
                     .padding(12).background(Color.surface, in: RoundedRectangle(cornerRadius: 12))
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color(hex: 0xD9D2C5)))
                 HStack {
-                    Button("Save") { API.base = base; Task { await app.loadAccount() } }.font(.subheadline.weight(.heavy))
+                    Button { apply(base) } label: { busy ? AnyView(ProgressView()) : AnyView(Text("Save and connect")) }
+                        .font(.subheadline.weight(.heavy)).disabled(busy)
                     Spacer()
-                    Button("Reset") { base = API.defaultBase; API.base = base; Task { await app.loadAccount() } }.font(.subheadline)
+                    Button("Reset") { base = API.defaultBase; apply(base) }.font(.subheadline).disabled(busy)
+                }
+                if let result {
+                    Label(result.text, systemImage: result.ok ? "checkmark.circle.fill" : "xmark.octagon.fill")
+                        .font(.footnote.weight(.bold)).foregroundStyle(result.ok ? Color.ok : Color.alert600)
                 }
             }
             .padding(.top, 8)
@@ -234,5 +242,15 @@ private struct ServerSetting: View {
             Label("Server", systemImage: "server.rack").font(.subheadline.weight(.bold)).foregroundStyle(Color.muted)
         }
         .padding(.top, 8)
+    }
+
+    private func apply(_ b: String) {
+        busy = true
+        result = nil
+        Task {
+            let err = await app.setServer(b.trimmingCharacters(in: .whitespaces))
+            result = err.map { (false, $0) } ?? (true, "Connected to \(API.base)")
+            busy = false
+        }
     }
 }

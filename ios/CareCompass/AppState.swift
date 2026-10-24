@@ -61,6 +61,7 @@ final class AppState {
     var sos: SOSContext?           // non-nil presents the emergency countdown
     var openChat: ChatSeed?        // non-nil pushes a conversation (from the home tiles)
     var tab = 0
+    var serverRev = 0              // bumps when the server address changes, so every screen reloads
 
     private let locator = Locator()
 
@@ -85,6 +86,16 @@ final class AppState {
 
     func choose(_ l: Locality) {
         place = Place(point: LatLng(lat: l.lat, lng: l.lng), name: l.name, source: .manual)
+    }
+
+    /// Points the app at another backend; returns nil when it answers, else what went wrong.
+    func setServer(_ base: String) async -> String? {
+        API.base = base
+        serverRev += 1
+        do { auth = try await API.authConfig() } catch { auth = nil; user = nil; bookings = []; return error.localizedDescription }
+        user = try? await API.me()
+        await loadBookings()
+        return nil
     }
 
     func loadAccount() async {

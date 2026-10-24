@@ -184,7 +184,7 @@ struct DirectorySection: View {
     @State private var shown = page
     @State private var booking: Caregiver?
 
-    private struct Key: Equatable { var q: DirectoryQuery; var mode: MatchMode; var place: Place? }
+    private struct Key: Equatable { var q: DirectoryQuery; var mode: MatchMode; var place: Place?; var server: Int }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -203,7 +203,7 @@ struct DirectorySection: View {
             filterBar
             list
         }
-        .task(id: Key(q: query, mode: app.mode, place: app.place)) {
+        .task(id: Key(q: query, mode: app.mode, place: app.place, server: app.serverRev)) {
             if !query.q.isEmpty { try? await Task.sleep(for: .milliseconds(250)) }  // debounce typing
             guard !Task.isCancelled else { return }
             await load()

@@ -102,6 +102,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					E37A821EC9421D876704BA10 = {
+						DevelopmentTeam = YRTAZ9C9X3;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 3CE13F4E975ACF6B97A00874 /* Build configuration list for PBXProject "CareCompass" */;
@@ -284,6 +288,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YRTAZ9C9X3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CareCompass/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = CareCompass;
@@ -291,11 +297,12 @@
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "CareCompass listens when you tap the mic so you can describe symptoms by voice.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = in.carecompass.app;
+				PRODUCT_BUNDLE_IDENTIFIER = anish.carecompass.app;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -307,6 +314,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YRTAZ9C9X3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CareCompass/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = CareCompass;
@@ -314,11 +323,12 @@
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "CareCompass listens when you tap the mic so you can describe symptoms by voice.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = in.carecompass.app;
+				PRODUCT_BUNDLE_IDENTIFIER = anish.carecompass.app;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
