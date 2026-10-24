@@ -48,14 +48,20 @@
         <p class="hello" id="hello" hidden></p>
         <h1 class="welcome-title" data-i18n="greeting"></h1>
         <p class="welcome-sub" data-i18n="greetingSub"></p>
-        <button class="hero-mic" id="heroMic" data-i18n-aria="tapToSpeak">
-          <span class="hero-halo"></span><span class="hero-halo h2"></span>
-          <i data-icon="mic"></i>
-        </button>
-        <p class="hero-label" data-i18n="tapToSpeak"></p>
+        <div class="tiles">
+          <button class="tile talk" id="heroMic">
+            <span class="tile-orb"><span class="hero-halo"></span><span class="hero-halo h2"></span><i data-icon="mic"></i></span>
+            <span class="tile-text"><b data-i18n="tapToSpeak"></b><small data-i18n="talkSub"></small></span>
+          </button>
+          <button class="tile sos-tile" id="sosBtn">
+            <span class="tile-orb"><span class="hero-halo"></span><span class="hero-halo h2"></span><i data-icon="ambulance"></i></span>
+            <span class="tile-text"><b data-i18n="sosBig"></b><small data-i18n="sosBigSub"></small></span>
+          </button>
+        </div>
         <p class="examples-title" data-i18n="tryOne"></p>
         <div class="examples" id="examples"></div>
         <div class="home-account" id="homeAccount"></div>
+        <section class="directory" id="directory"></section>
       </section>
     </main>
 
@@ -101,10 +107,25 @@
         <a class="em-call" href="tel:108">
           <i data-icon="phone"></i><span><b data-i18n="call108"></b><small data-i18n="call108Sub"></small></span>
         </a>
+        <button class="em-call" id="emAmb">
+          <i data-icon="ambulance"></i><span><b data-i18n="sosSendAmb"></b><small data-i18n="sosSendAmbSub"></small></span>
+        </button>
         <p class="em-while" data-i18n="emWhile"></p>
         <ol class="em-steps" id="emSteps"></ol>
         <button class="em-back" id="emBack" data-i18n="emBack"></button>
       </div>
+    </div>
+
+    <!-- One-tap emergency: countdown, simulated dispatch, live ambulance map (sos.js) -->
+    <div class="sos-screen" id="sos" role="alertdialog" aria-modal="true" data-i18n-aria="sosBig" hidden></div>
+
+    <!-- Profile: the signed-in user's appointments -->
+    <div class="page" id="profile" role="dialog" aria-modal="true" aria-labelledby="pfTitle" hidden>
+      <header class="page-bar">
+        <button class="icon-btn" id="pfBack" data-i18n-aria="back"><i data-icon="arrowLeft"></i></button>
+        <h2 id="pfTitle" data-i18n="profile"></h2>
+      </header>
+      <div class="page-body" id="pfBody"></div>
     </div>
 
     <!-- Bottom sheet: location picker, booking confirmation -->

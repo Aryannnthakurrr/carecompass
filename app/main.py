@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from pydantic import BaseModel, Field
 
-from app import auth, db, pipeline, speech
+from app import auth, db, pipeline, services, speech
 from app.auth import current_user
 from app.schemas import TriageRequest, TriageResponse
 
@@ -29,6 +29,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(auth.router)
+app.include_router(services.router)
 
 
 @app.post("/triage", response_model=TriageResponse)
