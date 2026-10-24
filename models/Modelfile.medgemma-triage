@@ -1,0 +1,29 @@
+# Fine-tuned MedGemma 4B triage classifier (training/medgemma_lora.ipynb).
+# ollama create carecompass-medgemma -f models/Modelfile.medgemma-triage
+# Template copied from the base hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M (ollama show --modelfile), so prompts match production.
+FROM ./medgemma-triage.Q4_K_M.gguf
+
+TEMPLATE """{{- $systemPromptAdded := false }}
+{{- range $i, $_ := .Messages }}
+{{- $last := eq (len (slice $.Messages $i)) 1 }}
+{{- if eq .Role "user" }}<start_of_turn>user
+{{- if (and (not $systemPromptAdded) $.System) }}
+{{- $systemPromptAdded = true }}
+{{ $.System }}
+{{ end }}
+{{ .Content }}<end_of_turn>
+{{ if $last }}<start_of_turn>model
+{{ end }}
+{{- else if eq .Role "assistant" }}<start_of_turn>model
+{{ .Content }}{{ if not $last }}<end_of_turn>
+{{ end }}
+{{- end }}
+{{- end }}"""
+
+PARAMETER stop <end_of_turn>
+PARAMETER temperature 0
+PARAMETER num_ctx 2048
+
+# Alternative if GGUF export fails: keep the base weights and apply the LoRA adapter (VERIFY: Ollama adapter support for Gemma 3)
+# FROM hf.co/unsloth/medgemma-4b-it-GGUF:Q4_K_M
+# ADAPTER ./medgemma_triage_lora
