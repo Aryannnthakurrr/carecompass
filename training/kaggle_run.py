@@ -27,6 +27,7 @@ KAGGLE = str(Path(sys.executable).with_name("kaggle.exe" if sys.platform == "win
 CANDIDATES = {"medgemma": "unsloth/medgemma-4b-it"}
 DATASET_SLUG = "carecompass-sft"
 OLLAMA_NAME = "carecompass-triage"
+TAG = "v3"  # Kaggle notebook suffix: one notebook per training round (v3 = recall-first relabelled data)
 
 
 def kaggle(*args, check=True):
@@ -79,14 +80,14 @@ def push(a):
         mine["cells"][1]["source"] = src.splitlines(keepends=True)
         (d / "notebook.ipynb").write_text(json.dumps(mine, indent=1, ensure_ascii=False), encoding="utf-8")
         (d / "kernel-metadata.json").write_text(json.dumps({
-            "id": f"{user}/carecompass-{run}-lora", "title": f"carecompass {run} lora", "code_file": "notebook.ipynb",
+            "id": f"{user}/carecompass-{run}-{TAG}", "title": f"carecompass {run} {TAG}", "code_file": "notebook.ipynb",
             "language": "python", "kernel_type": "notebook", "is_private": True, "enable_gpu": True,
             "enable_internet": True, "dataset_sources": [f"{user}/{DATASET_SLUG}"]}, indent=1))
         print(kaggle("kernels", "push", "-p", str(d), "--accelerator", "NvidiaTeslaT4"))
 
 
 def status(user, run):
-    out = kaggle("kernels", "status", f"{user}/carecompass-{run}-lora", check=False).lower()
+    out = kaggle("kernels", "status", f"{user}/carecompass-{run}-{TAG}", check=False).lower()
     for s in ("complete", "error", "cancel", "running", "queued"):
         if s in out:
             return s
@@ -111,14 +112,14 @@ def pull(a):
     for run in runs:
         d = OUT / run
         d.mkdir(parents=True, exist_ok=True)
-        kaggle("kernels", "output", f"{user}/carecompass-{run}-lora", "-p", str(d), "--file-pattern", r"metrics_.*\.json", "-o", check=False)
+        kaggle("kernels", "output", f"{user}/carecompass-{run}-{TAG}", "-p", str(d), "--file-pattern", r"metrics_.*\.json", "-o", check=False)
         f = d / f"metrics_{run}.json"
         if f.exists():
             metrics[run] = json.loads(f.read_text())
             m = metrics[run]
             print(f"{run}: accuracy {m['accuracy']:.3f}  valid {m['valid']}/{m['rows']}  emergencies {m['emergency_recall']}  train loss {m['train_loss']:.3f}")
         else:
-            print(f"{run}: no metrics (run failed or still going); see https://www.kaggle.com/code/{user}/carecompass-{run}-lora")
+            print(f"{run}: no metrics (run failed or still going); see https://www.kaggle.com/code/{user}/carecompass-{run}-{TAG}")
     if not metrics:
         sys.exit("nothing to compare")
 
@@ -130,7 +131,7 @@ def pull(a):
     print(f"winner: {win} ({CANDIDATES[win]})")
     d = OUT / win
     print("downloading its GGUF (~2.5 GB) ...", flush=True)
-    kaggle("kernels", "output", f"{user}/carecompass-{win}-lora", "-p", str(d), "--file-pattern", r".*\.(gguf|zip)$", "-o")
+    kaggle("kernels", "output", f"{user}/carecompass-{win}-{TAG}", "-p", str(d), "--file-pattern", r".*\.(gguf|zip)$", "-o")
     ggufs = sorted(d.glob(f"{win}-triage.*.gguf"))
     if not ggufs:
         sys.exit(f"no GGUF in the {win} output; the LoRA zip is in {d} (Modelfile ADAPTER fallback)")
