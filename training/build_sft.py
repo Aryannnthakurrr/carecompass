@@ -434,25 +434,23 @@ def to_chat(r):
 
 
 def stage_export(a):
-    rows = read("labelled.jsonl") + read("manual.jsonl")  # manual.jsonl: hand-written follow-up cases (manual_followups.py)
+    # manual_review.jsonl (manual_review.py) overrides panel labels recall-first; manual.jsonl adds hand-written follow-ups
+    review = {r["id"]: r for r in read("manual_review.jsonl")}
+    rows = [review.pop(r["id"], r) for r in read("labelled.jsonl")] + list(review.values()) + read("manual.jsonl")
     # deduplicate identical inputs (the structurer often maps paraphrases to the same facts)
     uniq = {}
     for r in rows:
         uniq.setdefault(r["facts_json"], r)
     rows = list(uniq.values())
-    # split by generation batch so paraphrase siblings never straddle train and test; stratify by target
+    # split by generation batch so paraphrase siblings never straddle train and test. The split is a hash of the batch id,
+    # not a shuffle, so relabelling a row never moves it (or anything else) to another split: 15% test, 10% val.
+    def split_of(batch):
+        h = int(hashlib.md5(f"split|{batch}".encode()).hexdigest(), 16) % 100
+        return "test" if h < 15 else "val" if h < 25 else "train"
     rng = random.Random(a.seed)
-    split = {}
-    for target in sorted({r["target"] for r in rows}):
-        batches = sorted({r["batch"] for r in rows if r["target"] == target})
-        rng.shuffle(batches)
-        n = len(batches)
-        n_test, n_val = max(1, round(n * 0.15)), max(1, round(n * 0.10)) if n > 2 else 0
-        for i, b in enumerate(batches):
-            split[b] = "test" if i < n_test else "val" if i < n_test + n_val else "train"
     out = {"train": [], "val": [], "test": []}
     for r in rows:
-        out[split[r["batch"]]].append(to_chat(r))
+        out[split_of(r["batch"])].append(to_chat(r))
     for name, rs in out.items():
         rng.shuffle(rs)
         (OUT / f"{name}.jsonl").write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in rs), encoding="utf-8")
