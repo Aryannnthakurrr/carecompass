@@ -105,6 +105,15 @@ def _medical(facts: CaseFacts) -> bool:
 
 
 BASICS_ASKS = 2  # questions the enough-facts guard may spend; after that a user who won't say still gets care
+ADULT_RELATION = re.compile(r"father|mother|papa|mummy|\bdad\b|\bmom\b|husband|wife|pati|patni|grand|dada|dadi|nana|nani|uncle|"
+                            r"aunt|in-law|पापा|मम्मी|पिता|माँ|माता|पति|पत्नी|दादा|दादी|नाना|नानी|ससुर|सास", re.I)
+
+
+def _age_stated(facts: CaseFacts) -> bool:
+    """A fever's age counts as known only when said: a number, an age group the user gave, or an adult relation.
+    'self' alone does not count (the mentor's demo: 'i am having fever' was routed with no age)."""
+    p = facts.patient or ""
+    return bool(facts.special_population or re.search(r"\d", p) or ADULT_RELATION.search(p))
 
 
 def _basic_gaps(facts: CaseFacts) -> list[str]:
@@ -116,7 +125,7 @@ def _basic_gaps(facts: CaseFacts) -> list[str]:
     fever = any("fever" in s.lower() or "temperature" in s.lower() for s in facts.symptoms_present + facts.vitals_reported)
     if not (facts.patient or facts.age_group):
         missing.append("who the patient is and how old")
-    elif fever and facts.age_group is None and (facts.patient or "").lower() not in ("self", "me", "myself"):
+    elif fever and not _age_stated(facts):  # "i am having fever": the typist could be a teen or a parent typing for a baby
         missing.append("how old the patient is")
     if not facts.duration:
         missing.append("since when")

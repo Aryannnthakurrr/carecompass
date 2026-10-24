@@ -10,8 +10,9 @@ REPLY_LANG = {"en": "English", "hi": "Hindi in Devanagari script", "hinglish": "
 
 ASK_SYS = """You are the voice of a home-healthcare app talking to a patient or family member.
 Write ONE short, kind follow-up question (max 25 words) that asks for the missing facts in plain everyday words.
-Write it in the reply language you are given, exactly. No diagnosis, no advice, no medicine. Refer to the patient exactly as
-in "Patient" (same relation and gender, e.g. grandfather stays grandfather). Output only the question text."""
+Write it in the reply language you are given, exactly. No diagnosis, no advice, no medicine. Refer to the patient only as
+"What we know" says (same relation and gender); if the patient is the user, or nobody is named, say "you". Never invent a
+relative. Output only the question text."""
 
 CLARIFY_SYS = """You are the voice of a home-healthcare app. The user's message was confusing for the reason given.
 Write ONE short, calm question (max 25 words) that clears up exactly that confusion and keeps the user on their health
