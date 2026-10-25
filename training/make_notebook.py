@@ -226,7 +226,7 @@ md("""
 1. Put the `.gguf` in `models/` as `medgemma-triage.Q4_K_M.gguf` (git-ignored) and run
    `ollama create carecompass-medgemma -f models/Modelfile.medgemma-triage`.
 2. `python training/eval_finetune.py --model carecompass-medgemma --prompt rules_only --pair`
-3. Only if it passes the gates in `training/FINETUNE_PLAN.md`: in `config.yaml` set
+3. Only if it passes the gates in `docs/medgemma-finetune.md`: in `config.yaml` set
    `classifier.model: carecompass-medgemma` and `classifier.prompt: rules_only`, then rerun `eval/eval_dataset.py`.
 """)
 

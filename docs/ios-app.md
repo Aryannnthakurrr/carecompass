@@ -1,4 +1,6 @@
-# CareCompass iOS
+# CareCompass iOS app
+
+The app lives in `ios/`; commands below run from the repository root.
 
 Native SwiftUI app (iOS 18+) on the same FastAPI backend as the web demo. No third-party packages.
 

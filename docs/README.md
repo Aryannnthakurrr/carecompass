@@ -1,0 +1,23 @@
+# CareCompass documentation
+
+Start with the architecture; every number in it is traced in the evaluation file.
+
+| File | What it is |
+|---|---|
+| [architecture.md](architecture.md) | How CareCompass works: the app and server, the nine layers, one request step by step, model roles, the gate and care decision, MedGemma's clinical screen, emergencies, matching, privacy and cost, and how the design evolved |
+| [evaluation.md](evaluation.md) | How we measured: each claim, its data, and the script or result file that reproduces it |
+| [ios-app.md](ios-app.md) | The iPhone client: screens, building with XcodeGen, connecting to the laptop server, response fields |
+| [medgemma-finetune.md](medgemma-finetune.md) | The labelled dataset pipeline and the planned recall-first LoRA fine-tune of MedGemma (not run yet) |
+| [CareCompass_CAI_Problem_Statement_Final.pdf](CareCompass_CAI_Problem_Statement_Final.pdf) | The organisers' problem statement |
+
+## Shared documents and deck
+
+| | |
+|---|---|
+| [Presentation](https://claude.ai/artifact/2Go4K643xUvFbJL4AL6vGt) | The judges' deck, with numbered sources and methods slides |
+| [System Architecture](https://claude.ai/artifact/RFsg9cCKFkiCwLHZejuSYd) | Long-form architecture with diagrams |
+| [Model Selection Rationale](https://claude.ai/artifact/JY6yW4KHZ4K37TVbZKzBUZ) | Why each model, the benchmarks, cost and self-hosting |
+| [MedGemma Dataset & Training Strategy](https://claude.ai/artifact/9YcKrftBNp5bK3UqyfAayN) | How the labelled dataset was built and how MedGemma's job was found |
+
+`CLAUDE.md` at the repository root is the brief for coding assistants working on the project; `config.yaml` holds every
+model name, endpoint, label and weight.

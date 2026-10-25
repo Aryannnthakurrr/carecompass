@@ -1,15 +1,19 @@
-# MedGemma fine-tune: runbook and status
+# MedGemma fine-tune: dataset pipeline and plan
+
+> **Status: planned, not run yet.** The labelled dataset and the Kaggle notebook are ready; MedGemma in the app today is
+> the base model, used as the graded clinical screen (see [architecture.md](architecture.md)).
 
 Shareable write-up with all the numbers: [MedGemma Dataset & Training Strategy](https://claude.ai/artifact/9YcKrftBNp5bK3UqyfAayN).
 This file is the repo-side runbook.
 
 ## Goal
 
-Miss as few emergencies as possible: over-triage is acceptable, under-triage is not. Make MedGemma the strongest
-part of the classifier. Today base MedGemma catches 37 of 73 held-out emergencies, and each one it catches, the
-red-flag rules or Qwen catch already (rules 52, + Qwen 66, + MedGemma 66).
+Miss as few emergencies as possible: over-triage is acceptable, under-triage is not. Because we own MedGemma's weights,
+a recall-first fine-tune on our own labels can keep improving the clinical screen over time. Today the base model, asked
+as a graded screener with retrieved similar cases, lifts the held-out safety chain from 66 to 74 of 77 emergencies
+([evaluation.md](evaluation.md) [2]).
 
-## The task MedGemma learns
+## The task MedGemma would learn
 
 The exact production call (`app/triage.py`): `Patient facts: {CaseFacts JSON}` in, `Decision` JSON out
 (`status, care_type, red_flags, missing_info, reasoning`). The system prompt is `triage.RULES`, the rules without the
@@ -38,7 +42,7 @@ live app run on separate keys.
 ## Data (24 Oct)
 
 1,715 rows after dedupe: train 1,326 / val 129 / test 260; 651 emergencies. `test_v2.jsonl` is the earlier split
-the deleted v2 run was trained against. Label sources: 1,393 unanimous, 166 adjudicated, 122 manual, 34 hand-written.
+the stopped v2 run used. Label sources: 1,393 unanimous, 166 adjudicated, 122 manual, 34 hand-written.
 
 ## Kaggle notes
 
@@ -65,14 +69,9 @@ the deleted v2 run was trained against. Label sources: 1,393 unanimous, 166 adju
 
 If they pass: `config.yaml` → `classifier.model: carecompass-triage`, `classifier.prompt: rules_only`.
 
-## Probe so far (base model, recall-first labels)
+## What the probe decided
 
-| Variant | Emergencies caught | False alarms | Invalid |
-|---|---|---|---|
-| Today's setup (JSON, decide first) | 37 / 73 (old labels) | 0 | 4 / 254 |
-| Clinical note, emergency screener | 73 / 77 | 14 / 56 | 5 / 133 (replies cut off) |
-| JSON, reason first | running | | |
-| Clinical note, reason first | running | | |
-
-If the screener holds up, the next step is a design change: MedGemma becomes the dedicated emergency screener beside
-Qwen (either one saying emergency still wins), and it is fine-tuned in that format (v4).
+The base model was asked the same facts four ways on 133 held-out cases ([evaluation.md](evaluation.md) [3]): picking a
+care label caught 37 of 77 emergencies, a clinical-note screener caught 73 of 77. MedGemma therefore became the dedicated
+graded screen beside Qwen (either one saying emergency still wins). A future fine-tune would train it in that screening
+format rather than as a care-label classifier.

@@ -7,6 +7,8 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 
 ## How to work on this project
 
+- Documentation lives in `docs/` (index: `docs/README.md`); the root README stays short. Keep both in sync with code changes.
+
 - Commit progress frequently (organisers ask for commits throughout the hackathon). Small, descriptive commits.
 - Never write API keys or tokens into code or this file. They live in `.env` only, which the user fills in themselves.
 - Anything marked **VERIFY** is a name, version or parameter that may have changed. Check the official docs or Hugging Face before relying on it.
@@ -44,11 +46,12 @@ All model names / endpoints / labels / weights live in `config.yaml`.
 CLAUDE.md, README.md, .env (git-ignored), .env.example, requirements.txt, config.yaml
 app/            main.py (FastAPI), pipeline.py, schemas.py, intake.py, redflags.py, screen.py, retrieval.py,
                 protocols.py, triage.py, smart.py, matching.py, smart_match.py, explain.py, speech.py, emergency_text.py
-ios/            native iPhone client (SwiftUI); the laptop runs the server (uvicorn --host 0.0.0.0)
+ios/            native iPhone client (SwiftUI; guide in docs/ios-app.md); the laptop runs the server
 data/           organiser data (data/raw/ git-ignored)
-docs/           problem statement, write-up
+docs/           ALL documentation: README (index), architecture.md, evaluation.md, ios-app.md,
+                medgemma-finetune.md, problem statement
 models/         GGUF files (git-ignored) + Ollama Modelfiles
-training/       Kaggle/Colab notebook for MedGemma LoRA
+training/       dataset builder + Kaggle notebook for the planned MedGemma LoRA (not run yet)
 eval/           macro-F1, emergency recall, latency
 smoke_tests/    one script per external service
 frontend/       demo UI
@@ -108,8 +111,8 @@ Response:
 - Only synthetic data and cited public datasets. No real patient data.
 - Declare every model and API used in the write-up.
 
-## Training (MedGemma 4B LoRA) — Kaggle
-- Runbook: `training/FINETUNE_PLAN.md`. Goal: miss as few emergencies as possible (over-triage OK), MedGemma the star.
+## Training (MedGemma 4B LoRA, planned; not run yet) — Kaggle
+- Runbook: `docs/medgemma-finetune.md`. Goal: miss as few emergencies as possible (over-triage OK), MedGemma the star.
 - Task = production call: `CaseFacts` JSON in → `Decision` JSON out, system prompt `triage.RULES` (`config.yaml classifier.prompt: rules_only` for the fine-tune).
 - Data: `training/build_sft.py` (generate → facts → panel label → export), recall-first relabels in `training/manual_review.py`, follow-ups in `training/manual_followups.py`. Splits in `training/sft/` are a stable hash of the generation batch.
 - Bulk API jobs: `build_sft.py` stops on quota errors, caps requests per provider and meters OpenAI usage; use a separate key (`CEREBRAS_TRAINING_API_KEY`) for bulk jobs. Ask before any large API job; prefer `eval/smoke_budget.py` (metered, capped) for live checks.
