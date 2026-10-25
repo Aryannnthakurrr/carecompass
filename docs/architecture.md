@@ -98,11 +98,11 @@ crew brief and a live ambulance map; no login is ever needed.
 
 ## Matching
 
-| | Dataset mode (default) | Smart mode (`"mode": "smart"`) |
+| | Smart mode (default, the apps) | Dataset mode (`"mode": "dataset"`, organiser grading) |
 |---|---|---|
-| Providers | organiser roster of 60 | 186 synthetic providers (`data/providers.csv`): hospitals, clinics, specialists, labs, home care |
-| Scoring | role from care type, skill from the words, distance, language, rating; top-3 overlap with labelled matches 195/198 [5] | hard filters for anything named, a weight profile by need (rare, test, procedure, consult, home, video), the user's words shift weights ("best", "nearby", "cheap", "today", "lady doctor"), language as a multiplier |
-| Explanation | template reason | factor chips, a "picked over" line, and a summary of how the shortlist was formed |
+| Providers | 186 synthetic providers (`data/providers.csv`): hospitals, clinics, specialists, labs, home care | organiser roster of 60 |
+| Scoring | hard filters for anything named, a weight profile by need (rare, test, procedure, consult, home, video), the user's words shift weights ("best", "nearby", "cheap", "today", "lady doctor"), language as a multiplier | role from care type, skill from the words, distance, language, rating; top-3 overlap with labelled matches 195/198 [5] |
+| Explanation | factor chips, a "picked over" line, and a summary of how the shortlist was formed | template reason |
 
 Real picks from `eval/curated_queries.py` [8]: "need a dermatologist" picks a 4.0-star hospital 0.3 km away; "need the
 best dermatologist, last one was useless" picks a 4.6-star hospital 6.3 km away; "need a cheap ultrasound" moves from ₹600
@@ -115,7 +115,7 @@ emergency. Optional extras, all backwards compatible:
 
 | Field | Meaning |
 |---|---|
-| request `mode` | `dataset` (default) or `smart` |
+| request `mode` | `smart` (default, used by the apps) or `dataset` (organiser taxonomy and roster, for grading) |
 | request `input_mode` | `voice` when `user_input` is a transcript (enables "did you say …?") |
 | history turn `kind` | echo the reply's `follow_up_kind`, so only medical questions count toward the budget |
 | `follow_up_kind` | `medical`, `safety_check`, `clarify`, `redirect` or `misheard` |

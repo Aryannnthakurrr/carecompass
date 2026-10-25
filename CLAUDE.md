@@ -96,7 +96,7 @@ Response:
 8. **Matching + explanation**: templates for reasons and the place sentence; "we recommend", never "booked". `explain.scrub` removes disease / medicine names (EN, HI, Hinglish) from every shown line; the reply writer never sees raw user text.
 9. **Emergency (`emergency_text.py`)**: NEVER generated. One pre-written card per red flag (bleeding, seizure, infant fever, unconsciousness, stroke, chest pain, snake bite, choking, suicidal with Tele-MANAS 14416 [VERIFY]) + generic.
 
-## Smart mode (request `"mode": "smart"`; default stays `dataset`)
+## Smart mode (the default and the only mode in the apps; `"mode": "dataset"` stays an API option for organiser grading)
 - `app/lexicon.py`: service/test/specialty/symptom/preference vocabulary (EN/Hinglish/Devanagari regexes).
 - `data/build_providers.py` -> `data/providers.csv` (186 providers, Hindi/English only, realistic capability rarity).
 - `app/smart.py`: MedGemma + Qwen seriousness analyser on CaseFacts + keyword hints -> SmartDecision (asks about severity when unclear).

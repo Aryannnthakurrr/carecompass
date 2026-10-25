@@ -53,7 +53,7 @@ Qwen alone; the MedGemma screen simply adds no vote.
 
 ## API
 
-`POST /triage` follows the organiser contract. Send the whole conversation each turn; the response is either a
+`POST /triage` follows the organiser contract. Smart mode (186-provider directory) is the default; send `"mode": "dataset"` for the organiser taxonomy and roster. Send the whole conversation each turn; the response is either a
 `follow_up_question` (decision fields `null`) or a decision:
 
 ```json

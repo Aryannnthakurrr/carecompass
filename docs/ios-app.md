@@ -6,7 +6,7 @@ Native SwiftUI app (iOS 18+) on the same FastAPI backend as the web demo. No thi
 
 | Screen | What it does | API |
 |---|---|---|
-| Home | Talk / Emergency tiles, Dataset ↔ Smart matching toggle, example requests, caregiver directory with filters | `GET /caregivers` |
+| Home | Talk / Emergency tiles, example requests, caregiver directory with filters | `GET /caregivers` |
 | Chat | Text or voice conversation, follow-up questions with answer chips, care plan, matched caregivers, booking | `POST /triage`, `/stt`, `/tts`, `PUT /me/chats/{id}` |
 | Emergency | 10 s countdown with siren and haptics, simulated ambulance dispatch, live Apple Maps tracking, crew brief | `POST /emergency/dispatch`, `GET /emergency/{id}/tracking` |
 | Appointments | Phone OTP sign-in, upcoming/past bookings (assistant vs search), server address | `/auth/*`, `/me/bookings` |
