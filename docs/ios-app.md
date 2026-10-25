@@ -42,7 +42,7 @@ All optional and backwards compatible (see `app/schemas.py`):
 
 | Field | Use in the app |
 |---|---|
-| `follow_up_kind` | `medical`, `safety_check`, `clarify`, `redirect`, `misheard`. Echo it back as `kind` on that assistant turn in `conversation_history` so only medical questions count toward the question budget (the server infers it if missing) |
+| `follow_up_kind` | `medical`, `safety_check`, `clarify`, `redirect`, `misheard`, `fallback`. Echo it back as `kind` on that assistant turn in `conversation_history` so only medical questions count toward the question budget (the server infers it if missing) |
 | `safety_note` | show as a red banner above the question (the call-112 line during a safety check) |
 | `conversation_ended` | repeated non-health messages: show `explanation` as the closing line and disable the input |
 | `emergency` | pre-written card per red flag: title, numbers to call, first-aid steps |

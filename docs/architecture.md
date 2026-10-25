@@ -118,7 +118,7 @@ emergency. Optional extras, all backwards compatible:
 | request `mode` | `smart` (default, used by the apps) or `dataset` (organiser taxonomy and roster, for grading) |
 | request `input_mode` | `voice` when `user_input` is a transcript (enables "did you say …?") |
 | history turn `kind` | echo the reply's `follow_up_kind`, so only medical questions count toward the budget |
-| `follow_up_kind` | `medical`, `safety_check`, `clarify`, `redirect` or `misheard` |
+| `follow_up_kind` | `medical`, `safety_check`, `clarify`, `redirect`, `misheard` or `fallback` (asks what the problem is, or to rephrase) |
 | `safety_note` | the call-112 line shown with a safety check, or with a decision made while facts were missing |
 | `conversation_ended` | repeated non-health messages: closed politely |
 | `emergency` | the pre-written card: title, numbers to call, steps |
