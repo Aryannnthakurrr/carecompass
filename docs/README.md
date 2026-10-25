@@ -16,7 +16,7 @@ Start with the architecture; every number in it is traced in the evaluation file
 | | |
 |---|---|
 | [CareCompass in Action](https://claude.ai/artifact/WpRVfffyy2ND33aPbxxrhX) | Live showcase page (offline copy: [showcase.html](showcase.html)) |
-| [Presentation](https://claude.ai/artifact/2Go4K643xUvFbJL4AL6vGt) | The judges' deck, with numbered sources and methods slides |
+| [Presentation](https://claude.ai/artifact/2Go4K643xUvFbJL4AL6vGt) | The judges' deck: team slide plus 8 slides (problem, solution, tech stack, system design, real-world handling, research, safety results, economics); numbered sources map to evaluation.md |
 | [System Architecture](https://claude.ai/artifact/RFsg9cCKFkiCwLHZejuSYd) | Long-form architecture with diagrams |
 | [Model Selection Rationale](https://claude.ai/artifact/JY6yW4KHZ4K37TVbZKzBUZ) | Why each model, the benchmarks, cost and self-hosting |
 | [MedGemma Dataset & Training Strategy](https://claude.ai/artifact/9YcKrftBNp5bK3UqyfAayN) | How the labelled dataset was built and how MedGemma's job was found |
