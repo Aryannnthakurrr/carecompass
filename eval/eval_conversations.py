@@ -41,6 +41,8 @@ CASES = [
     ("numbers only", "dataset", ["103", "2", "yes"], "ask", None, False),
     ("empty-ish", "dataset", ["...", "?", "hmm"], "ask", None, False),
     ("junk forever ends", "dataset", ["lol", "asdf", "you suck", "2+2", "blah"], "ended", None, False),
+    ("sad by voice: a health concern, never mis-heard or closed", None, ["मैं बहुत दुखी हूँ।", "दो हफ्ते से। नहीं, ऐसा कुछ नहीं सोचा।"], "final", None, True),
+    ("answered 'how bad' is never asked again", None, ["burning while peeing since 3 days, I am 28 male", "no fever, no back pain"], "final", None, False),
     ("junk then real health resets", "dataset", ["lol", "asdf", "you suck", "ok sorry. my father, 60, has had fever since yesterday, 101F"], "final", None, False),
     # --- information gathering
     ("fever alone asks", None, ["i have fever"], "medical", WHEN, False),

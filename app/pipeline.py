@@ -37,6 +37,8 @@ SUPPRESSIBLE = {"chest_pain", "breathlessness"}  # red flags that are also every
 MAX_REDIRECTS = 3  # junk / abuse / off-topic messages steered back this many times; the next one ends the conversation
 EXTRA_ASKS_AFTER_BASICS = 2  # once who/age and since-when are known, the classifier's own questions stop at this many asked
 SAFETY_MARK = "112"  # every safety-check question ends with the pre-written call-112 line (explain.SAFETY_LINE)
+DISTRESS = re.compile(r"\b(sad|depress\w*|hopeless|anxious|anxiety|panic\w*|stress(ed)?|lonely|crying|udaas|udas|dukhi|dukh|"
+                      r"akela|akeli|ghabrahat|tension)\b|उदास|दुखी|दुख|अकेला|अकेली|घबराहट|तनाव|डिप्रेशन|रोना आ", re.I)
 _POOL = ThreadPoolExecutor(max_workers=8)
 _ASKS_MEDS = contextvars.ContextVar("asks_meds", default=False)  # set per request by the intake analyst
 
@@ -104,6 +106,7 @@ def _medical(facts: CaseFacts) -> bool:
                 or facts.setting_requested not in (None, "unspecified"))
 
 
+BASIC_WHO_WHEN = {"who the patient is and how old", "how old the patient is", "since when"}
 BASICS_ASKS = 2  # questions the enough-facts guard may spend; after that a user who won't say still gets care
 ASK_SEVERITY = CFG["intake"].get("ask_severity", True)  # also ask how bad / how high (off for an organiser scoring run)
 ADULT_RELATION = re.compile(r"father|mother|papa|mummy|\bdad\b|\bmom\b|husband|wife|pati|patni|grand|dada|dadi|nana|nani|uncle|"
@@ -153,13 +156,17 @@ def _missing_basics(facts: CaseFacts, asked: int) -> list[str]:
     if facts.no_more_questions:
         return []
     gaps = _basic_gaps(facts)
+    if asked and all(g not in BASIC_WHO_WHEN for g in gaps):
+        # only "how bad" is left and a question has been asked: its answer often lands in symptoms_denied ("no such
+        # thoughts", "no fever"), not severity, so never ask it twice; the classifier sees the questions already asked
+        return []
     if asked < BASICS_ASKS:
         return gaps
     if asked >= MAX_FOLLOW_UPS:
         return []
     # asking the age again: say why, so it doesn't read as the same question ignored twice
     return ["how old the patient is (asked once already: add in a few words that fever in a small baby needs very different "
-            "care than in an adult)"] if any("old" in g for g in gaps) else []
+            "care than in an adult)"] if "how old the patient is" in gaps else []  # the fever-only gap, not "who … how old"
 
 
 def _kind(t) -> str:
@@ -231,7 +238,9 @@ def _run(req: TriageRequest) -> TriageResponse:
     user_turns = [t.content for t in history if t.role == "user"] + [req.user_input]
     asked_qs = intake.asked_questions(history)  # every question, so none is repeated
     asked = _count(history, {"medical", "safety_check"})  # only these spend the medical question budget
-    stalls = _count(history, {"redirect", "clarify", "misheard", "fallback"})  # turns that made no progress
+    # turns that made no progress: junk steered back, or "what is the problem?" unanswered. A "did you say…?" or a clarifying
+    # question is the app's own doubt, never a reason to close on the user.
+    stalls = _count(history, {"redirect", "fallback"})
     lang = req.language if req.language != "auto" else intake.guess_language(req.user_input)
     voice = req.input_mode == "voice"
 
@@ -275,6 +284,10 @@ def _run(req: TriageRequest) -> TriageResponse:
             return _emergency(raw_flags, raw_extra, lang, req.mode)
 
     # 4. the gate: nothing here reaches a medical model
+    if DISTRESS.search(" ".join(user_turns)) and not facts.symptoms_present:
+        # "मैं बहुत दुखी हूँ" is a health concern (the low-mood card asks about self-harm), never junk, mis-hearing or a close
+        facts = facts.model_copy(update={"symptoms_present": ["feeling very sad / low mood"],
+                                         "message_check": "ok" if facts.message_check in ("unclear", *GATE_STOP) else facts.message_check})
     log.info("intake check=%s notes=%s wants=%s", facts.message_check, facts.check_notes, facts.user_wants)
     medical = _medical(facts)
     stalled = stalls >= MAX_REDIRECTS
@@ -288,7 +301,8 @@ def _run(req: TriageRequest) -> TriageResponse:
     if facts.message_check in GATE_STOP and not medical:
         return _ask(explain.redirect(lang, facts.message_check == "abusive", _count(history, {"redirect"})), lang, req.mode, "redirect",
                     "No health concern described; steering back to the health problem.", safety_note)
-    if facts.message_check == "unclear" and (voice or not medical) and not stalled:
+    # doubt is voiced once per conversation: after one "did you say…?" or clarifying question, go with the best reading
+    if facts.message_check == "unclear" and (voice or not medical) and not stalled and not _count(history, {"misheard", "clarify"}):
         q = explain.misheard(req.user_input, lang) if voice else explain.clarify(facts.check_notes, _context(facts), lang)
         if _fresh(q, asked_qs):
             return _ask(q, lang, req.mode, "misheard" if voice else "clarify", "The message was unclear; confirming before going further.")

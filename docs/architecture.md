@@ -53,7 +53,8 @@ MedGemma call on a 6 GB laptop GPU [7].
 | The analyst reads the message as | CareCompass replies |
 |---|---|
 | off-topic, nonsense, abuse | a fixed, polite redirect; the conversation closes after three such turns (`conversation_ended`) |
-| a mis-heard voice word | "Did you say …?" |
+| garbled, mis-heard voice words (not merely vague ones) | "Did you say …?", once per conversation; it never counts toward closing |
+| sadness, anxiety, distress ("मैं बहुत दुखी हूँ") | always a health concern: the low-mood card asks since when and about thoughts of self-harm |
 | mixed up or contradictory | one clarifying question per conversation |
 | asking for medicine or a diagnosis | a fixed "we don't advise medicines" line, then routing |
 | "no more questions" | decides now, with the call-112 line |
