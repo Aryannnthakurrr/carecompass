@@ -27,6 +27,7 @@ Everything lives in [docs/](docs/README.md):
 |---|---|
 | [docs/architecture.md](docs/architecture.md) | Layers, request flow, model roles, gate, emergency path, matching, privacy and cost |
 | [docs/evaluation.md](docs/evaluation.md) | Every measured claim, the data behind it, and the script that reproduces it |
+| [docs/showcase.html](docs/showcase.html) | **CareCompass in Action**: real conversations through the live pipeline, layer and seconds per reply ([live version](https://claude.ai/artifact/WpRVfffyy2ND33aPbxxrhX)); data `eval/results/showcase.json`, regenerate with `python eval/showcase.py` |
 | [docs/ios-app.md](docs/ios-app.md) | Building the iPhone app and pointing it at the laptop server |
 | [docs/medgemma-finetune.md](docs/medgemma-finetune.md) | Dataset pipeline and the planned MedGemma LoRA fine-tune |
 
