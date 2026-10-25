@@ -5,14 +5,15 @@ import SwiftUI
 
 enum ChatItem: Identifiable {
     case user(UUID, String)
-    case question(UUID, String, n: Int, chips: [String])
+    case question(UUID, String, n: Int, chips: [String], safety: String?)
+    case note(UUID, String)  // the server closed the conversation (repeated non-health messages)
     case plan(UUID, TriageResponse)
     case emergency(UUID, TriageResponse)
     case error(UUID, String, retry: String)
 
     var id: UUID {
         switch self {
-        case .user(let id, _), .question(let id, _, _, _), .plan(let id, _), .emergency(let id, _), .error(let id, _, _): id
+        case .user(let id, _), .question(let id, _, _, _, _), .note(let id, _), .plan(let id, _), .emergency(let id, _), .error(let id, _, _): id
         }
     }
 }
@@ -37,14 +38,15 @@ final class ChatModel {
 
     var step: Int { booked != nil ? 3 : outcome != nil ? 2 : questions > 0 ? 1 : 0 }
 
-    func send(_ raw: String, app: AppState) async {
+    func send(_ raw: String, app: AppState, voiceInput: Bool = false) async {
         let text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty, !busy else { return }
         items.append(.user(UUID(), text))
         busy = true
         defer { busy = false }
         do {
-            let res = try await API.triage(TriageRequest(userInput: text, location: app.point, conversationHistory: history, mode: app.mode))
+            let res = try await API.triage(TriageRequest(userInput: text, location: app.point, conversationHistory: history, mode: app.mode,
+                                                         inputMode: voiceInput ? "voice" : "text"))
             history.append(Turn(role: "user", content: text))
             handle(res, app: app)
         } catch {
@@ -59,11 +61,19 @@ final class ChatModel {
             items.append(.emergency(UUID(), res))
             stopVoice()
             app.sos = SOSContext(history: history, outcome: res)
+        } else if res.conversationEnded == true {
+            outcome = res
+            let line = res.explanation ?? ""
+            items.append(.note(UUID(), line))
+            if voice != .off {
+                stopVoice()
+                Task { await Speaker.shared.say(line, language: res.language ?? "en") }
+            }
         } else if let q = res.followUpQuestion {
-            history.append(Turn(role: "assistant", content: q))
+            history.append(Turn(role: "assistant", content: q, kind: res.followUpKind))
             questions += 1
             let chips = quickChips(for: q)
-            items.append(.question(UUID(), q, n: questions, chips: chips))
+            items.append(.question(UUID(), q, n: questions, chips: chips, safety: res.safetyNote))
             if voice != .off { Task { await ask(q, chips: chips, app: app) } }
         } else {
             outcome = res
@@ -114,7 +124,7 @@ final class ChatModel {
         guard g == gen, voice != .off else { return }
         caption = text
         voiceChips = []
-        await send(text, app: app)
+        await send(text, app: app, voiceInput: true)
     }
 
     func pickVoiceChip(_ c: String, app: AppState) {
@@ -246,10 +256,17 @@ struct ChatView: View {
                 Text(text).padding(.horizontal, 16).padding(.vertical, 12).foregroundStyle(.white)
                     .background(Color.brand, in: UnevenRoundedRectangle(topLeadingRadius: 20, bottomLeadingRadius: 20, bottomTrailingRadius: 6, topTrailingRadius: 20))
             }
-        case .question(let id, let q, let n, let chips):
+        case .question(let id, let q, let n, let chips, let safety):
             BotRow {
                 Text("QUESTION \(n)").font(.caption.weight(.heavy)).foregroundStyle(Color.brand)
                 Bubble(text: q)
+                if let safety {
+                    Text(safety).font(.subheadline.weight(.semibold)).foregroundStyle(Color.alert600)
+                        .padding(.horizontal, 12).padding(.vertical, 8)
+                        .background(Color.alert50, in: RoundedRectangle(cornerRadius: 10))
+                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(hex: 0xF5B5B5)))
+                        .accessibilityAddTraits(.isStaticText)
+                }
                 if !chips.isEmpty && id == model.items.last?.id && !model.busy {
                     FlowRow(spacing: 8) {
                         ForEach(chips, id: \.self) { c in
@@ -261,6 +278,11 @@ struct ChatView: View {
                     }
                 }
                 ListenButton(text: q, language: detectLang(q))
+            }
+        case .note(_, let text):
+            BotRow {
+                Bubble(text: text)
+                ListenButton(text: text, language: detectLang(text))
             }
         case .plan(_, let res):
             PlanCard(res: res, booked: model.booked) { cg in

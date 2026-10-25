@@ -41,7 +41,7 @@ class TriageRequest(BaseModel):
     language: Literal["auto", "en", "hi", "hinglish"] = "auto"
     location: Optional[Location] = None
     conversation_history: list[Turn] = Field(default_factory=list, max_length=200)  # 40 failed (422) on long real chats
-    mode: Literal["dataset", "smart"] = "dataset"  # dataset: organiser roster + reference matching; smart: providers.csv + dynamic matching
+    mode: Literal["dataset", "smart"] = "smart"  # smart (the apps): providers.csv + dynamic matching; dataset: organiser taxonomy + roster, for grading
     input_mode: Literal["text", "voice"] = "text"  # voice: user_input is a speech transcript, so words may be mis-heard
 
 

@@ -53,9 +53,7 @@ struct SOSContext: Identifiable, Sendable {
 final class AppState {
     static let shared = AppState()  // one instance, also reached by the emergency App Intent
 
-    var mode: MatchMode = MatchMode(rawValue: UserDefaults.standard.string(forKey: "mode") ?? "") ?? .dataset {
-        didSet { UserDefaults.standard.set(mode.rawValue, forKey: "mode") }
-    }
+    let mode: MatchMode = .smart  // the app always uses smart matching; dataset mode stays an API option for grading
     var place: Place?
     var auth: AuthConfig?
     var user: User?

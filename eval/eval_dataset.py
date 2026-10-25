@@ -56,7 +56,7 @@ rows = [json.loads(l) for l in (ROOT / "training/triage_dataset.jsonl").read_tex
 preds, times = [], []
 for i, r in enumerate(rows):
     t0 = time.perf_counter()
-    res = pipeline.run(TriageRequest(**r["request"]))
+    res = pipeline.run(TriageRequest(**{"mode": "dataset", **r["request"]}))  # organiser labels come from dataset mode
     times.append(time.perf_counter() - t0)
     preds.append(res)
     if i % 20 == 0:
