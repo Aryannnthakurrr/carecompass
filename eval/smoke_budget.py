@@ -80,7 +80,7 @@ def main():
         seen[text] = gold
         per[gold] = per.get(gold, 0) + 1
     for text, gold in seen.items():
-        res = pipeline.run(TriageRequest(user_input=text, location={"lat": 28.54, "lng": 77.27}))
+        res = pipeline.run(TriageRequest(user_input=text, location={"lat": 28.54, "lng": 77.27}, mode="dataset"))  # organiser gold labels
         got = res.care_type or ("ASK" if res.follow_up_question else "none")
         ok = got == gold
         results.append(ok)

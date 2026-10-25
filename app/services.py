@@ -88,7 +88,7 @@ def browse(
     min_experience: int = Query(0, ge=0, le=60),
     max_km: Optional[float] = Query(None, gt=0, le=100),
     sort: Literal["best", "distance", "rating", "experience"] = "best",
-    mode: Literal["dataset", "smart"] = "dataset",
+    mode: Literal["dataset", "smart"] = "smart",
 ):
     """Active caregivers with distance from (lat, lng). max_km ignores video doctors (they don't travel).
     mode=smart lists the full provider directory (data/providers.csv) instead of the organiser roster."""

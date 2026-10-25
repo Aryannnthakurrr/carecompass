@@ -14,7 +14,6 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 22) {
                 hero
                 tiles
-                ModePicker()
                 VStack(alignment: .leading, spacing: 10) {
                     SectionTitle(icon: "text.bubble", text: "Or try one of these")
                     ForEach(examples, id: \.self) { ex in
@@ -103,25 +102,6 @@ private struct Tile: View {
         }
         .buttonStyle(.plain)
         .onAppear { withAnimation(.easeOut(duration: 2.8).repeatForever(autoreverses: false)) { breathe = true } }
-    }
-}
-
-struct ModePicker: View {
-    @Environment(AppState.self) private var app
-    var body: some View {
-        @Bindable var app = app
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                SectionTitle(icon: "slider.horizontal.3", text: "Matching")
-                Spacer()
-                Picker("Matching", selection: $app.mode) {
-                    ForEach(MatchMode.allCases, id: \.self) { Text($0.label).tag($0) }
-                }
-                .pickerStyle(.segmented)
-                .frame(width: 180)
-            }
-            Text(app.mode.hint).font(.footnote).foregroundStyle(Color.muted)
-        }
     }
 }
 

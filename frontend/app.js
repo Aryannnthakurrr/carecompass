@@ -28,7 +28,7 @@ const VIDEO_CARE = new Set(['teleconsultation', 'gp_teleconsult']);
 
 const state = {
   lang: LANGS.some(l => l.code === store.get('cc.lang')) ? store.get('cc.lang') : 'en',
-  mode: store.get('cc.mode') === 'smart' ? 'smart' : 'dataset', // dataset: organiser roster; smart: full provider directory
+  mode: 'smart', // the app always uses smart matching (full provider directory); dataset mode stays an API option for grading
   location: null,     // {lat, lng, name?, source: 'gps' | 'manual' | 'default'}
   history: [],        // [{role, content}] sent as conversation_history
   questions: 0,
@@ -65,22 +65,12 @@ function renderLangSwitch() {
   }, l.label)));
 }
 
-// Dataset mode reproduces the organiser's roster and reference matching; smart mode matches honestly on providers.csv.
-function renderModeSwitch() {
-  $('#modeSwitch').replaceChildren(...['dataset', 'smart'].map(m => h('button', {
-    role: 'radio', 'aria-checked': String(m === state.mode), class: m === state.mode ? 'on' : '',
-    onclick: () => { if (m === state.mode) return; state.mode = m; store.set('cc.mode', m); renderModeSwitch(); directory?.reset(); },
-  }, T(m === 'smart' ? 'modeSmart' : 'modeDataset'))));
-  $('#modeHint').textContent = T(state.mode === 'smart' ? 'modeHintSmart' : 'modeHintDataset');
-}
-
 function applyLang() {
   document.documentElement.lang = state.lang === 'hi' ? 'hi' : 'en';
   for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = T(el.dataset.i18n);
   for (const el of document.querySelectorAll('[data-i18n-ph]')) el.placeholder = T(el.dataset.i18nPh);
   for (const el of document.querySelectorAll('[data-i18n-aria]')) el.setAttribute('aria-label', T(el.dataset.i18nAria));
   renderLangSwitch();
-  renderModeSwitch();
   renderSteps();
   renderLocation();
   renderEmergencySteps();
