@@ -14,6 +14,7 @@ struct APIError: LocalizedError, Sendable {
 struct Turn: Codable, Hashable, Sendable {
     var role: String  // "user" | "assistant"
     var content: String
+    var kind: String? = nil  // assistant turns echo the reply's follow_up_kind (the server's budgets count medical questions only)
 }
 
 struct LatLng: Codable, Hashable, Sendable {
@@ -33,6 +34,7 @@ struct TriageRequest: Encodable, Sendable {
     var location: LatLng?
     var conversationHistory: [Turn]
     var mode: MatchMode
+    var inputMode = "text"  // "voice": user_input is a transcript, so the server checks for mis-heard words
 }
 
 struct Matched: Codable, Hashable, Identifiable, Sendable {
@@ -74,8 +76,11 @@ struct TriageResponse: Codable, Hashable, Sendable {
     var servicesNeeded: [String]?
     var matchSummary: String?
     var possibleCauses: [String]?
+    var followUpKind: String?      // medical | safety_check | clarify | redirect | misheard
+    var safetyNote: String?        // shown under a safety_check question: "if this is happening right now, call 112"
+    var conversationEnded: Bool?   // repeated non-health messages: closed politely, explanation holds the closing line
 
-    var isEmergency: Bool { careType == "emergency_112" || !(redFlags ?? []).isEmpty }
+    var isEmergency: Bool { ["emergency_112", "emergency"].contains(careType ?? "") || !(redFlags ?? []).isEmpty }
 }
 
 // GET /caregivers: dataset roster or (mode=smart) the full provider directory, same card shape.
