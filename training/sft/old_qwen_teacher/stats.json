@@ -1,0 +1,60 @@
+{
+ "train": {
+  "rows": 38,
+  "by_target": {
+   "home_nursing": 11,
+   "emergency_112": 8,
+   "lab_test_home": 8,
+   "teleconsultation": 6,
+   "paramedic_home_visit": 4,
+   "need_more_info": 1
+  },
+  "by_lang": {
+   "hi": 13,
+   "en": 14,
+   "hinglish": 11
+  },
+  "organiser": 30
+ },
+ "val": {
+  "rows": 5,
+  "by_target": {
+   "paramedic_home_visit": 1,
+   "lab_test_home": 1,
+   "teleconsultation": 1,
+   "home_nursing": 1,
+   "emergency_112": 1
+  },
+  "by_lang": {
+   "en": 3,
+   "hi": 2
+  },
+  "organiser": 5
+ },
+ "test": {
+  "rows": 8,
+  "by_target": {
+   "lab_test_home": 1,
+   "emergency_112": 2,
+   "paramedic_home_visit": 1,
+   "home_nursing": 2,
+   "need_more_info": 1,
+   "teleconsultation": 1
+  },
+  "by_lang": {
+   "hinglish": 4,
+   "hi": 4
+  },
+  "organiser": 6
+ },
+ "review": {
+  "rows": 6,
+  "why": {
+   "written for need_more_info, qwen said paramedic_home_visit": 2,
+   "raw-text rules fire on a non-emergency": 3,
+   "written for lab_test_home, gpt-oss said emergency_112": 1
+  }
+ },
+ "single_teacher_rows": 0,
+ "emergency_paraphrases_rules_missed": 2
+}
