@@ -25,6 +25,9 @@ FIRE = [
     "kapda dabane par bhi khoon nahi ruk raha", "haath se khoon band nahi ho raha", "दबाने पर भी खून नहीं रुक रहा",
     "even when I press it the bleeding does not stop", "pressing but it won't stop bleeding",
     "my son is drowning", "bijli ka current lag gaya", "saanp ne kaat liya", "baby is choking on a coin", "severe burns on his chest",
+    # "na" as a filler after a postposition is not a denial, and a symptom phrased with a negation is not denied by it
+    "hello haan wo mera bhai ko na saas nahi aa raha sahi se uska hoth bhi neela neela ho raha",
+    "mere bhai ko na saans nahi aa rahi", "papa ko na seene mein dard ho raha hai", "मेरे भाई को ना सांस नहीं आ रही",
 ]
 QUIET = [
     "no chest pain", "seene mein dard nahi hai", "he doesn’t have chest pain", "he doesnt have chest pain",
@@ -38,6 +41,9 @@ QUIET = [
     "this movie was a bomb", "small burn on finger from tea", "severe burning sensation in stomach", "current bill is high",
     "choked up at the wedding", "dog bite on leg",
     "khoon ruk gaya hai", "dabane par khoon ruk gaya", "bleeding stopped when I pressed it", "थोड़ा खून आया था, अब रुक गया",
+    # "na ... na" (neither ... nor) stays a denial, also after a postposition
+    "na saans ki dikkat hai na seene mein dard", "unhe na bukhar hai na seene mein dard",
+    "papa ko na seene mein dard hai na saans ki dikkat",
 ]
 
 

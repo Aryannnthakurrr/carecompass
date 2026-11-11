@@ -25,8 +25,8 @@ Problem statement PDF: `docs/CareCompass_CAI_Problem_Statement_Final.pdf`.
 
 | Stage | Model | Where it runs | Why |
 |---|---|---|---|
-| Speech → text | Sarvam **Saaras v4** `transcribe` only (original words) | Sarvam API | ~0.4 s, Rs0.49/min. `translate` dropped: Qwen reads Devanagari/Hinglish directly. Sarvam text translation (Mayura) rejected: mistranslated typed "seene mein dard" |
-| Structurer + conversation voice (facts JSON, follow-up phrasing, explanation) | **Qwen 3.8 27B** (open weights; fallback Gemini 3.5 Flash-Lite) | Cerebras API | `eval/bench_v2.py`: all facts 30/30, 11/11 red flags, 0 denial leaks, 0.45 s; follow-ups right script 17/17 at 0.38 s with explicit target language |
+| Speech → text | Sarvam **Saaras v4** `transcribe` only (original words) | Sarvam API | Rs0.49/min. `translate` dropped: Qwen reads Devanagari/Hinglish directly. Sarvam text translation (Mayura) rejected: mistranslated typed "seene mein dard" |
+| Structurer + conversation voice (facts JSON, follow-up phrasing, explanation) | **Qwen 3.8 27B** (open weights; fallback Gemini 3.5 Flash-Lite) | Cerebras API | `eval/bench_v2.py`: all facts 30/30, 11/11 red flags, 0 denial leaks; follow-ups right script 17/17 with explicit target language |
 | Clinical screen (how dangerous, now) | **MedGemma 4B** on a clinical note, graded emergency_now / see_doctor_today / routine, with retrieved similar cases | Ollama, local GPU | Held-out chain: rules + Qwen 66/77 emergencies → + MedGemma screen 74/77, 2/56 false alarms. As a 6-way classifier it was 37/77, so its job is the screen. It must never see raw language |
 | Care decision (facts → care type / follow-up) | Red-flag rules + **Qwen 3.8 27B** (protocol cards, questions already asked) | Cerebras | Either emergency vote wins; recall-first LoRA of MedGemma in `training/` |
 | Caregiver matching | Weighted scoring in Python | Local CPU | Deterministic, explainable |
@@ -52,7 +52,7 @@ docs/           ALL documentation: README (index), architecture.md, evaluation.m
                 medgemma-finetune.md, problem statement
 models/         GGUF files (git-ignored) + Ollama Modelfiles
 training/       dataset builder + Kaggle notebook for the planned MedGemma LoRA (not run yet)
-eval/           macro-F1, emergency recall, latency
+eval/           macro-F1, emergency recall
 smoke_tests/    one script per external service
 frontend/       demo UI
 ```

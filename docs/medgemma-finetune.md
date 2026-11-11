@@ -31,7 +31,7 @@ worked examples. MedGemma never sees the patient's own words; Qwen's structurer 
 | Follow-ups | `python training/manual_followups.py` | 34 hand-written "ask a follow-up" cases |
 | Export | `python training/build_sft.py export` | Dedupe, stable hash split by batch (15% test, 10% val), chat JSONL |
 | Train | `python training/kaggle_run.py all` | Private Kaggle dataset → notebook on a T4 → wait → metrics → GGUF → `ollama create carecompass-triage` → local eval → gates |
-| Score | `python training/eval_finetune.py --model <tag> --prompt rules_only [--split test\|test_v2\|hard]` | Accuracy, macro-F1, emergency recall, under-triage, latency |
+| Score | `python training/eval_finetune.py --model <tag> --prompt rules_only [--split test\|test_v2\|hard]` | Accuracy, macro-F1, emergency recall, under-triage |
 | Probe | `python training/medgemma_probe.py` | Same facts asked four ways (JSON or clinical note; decide-first, reason-first, or emergency-only) |
 
 **Bulk-job controls.** `build_sft.py` stops on the first quota error, caps requests per provider
@@ -64,7 +64,7 @@ the stopped v2 run used. Label sources: 1,393 unanimous, 166 adjudicated, 122 ma
 
 1. Emergency recall at least that of base MedGemma, target close to 100%; the pair (MedGemma + Qwen) under-triages less than today.
 2. Care macro-F1 at or above base + examples.
-3. Valid JSON on every row; median latency no worse than today's 4.2 s.
+3. Valid JSON on every row.
 4. `eval/eval_dataset.py` still macro-F1 1.0 and 56/56; `eval/eval_smart.py --e2e` no regression; `eval/test_redflags.py` passes.
 
 If they pass: `config.yaml` → `classifier.model: carecompass-triage`, `classifier.prompt: rules_only`.
