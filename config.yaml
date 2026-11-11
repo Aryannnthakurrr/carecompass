@@ -5,7 +5,7 @@ models:
     provider: sarvam
     model: saaras:v4             # Saarika is retired; Saaras v4 is Sarvam's current STT
     mode: transcribe             # original words -> red-flag rules + screen
-    english_mode: null           # translate not needed: Qwen reads Devanagari/Hinglish directly (saves Rs0.25/conv, ~0.5 s/turn)
+    english_mode: null           # translate not needed: Qwen reads Devanagari/Hinglish directly (saves Rs0.25/conv)
     language_code: unknown       # auto-detect
   tts:
     provider: sarvam
@@ -14,7 +14,7 @@ models:
     language_code: hi-IN
   # Two-stage design, chosen by eval/bench_v2.py (2026-10-24). See docs rationale doc.
   # Structurer: user's words -> English CaseFacts JSON. Also phrases follow-ups + explanations.
-  # qwen-3.8-27b: all facts 30/30, 11/11 red flags, 0 denial leaks, 0.45 s; follow-ups 17/17 script at 0.38 s.
+  # qwen-3.8-27b: all facts 30/30, 11/11 red flags, 0 denial leaks; follow-ups 17/17 script.
   conversation:
     provider: cerebras
     base_url: https://api.cerebras.ai/v1
@@ -86,7 +86,7 @@ smart:
   # The problem statement forbids diagnosing. The analyser still notes possible causes internally; keep this false
   # unless the organisers allow showing them (then they appear labelled "not a diagnosis").
   show_possible_causes: false
-  medgemma_brain: false          # MedGemma's smart-mode vote queued behind its emergency screen on the one GPU (+5 s a turn);
+  medgemma_brain: false          # MedGemma's smart-mode vote queued behind its emergency screen on the one GPU;
                                  # in smart mode MedGemma's job is the screen, Qwen gives specialty and tests
 
 matching:

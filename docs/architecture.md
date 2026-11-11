@@ -26,7 +26,7 @@ share it.
 
 | # | Layer | What it does |
 |---|---|---|
-| 1 | Red-flag rules (`redflags.py`) | About 80 pattern groups in English, Hinglish and Devanagari on the raw words; denials scope over their clause, past history is excluded; event rules for drowning, electric shock, snake bite, choking, severe burns. Median 0.9 ms [4] |
+| 1 | Red-flag rules (`redflags.py`) | About 80 pattern groups in English, Hinglish and Devanagari on the raw words; denials scope over their clause, past history is excluded; event rules for drowning, electric shock, snake bite, choking, severe burns [4] |
 | 2 | Intake analyst (`intake.py`) | Qwen turns the whole conversation into English facts plus a reading of the message: `message_check` (ok, unclear, off_topic, nonsense, abusive, mixed_up, contradictory), `not_literal`, `user_wants`, `no_more_questions`, `asks_medicine_or_diagnosis`, `age_group`. Taught by worked examples, not keyword lists |
 | 3 | Rules again | On the English symptoms; a raw red flag stands unless the analyst marks it figurative, which only chest pain and breathlessness can be, and a lifted flag gets one safety question |
 | 4 | Gate | Turns the analyst's reading into fixed replies (table below) |
@@ -39,14 +39,11 @@ share it.
 ## One request, step by step
 
 1. The phone sends `POST /triage` with the whole history.
-2. Red-flag rules on the raw words (0.9 ms median [4]). A hit returns the pre-written emergency card.
-3. The intake analyst writes English facts (Qwen, 0.45 s median per call [1]).
-4. The gate and information gathering may return one question, worded by Qwen in the user's language and script (0.38 s [1]).
-5. When a decision is near, MedGemma's screen (6.5 s median on the laptop GPU [3]) and Qwen's care decision run in parallel.
+2. Red-flag rules on the raw words [4]. A hit returns the pre-written emergency card.
+3. The intake analyst writes English facts (Qwen [1]).
+4. The gate and information gathering may return one question, worded by Qwen in the user's language and script [1].
+5. When a decision is near, MedGemma's screen [3] and Qwen's care decision run in parallel.
 6. Votes combine (any emergency wins), then matching, explanation and scrub produce the JSON.
-
-An emergency returns in about 1 s end to end; a full decision turn took 9–13 s in our role-play runs, mostly the local
-MedGemma call on a 6 GB laptop GPU [7].
 
 ## The gate and the care decision
 
@@ -85,8 +82,8 @@ MedGemma grades it emergency now, naming "acting strange in an elderly patient".
 Why a 4B model: it runs 4-bit on a 6 GB laptop GPU, so patient facts stay on our machine; it never reads the user's words,
 only a note our code writes, so jokes and prompt injection cannot reach it; and we own the weights, so a recall-first LoRA
 fine-tune on our labels is the planned next step ([medgemma-finetune.md](medgemma-finetune.md)). A frontier model scored a
-little higher on care type in our benchmark (macro-F1 0.961 vs 0.928, same 11/11 emergencies) but was 4× slower per call,
-costs more and cannot be self-hosted or retrained by us [1][9].
+little higher on care type in our benchmark (macro-F1 0.961 vs 0.928, same 11/11 emergencies) but costs more
+and cannot be self-hosted or retrained by us [1][9].
 
 ## Emergencies
 
@@ -94,7 +91,7 @@ An emergency can be raised by the rules on the raw words or on the facts, by Med
 decision, or by the SOS button. The response is pre-written, never generated (`app/emergency_text.py`): one card per red
 flag in English, Hindi and Hinglish, with "Call 112" and "Call 108" and two or three steps (bleeding: press firmly on the
 wound; seizure: nothing in the mouth; infant fever; stroke; chest pain; snake bite; choking; unconsciousness; suicidal
-thoughts with the Tele-MANAS 14416 line). Matching is skipped. SOS opens a 10-second countdown, a simulated dispatch with a
+thoughts with the Tele-MANAS 14416 line). Matching is skipped. SOS opens a short countdown, a simulated dispatch with a
 crew brief and a live ambulance map; no login is ever needed.
 
 ## Matching
@@ -146,4 +143,4 @@ emergency. Optional extras, all backwards compatible:
 
 **Red-teaming.** We used an LLM to role-play patients and relatives (rude, joking, confused, multilingual, trying prompt
 injection) and a second pass to review each transcript like a strict clinical reviewer. Each finding was fixed in the
-layer it belonged to and became a regression test: 47 scripted conversations [6] and 85 rule checks [4].
+layer it belonged to and became a regression test: 49 scripted conversations [6] and 92 rule checks [4].

@@ -121,10 +121,35 @@ HISTORY_FLAGS = {"stroke_symptoms", "severe_head_injury"}
 _COMPILED = {k: [re.compile(p, re.I) for p in v] for k, v in {**RULES, **EXTRA}.items()}
 
 
+# Romanised "na" is a denial ("na bukhar hai na seene mein dard") but also a filler particle after a postposition
+# ("mere bhai ko na saans nahi aa rahi"). It is the filler when it follows one of these words and no second "na" follows
+# it (a second one makes it "neither ... nor"). And a symptom that is itself phrased with a negation ("saans nahi aa
+# rahi", "can't breathe", "jawab nahi de rahe") is never denied by a bare "na" / "न" / "ना" before it: that would be a
+# double negative nobody says.
+NA = re.compile(r"\bna\b|(?<![ऀ-ॿ])(न|ना)(?![ऀ-ॿ])", re.I)
+NA_HOST = re.compile(r"\b(ko|ne|ka|ki|ke|se|wo|woh|toh)\s+$", re.I)
+NEG_INSIDE = re.compile(r"nahi|nhi|नहीं|नही|\bnot\b|n['’]t\b|\b(cannot|cant|wont|unable)\b", re.I)
+
+
+def _na_is_filler(text: str, clause_start: int, m: re.Match, start: int, end: int) -> bool:
+    """Is this "na" (found in the clause before a symptom at text[start:end]) a filler, not a denial?"""
+    if NEG_INSIDE.search(text[start:end]):
+        return True
+    if m.group(0).lower() != "na":
+        return False  # Devanagari न / ना keep their full denial scope
+    na_start, na_end = clause_start + m.start(), clause_start + m.end()
+    return bool(NA_HOST.search(text[max(0, na_start - 8): na_start])) and not re.search(r"\bna\b", text[na_end: na_end + 60], re.I)
+
+
 def _denied(text: str, start: int, end: int) -> bool:
-    before = text[max(0, start - 60): start]
-    clause = CLAUSE_END.split(before)[-1] if CLAUSE_END.search(before) else before
-    if NEG_TRIGGER.search(clause):
+    before_start = max(0, start - 60)
+    before = text[before_start: start]
+    cut = [m.end() for m in CLAUSE_END.finditer(before)]
+    clause_start = before_start + (cut[-1] if cut else 0)
+    clause = text[clause_start: start]
+    for m in NEG_TRIGGER.finditer(clause):
+        if NA.fullmatch(m.group(0)) and _na_is_filler(text, clause_start, m, start, end):
+            continue
         return True
     after = text[end: end + 60]
     if NEG_AFTER_NEAR.search(after):
